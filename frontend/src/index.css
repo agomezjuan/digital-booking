@@ -121,6 +121,12 @@ body {
 /*-----------------------------------*\
    * Estilo  Reutilizado
   \*-----------------------------------*/
+#root {
+  min-height: 100vh;
+  display: flex ;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 .container {
   padding-inline: 15px;
