@@ -17,9 +17,9 @@
     }
   },
   "lint-staged": {
-    "**/*.js": [
+    "**/*.{js,jsx}": [
       "eslint --fix",
-      "git add"
+      "prettier --write --ignore-unknown"
     ]
   },
   "dependencies": {
