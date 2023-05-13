@@ -1,0 +1,9 @@
+{
+    "conventionalCommits.scopes": [
+        "backend",
+        "frontend",
+        "testing",
+        "infrastructure",
+        "project"
+    ]
+}
