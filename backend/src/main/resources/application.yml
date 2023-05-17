@@ -1,0 +1,40 @@
+# Configuración de Spring para la conexión a la base de datos
+spring:
+  datasource:
+    # URL de la base de datos MySQL utilizando variables de entorno
+    url: jdbc:mysql://localhost:3306/proyecto?useSSL=false&serverTimezone=UTC
+    # Nombre de usuario de la base de datos utilizando variables de entorno
+    username: usuariopi
+    # Contraseña de la base de datos utilizando variables de entorno
+    password: k1.T[2t4hWJ2[YFk
+    # Clase del driver JDBC de MySQL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+  # Configuración de JPA para la base de datos MySQL
+  jpa:
+    # Tipo de base de datos
+    database: MYSQL
+    hibernate:
+      # Acción a realizar en la base de datos en cada inicio de la aplicación
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        # Muestra las consultas SQL generadas por Hibernate
+        show_sql: true
+        # Formatea las consultas SQL generadas por Hibernate
+        format_sql: true
+        # Dialecto de la base de datos MySQL
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    # Genera el esquema de la base de datos automáticamente
+    generate-ddl: true
+    
+# Configuración de logging para mostrar consultas SQL
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+
+
+
+
