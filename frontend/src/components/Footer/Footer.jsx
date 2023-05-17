@@ -9,9 +9,7 @@ const Footer = () => {
             </a>
 
             <p className='footer-text'>
-              Urna ratione ante harum provident, eleifend, vulputate molestiae
-              proin fringilla, praesentium magna conubia at perferendis,
-              pretium, aenean aut ultrices.
+            Queremos brindarte una experiencia inolvidable, llena de comodidad, atención personalizada y detalles únicos que harán de tu estadía algo especial.
             </p>
           </div>
 
