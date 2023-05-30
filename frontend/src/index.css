@@ -23,10 +23,11 @@
   --jet: hsl(0, 0%, 20%);
 
   /**
-     * Tipografía*/
+     * Tipografía
+     */
 
-  --ff-poppins: "Poppins", sans-serif;
-  --ff-montserrat: "Montserrat", sans-serif;
+  --ff-poppins: 'Poppins', sans-serif;
+  --ff-montserrat: 'Montserrat', sans-serif;
 
   --fs-1: calc(20px + 3.5vw);
   --fs-2: calc(18px + 1.6vw);
@@ -120,10 +121,10 @@ body {
 
 /*-----------------------------------*\
    * Estilo  Reutilizado
-  \*-----------------------------------*/
+\*-----------------------------------*/
 #root {
   min-height: 100vh;
-  display: flex ;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -211,7 +212,7 @@ body {
 
 /*-----------------------------------*\
    * HEADER
-  \*-----------------------------------*/
+\*-----------------------------------*/
 
 .header {
   position: absolute;
@@ -618,7 +619,7 @@ body {
 }
 
 .card-meta-item:not(:last-child)::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 4px;
   right: -1px;
@@ -777,7 +778,7 @@ body {
 }
 
 .contact-title::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -10px;
   left: 0;
@@ -866,7 +867,7 @@ address {
 }
 
 .footer-bottom-list > li:not(:last-child)::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 3px;
   right: -10px;
