@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,12 +33,13 @@ public class AddressController {
     }
 
     @GetMapping("/{id}")
-    public AddressDTO getAddress(Long id) {
-        return addressService.getAddress(id);
+    public AddressDTO getAddress(@PathVariable Long id) {
+        return addressService.getAddressById(id);
     }
 
     @PutMapping("/{id}")
-    public AddressDTO updateAddress(@RequestBody AddressDTO addressDTO, Long id) {
+    public AddressDTO updateAddress(@RequestBody AddressDTO addressDTO, @PathVariable Long id) {
+
         return addressService.updateAddress(addressDTO, id);
     }
 
