@@ -4,16 +4,24 @@ import Hero from './components/Hero/Hero';
 import TourSearch from './components/TourSearch/TourSearch';
 import PackageSection from './components/PackageSection/PackageSection';
 import PopularSection from './components/PopularSection/PopularSection';
+import Contact from './components/Contact/Contact';
+import Gallery from './components/Gallery/Gallery';
+
+
 
 
 function App() {
   return (
+    
     <>
+      
       <Header />
       <Hero/>
       <TourSearch/>
       <PopularSection/>
       <PackageSection/>
+      <Gallery/>
+      <Contact />
       <Footer />
     </>
   );
