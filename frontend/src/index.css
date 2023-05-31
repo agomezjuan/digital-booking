@@ -240,11 +240,11 @@ body {
 }
 
 .header-top .container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: flex-start;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   z-index: 2;
+  width: 100%;
 }
 
 .helpline-box .wrapper {
