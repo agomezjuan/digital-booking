@@ -34,7 +34,7 @@ const Header = () => {
           <nav className='navbar' data-navbar>
             <div className='navbar-top'>
               <div className='logo-wrapper'>
-                <Link to='/' className='logo'>
+                <Link to='/admin' className='logo'>
                   <img src={logo} alt='Hospic logo' />
                 </Link>
 
