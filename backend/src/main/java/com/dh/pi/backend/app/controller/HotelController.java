@@ -1,6 +1,7 @@
 package com.dh.pi.backend.app.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,39 +12,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dh.pi.backend.app.dto.RoleDTO;
-import com.dh.pi.backend.app.service.IRoleService;
+import com.dh.pi.backend.app.dto.HotelDTO;
+import com.dh.pi.backend.app.service.IHotelService;
 
 @RestController
-@RequestMapping("/api/v1/admin/roles")
-public class RoleController {
+@RequestMapping("/api/v1/hotels")
+public class HotelController {
 
     @Autowired
-    private IRoleService roleService;
+    private IHotelService hotelService;
 
     @PostMapping
-    public RoleDTO newRole(@RequestBody RoleDTO newRole) {
-        return roleService.createRole(newRole);
+    public HotelDTO newHotel(@RequestBody HotelDTO newHotel) {
+        return hotelService.createHotel(newHotel);
     }
 
     @GetMapping
-    public List<RoleDTO> getAllRoles() {
-        return roleService.getAllRoles();
+    public List<HotelDTO> getAllHotels() {
+        return hotelService.getAllHotels();
     }
 
     @GetMapping("/{id}")
-    public RoleDTO getRole(@PathVariable("id") Long id) {
-        return roleService.getRole(id);
+    public HotelDTO getHotel(@PathVariable("id") Long id) {
+        return hotelService.getHotel(id);
     }
 
     @PutMapping("/{id}")
-    public RoleDTO updateRole(@RequestBody RoleDTO roleDTO, @PathVariable("id") Long id) {
-        return roleService.createRole(roleDTO);
+    public HotelDTO updateHotel(@RequestBody HotelDTO hotelDTO, @PathVariable("id") Long id) {
+        return hotelService.createHotel(hotelDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRole(@PathVariable("id") Long id) {
-        roleService.deleteRole(id);
+    public void deleteHotel(@PathVariable("id") Long id) {
+        hotelService.deleteHotel(id);
     }
 
 }
