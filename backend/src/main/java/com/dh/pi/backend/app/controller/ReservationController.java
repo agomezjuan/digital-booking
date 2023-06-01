@@ -15,7 +15,7 @@ import com.dh.pi.backend.app.dto.ReservationDTO;
 import com.dh.pi.backend.app.service.IReservationService;
 
 @RestController
-@RequestMapping("/api/v1/reservations")
+@RequestMapping("/api/v1/users/reservations")
 public class ReservationController {
 
     @Autowired

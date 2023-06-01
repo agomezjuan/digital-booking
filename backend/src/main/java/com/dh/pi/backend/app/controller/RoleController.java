@@ -15,18 +15,18 @@ import com.dh.pi.backend.app.dto.RoleDTO;
 import com.dh.pi.backend.app.service.IRoleService;
 
 @RestController
-@RequestMapping("/api/v1/roles")
+@RequestMapping("/api/v1/admin/roles")
 public class RoleController {
 
     @Autowired
     private IRoleService roleService;
 
-    @PostMapping("/new")
-    RoleDTO newRole(@RequestBody RoleDTO newRole) {
+    @PostMapping
+    public RoleDTO newRole(@RequestBody RoleDTO newRole) {
         return roleService.createRole(newRole);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<RoleDTO> getAllRoles() {
         return roleService.getAllRoles();
     }

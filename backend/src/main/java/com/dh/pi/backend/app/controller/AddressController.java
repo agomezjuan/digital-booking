@@ -39,7 +39,6 @@ public class AddressController {
 
     @PutMapping("/{id}")
     public AddressDTO updateAddress(@RequestBody AddressDTO addressDTO, @PathVariable Long id) {
-
         return addressService.updateAddress(addressDTO, id);
     }
 
