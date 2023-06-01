@@ -15,7 +15,7 @@ import com.dh.pi.backend.app.dto.RoleDTO;
 import com.dh.pi.backend.app.service.IRoleService;
 
 @RestController
-@RequestMapping("/api/v1/roles")
+@RequestMapping("/api/v1/admin/roles")
 public class RoleController {
 
     @Autowired

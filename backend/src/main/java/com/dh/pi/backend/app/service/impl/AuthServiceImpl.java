@@ -4,25 +4,31 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dh.pi.backend.app.dto.LoginResponseDTO;
 import com.dh.pi.backend.app.dto.UserDTO;
 import com.dh.pi.backend.app.model.Role;
 import com.dh.pi.backend.app.model.User;
 import com.dh.pi.backend.app.repository.IRoleRepository;
 import com.dh.pi.backend.app.repository.IUserRepository;
+import com.dh.pi.backend.app.service.TokenService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @Transactional
-public class AuthServiceImpl implements UserDetailsService {
+public class AuthServiceImpl {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -33,14 +39,8 @@ public class AuthServiceImpl implements UserDetailsService {
     @Autowired
     private IRoleRepository roleRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        log.info("Se está autenticando el usuario: " + username);
-
-        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-    }
+    @Autowired
+    private TokenService tokenService;
 
     public User register(UserDTO user) {
 
@@ -63,6 +63,25 @@ public class AuthServiceImpl implements UserDetailsService {
 
         return userRepository.save(newUser);
 
+    }
+
+    public LoginResponseDTO login(String email, String password) {
+
+        log.info("Se está autenticando el usuario: " + email);
+
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, password));
+
+            String token = tokenService.generateToken(auth);
+
+            User user = userRepository.findByEmail(email).get();
+
+            return new LoginResponseDTO(token, user.getName(), user.getRoles());
+
+        } catch (AuthenticationException e) {
+            return new LoginResponseDTO(null, null, null);
+        }
     }
 
 }

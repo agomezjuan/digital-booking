@@ -16,7 +16,7 @@ import com.dh.pi.backend.app.dto.UserDTO;
 import com.dh.pi.backend.app.service.impl.UserServiceImpl;
 
 @RestController
-@RequestMapping("/api/v1/usuarios")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     @Autowired

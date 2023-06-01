@@ -5,6 +5,9 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -15,17 +18,20 @@ import com.dh.pi.backend.app.model.User;
 import com.dh.pi.backend.app.repository.IUserRepository;
 import com.dh.pi.backend.app.service.IUserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 // import jakarta.validation.Valid;
 
 /**
  * Usuario Service Implementation que accede a la capa de repositorio
  */
+@Slf4j
 @Service
 @Validated
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserDetailsService, IUserService {
 
     @Autowired
-    private IUserRepository usuarioRepository;
+    private IUserRepository userRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -33,14 +39,14 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserDTO createUser(UserDTO usuario) {
         User usuarioEntity = modelMapper.map(usuario, User.class);
-        usuarioRepository.save(usuarioEntity);
+        userRepository.save(usuarioEntity);
 
         return modelMapper.map(usuarioEntity, UserDTO.class);
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
-        List<User> usuarios = (List<User>) usuarioRepository.findAll();
+        List<User> usuarios = (List<User>) userRepository.findAll();
         List<UserDTO> usuariosDTO = usuarios.stream().map(usuario -> modelMapper.map(usuario, UserDTO.class))
                 .toList();
 
@@ -49,7 +55,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserDTO getUser(Long id) {
-        User usuario = usuarioRepository.findById(id).orElse(null);
+        User usuario = userRepository.findById(id).orElse(null);
         UserDTO usuarioDTO = modelMapper.map(usuario, UserDTO.class);
 
         return usuarioDTO;
@@ -58,7 +64,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void deleteUser(Long id) throws UserNotFoundException, TechnicalException {
         try {
-            usuarioRepository.deleteById(id);
+            userRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new UserNotFoundException(id, e);
         } catch (Exception e) {
@@ -67,34 +73,13 @@ public class UserServiceImpl implements IUserService {
 
     }
 
-    // @Override
-    // public UsuarioDTO getByEmail(String email) {
-    // Usuario usuario = usuarioRepository.findByEmail(email);
-    // UsuarioDTO usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    // return usuarioDTO;
-    // }
+        log.info("Se está autenticando el usuario: " + username);
 
-    // @Override
-    // public UsuarioDTO update(Long id, @Valid UsuarioDTO usuarioDTO) {
-    // // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method 'update'");
-    // }
+        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-    // @Override
-    // public UsuarioDTO getByEmail(String email) {
-    // // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method 'getByEmail'");
-    // }
+    }
 
-    // @Override
-    // public UsuarioDTO signUp(UsuarioDTO usuarioDTO) {
-    // // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method 'signUp'");
-    // }
-
-    // @Override
-    // public UsuarioDTO signIn(String email, String password) {
-    // // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method 'signIn'");
 }
