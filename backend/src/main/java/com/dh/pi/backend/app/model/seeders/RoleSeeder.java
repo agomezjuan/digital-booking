@@ -11,12 +11,8 @@ import com.dh.pi.backend.app.repository.IRoleRepository;
 @Component
 public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
 
-    private IRoleRepository roleRepository; // Repositorio correspondiente
-
     @Autowired
-    public RoleSeeder(IRoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
+    private IRoleRepository roleRepository; // Repositorio correspondiente
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
