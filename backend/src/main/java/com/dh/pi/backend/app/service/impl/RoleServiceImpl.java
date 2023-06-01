@@ -56,17 +56,17 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public Role getDefaultRole() {
-        return roleRepository.findByName("USER").get();
+        return roleRepository.findByAuthority("USER").get();
     }
 
     @Override
     public RoleDTO getRoleByName(String name) throws RoleNotFoundException {
 
-        if (!roleRepository.findByName(name).isPresent()) {
+        if (!roleRepository.findByAuthority(name).isPresent()) {
             throw new RoleNotFoundException("Role not found");
         }
 
-        Role role = roleRepository.findByName(name).get();
+        Role role = roleRepository.findByAuthority(name).get();
 
         RoleDTO roleDTO = modelMapper.map(role, RoleDTO.class);
 

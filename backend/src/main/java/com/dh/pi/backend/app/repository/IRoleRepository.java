@@ -19,7 +19,7 @@ import com.dh.pi.backend.app.model.Role;
 public interface IRoleRepository extends CrudRepository<Role, Long> {
     Optional<Role> findById(Long id);
 
-    Optional<Role> findByName(String name);
+    Optional<Role> findByAuthority(String authority);
 
     @Cacheable(value = "roles")
     List<Role> findAll();

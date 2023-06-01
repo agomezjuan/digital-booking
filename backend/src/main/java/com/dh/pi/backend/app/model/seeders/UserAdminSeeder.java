@@ -59,7 +59,7 @@ public class UserAdminSeeder implements ApplicationListener<ContextRefreshedEven
                 // Se crea el usuario admin
                 User userAdmin = new User();
 
-                Role roleAdmin = roleRepository.findByName("ADMIN").get();
+                Role roleAdmin = roleRepository.findByAuthority("ADMIN").get();
 
                 if (roleAdmin == null) {
                         roleAdmin = new Role("ADMIN");
