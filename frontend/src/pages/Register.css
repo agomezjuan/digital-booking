@@ -20,7 +20,7 @@
     box-sizing: border-box;
   }
 
-  .wrapper {
+  .register-body .wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
