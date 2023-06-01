@@ -47,7 +47,7 @@ public class AuthServiceImpl {
         log.info("Se está registrando el usuario: " + user.getEmail());
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
-        Role userRole = roleRepository.findByName("USER").get();
+        Role userRole = roleRepository.findByAuthority("USER").get();
 
         Set<Role> roles = new HashSet<>();
 

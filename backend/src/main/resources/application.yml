@@ -24,7 +24,7 @@ spring:
         # Formatea las consultas SQL generadas por Hibernate
         '[format_sql]': true
         # Dialecto de la base de datos MySQL
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
     # Genera el esquema de la base de datos automáticamente
     generate-ddl: true
     
