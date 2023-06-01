@@ -1,0 +1,26 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build_frontend:
+  stage: build
+  image: node:latest
+  script:
+    - cd ./frontend
+    - npm install
+    - npm run build
+  artifacts:
+    name: frontend_build
+    paths:
+      - ./frontend/dist/
+
+deploy_frontend:
+  stage: deploy
+  needs: [build_frontend]
+  image: python:latest
+  script:
+    - pip install awscli
+    - aws configure set aws_secret_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws s3 sync ./frontend/dist s3://bucket-grupo4-frontend
