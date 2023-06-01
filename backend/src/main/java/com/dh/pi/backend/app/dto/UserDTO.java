@@ -1,15 +1,19 @@
 package com.dh.pi.backend.app.dto;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDTO {
 
-    private Long id;
-    private String nombre;
-    private String apellido;
+    private String name;
+    private String lastname;
     private String email;
     private String password;
-    private String role;
+    private List<String> roles;
 
 }

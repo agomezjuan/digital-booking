@@ -1,0 +1,24 @@
+# Configuración de Spring para la conexión a la base de datos
+spring:
+  datasource:
+    # URL de la base de datos MySQL utilizando variables de entorno
+    url: jdbc:mysql://db.ctd.academy:3306/0523TDPRON1C07LAED1021PT_GRUPO4
+    # Nombre de usuario de la base de datos utilizando variables de entorno
+    username: 0523TDPRON1C07LAED1021PT_GRUPO4
+    # Contraseña de la base de datos utilizando variables de entorno
+    password: eepeP6vo
+    # Clase del driver JDBC de MySQL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+  # Configuración de JPA para la base de datos MySQL
+  jpa:
+    hibernate:
+      # Acción a realizar en la base de datos en cada inicio de la aplicación
+      ddl-auto: update
+    
+# Configuración de logging para mostrar consultas SQL
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
