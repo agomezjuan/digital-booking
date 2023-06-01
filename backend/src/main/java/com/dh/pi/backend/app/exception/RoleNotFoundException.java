@@ -6,4 +6,8 @@ public class RoleNotFoundException extends RuntimeException {
         super("Role with id=" + id + " not found", cause);
     }
 
+    public RoleNotFoundException(String message) {
+        super(message);
+    }
+
 }

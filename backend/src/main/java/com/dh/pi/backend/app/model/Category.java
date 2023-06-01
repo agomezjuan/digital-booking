@@ -27,4 +27,8 @@ public class Category {
     @Column(length = 1000, nullable = false)
     private String description;
 
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

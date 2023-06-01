@@ -12,6 +12,10 @@ public interface IUserService {
 
     public UserDTO getUser(Long id);
 
+    public UserDTO getUserByEmail(String email);
+
+    public UserDTO updateUser(Long id, @Valid UserDTO usuarioDTO);
+
     public void deleteUser(Long id);
 
 }

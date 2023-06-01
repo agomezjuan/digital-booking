@@ -2,7 +2,7 @@
 spring:
   datasource:
     # URL de la base de datos MySQL utilizando variables de entorno
-    url: jdbc:mysql://localhost:3306/proyecto?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/proyecto?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     # Nombre de usuario de la base de datos utilizando variables de entorno
     username: usuariopi
     # Contraseña de la base de datos utilizando variables de entorno
@@ -20,11 +20,11 @@ spring:
     properties:
       hibernate:
         # Muestra las consultas SQL generadas por Hibernate
-        show_sql: true
+        '[show_sql]': true
         # Formatea las consultas SQL generadas por Hibernate
-        format_sql: true
+        '[format_sql]': true
         # Dialecto de la base de datos MySQL
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
     # Genera el esquema de la base de datos automáticamente
     generate-ddl: true
     
@@ -35,6 +35,8 @@ logging:
       hibernate:
         SQL: debug
 
-
+server:
+  error:
+    include-stacktrace: never
 
 

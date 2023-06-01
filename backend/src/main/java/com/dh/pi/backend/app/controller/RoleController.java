@@ -21,12 +21,12 @@ public class RoleController {
     @Autowired
     private IRoleService roleService;
 
-    @PostMapping("/new")
-    RoleDTO newRole(@RequestBody RoleDTO newRole) {
+    @PostMapping
+    public RoleDTO newRole(@RequestBody RoleDTO newRole) {
         return roleService.createRole(newRole);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<RoleDTO> getAllRoles() {
         return roleService.getAllRoles();
     }
