@@ -1,18 +1,28 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Swal from 'sweetalert2';
 import {
   faFacebookF,
   faTwitter,
   faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
 import './Register.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { register as registerUser } from '../store/actions/authActions';
+import { useEffect } from 'react';
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
+  const status = useSelector((state) => state.auth.status);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       name: '',
@@ -22,7 +32,22 @@ const Register = () => {
     },
   });
 
-  const onSubmit = (data) => console.log(data);
+  useEffect(() => {
+    if (status === 'succeded') {
+      reset();
+      Swal.fire({
+        title: 'Registro exitoso',
+        text: `Bienvenido/a ${user?.name} ${user?.lastname}`,
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+      });
+      navigate('/');
+    }
+  }, [user]);
+
+  const onSubmit = (data) => {
+    dispatch(registerUser(data));
+  };
 
   return (
     <div className='register-body'>
@@ -48,7 +73,7 @@ const Register = () => {
               placeholder='Apellido'
               {...register('lastname', { required: true })}
             />
-            {errors.name && <span>Este campo es requerido</span>}
+            {errors.lastname && <span>Este campo es requerido</span>}
             <i className='fa fa-user'></i>
           </div>
           <div className='register-input-wrapper'>
@@ -57,7 +82,7 @@ const Register = () => {
               placeholder='Correo electrónico'
               {...register('email', { required: true })}
             />
-            {errors.name && <span>Este campo es requerido</span>}
+            {errors.email && <span>Este campo es requerido</span>}
             <i className='fa fa-envelope'></i>
           </div>
           <div className='register-input-wrapper'>
@@ -66,7 +91,7 @@ const Register = () => {
               placeholder='Contraseña'
               {...register('password', { required: true })}
             />
-            {errors.name && <span>Este campo es requerido</span>}
+            {errors.password && <span>Este campo es requerido</span>}
             <i className='fa fa-key'></i>
           </div>
           <button type='submit' className='register-button'>

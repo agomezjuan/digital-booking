@@ -28,11 +28,15 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { dispatch, rejectWithValue }) => {
     try {
-      const response = await http.post('/auth/login', credentials);
+      const { data } = await http.post('/auth/login', credentials);
 
-      dispatch(getMe(response.data.token));
+      const { roles, token } = data;
 
-      return response.data;
+      dispatch(getMe(token));
+
+      const role = roles[0].authority;
+
+      return { role, token };
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -48,8 +52,11 @@ export const getMe = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       http.defaults.headers.common.Authorization = `Bearer ${token}`;
-      const response = await http.get('/auth/me');
-      return response.data;
+      const { data } = await http.get('/auth/me');
+
+      const { user } = data;
+
+      return user;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
