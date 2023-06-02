@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/actions/authActions';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -60,8 +60,11 @@ const Login = () => {
             {errors.password && <span>Este campo es requerido</span>}
             <i className='fa fa-key'></i>
           </div>
-          <a href='#'>Forgot your password?</a>
+          {/* <a href='#'>Forgot your password?</a> */}
           <button type='submit'>Log in</button>
+          <span>
+            ¿No tienes cuenta? <Link to='/register'>Regístrate</Link>
+          </span>
         </form>
         <footer className='loginfooter'>
           <div className='social-icons'>
