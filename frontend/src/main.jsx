@@ -6,6 +6,10 @@ import { store } from './store';
 
 import Home from './pages/Home.jsx';
 import './index.css';
+import Admin from './pages/Admin.jsx';
+import Register from './pages/Register.jsx';
+import Login from './pages/Login.jsx';
+import HotelDetails from './pages/HotelDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -14,19 +18,19 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <h1>Pagina de login</h1>,
+    element: <Login />,
   },
   {
     path: '/register',
-    element: <h1>Pagina de registro</h1>,
+    element: <Register />,
   },
   {
-    path: '/tours',
-    element: <h1>Pagina de tours</h1>,
+    path: '/admin',
+    element: <Admin />,
   },
   {
-    path: '/tours/:id',
-    element: <h1>Pagina de tour</h1>,
+    path: '/hotel',
+    element: <HotelDetails />,
   },
 ]);
 

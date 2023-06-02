@@ -1,0 +1,34 @@
+POST http://localhost:8080/api/v1/hotels HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Hotel 1",
+    "description": "Hotel 1 en el centro de la ciudad",
+    "email": "h1@test.com",
+    "phone": "123456"
+}
+
+###
+
+GET http://localhost:8080/api/v1/hotels HTTP/1.1 
+
+###
+
+GET http://localhost:8080/api/v1/hotels/3 HTTP/1.1
+
+###
+
+
+PUT http://localhost:8080/api/v1/hotels/1 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Hotel boutique",
+    "description": "Hotel boutique en el centro de la ciudad",
+    "email": "h_boutique@test.com",
+    "phone": "123456"
+}
+
+###
+
+DELETE http://localhost:8080/api/v1/hotels/2 HTTP/1.1

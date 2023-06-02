@@ -23,8 +23,7 @@
   --jet: hsl(0, 0%, 20%);
 
   /**
-     * Tipografía
-     */
+     * Tipografía*/
 
   --ff-poppins: 'Poppins', sans-serif;
   --ff-montserrat: 'Montserrat', sans-serif;
@@ -121,7 +120,7 @@ body {
 
 /*-----------------------------------*\
    * Estilo  Reutilizado
-\*-----------------------------------*/
+  \*-----------------------------------*/
 #root {
   min-height: 100vh;
   display: flex;
@@ -141,6 +140,7 @@ body {
   padding: var(--padding, 8px 18px);
   border: var(--border-width, 2px) solid transparent;
   transition: var(--transition);
+  cursor: pointer;
 }
 
 .btn-primary {
@@ -159,6 +159,11 @@ body {
 
 .btn-secondary:is(:hover, :focus) {
   background: hsla(0, 0%, 100%, 0.1);
+}
+
+.btn-tertiary {
+  color: var(--white);
+  background-color: var(--onyx);
 }
 
 .h1,
@@ -212,7 +217,7 @@ body {
 
 /*-----------------------------------*\
    * HEADER
-\*-----------------------------------*/
+  \*-----------------------------------*/
 
 .header {
   position: absolute;
@@ -240,11 +245,11 @@ body {
 }
 
 .header-top .container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: flex-start;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   z-index: 2;
+  width: 100%;
 }
 
 .helpline-box .wrapper {
@@ -357,6 +362,11 @@ body {
 .nav-close-btn {
   font-size: 20px;
   color: var(--bright-navy-blue);
+}
+.logo img {
+  height: 110px;
+  width: auto;
+  cursor: pointer;
 }
 
 .nav-close-btn ion-icon {

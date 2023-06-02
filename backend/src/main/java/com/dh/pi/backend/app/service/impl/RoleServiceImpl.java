@@ -53,4 +53,23 @@ public class RoleServiceImpl implements IRoleService {
     public void deleteRole(Long id) {
         roleRepository.deleteById(id);
     }
+
+    @Override
+    public Role getDefaultRole() {
+        return roleRepository.findByAuthority("USER").get();
+    }
+
+    @Override
+    public RoleDTO getRoleByName(String name) throws RoleNotFoundException {
+
+        if (!roleRepository.findByAuthority(name).isPresent()) {
+            throw new RoleNotFoundException("Role not found");
+        }
+
+        Role role = roleRepository.findByAuthority(name).get();
+
+        RoleDTO roleDTO = modelMapper.map(role, RoleDTO.class);
+
+        return roleDTO;
+    }
 }
