@@ -77,11 +77,23 @@ public class AuthServiceImpl {
 
             User user = userRepository.findByEmail(email).get();
 
-            return new LoginResponseDTO(token, user.getName(), user.getRoles());
+            return new LoginResponseDTO(token, user.getEmail(), user.getRoles());
 
         } catch (AuthenticationException e) {
             return new LoginResponseDTO(null, null, null);
         }
+    }
+
+    public UserDTO getUserDetails(String email) {
+        User user = userRepository.findByEmail(email).get();
+
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setName(user.getName());
+        userDTO.setLastname(user.getLastname());
+        userDTO.setEmail(user.getEmail());
+
+        return userDTO;
     }
 
 }
