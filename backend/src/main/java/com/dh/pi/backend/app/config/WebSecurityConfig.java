@@ -2,7 +2,7 @@ package com.dh.pi.backend.app.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+// import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -56,13 +56,7 @@ public class WebSecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/v1/users/**").hasRole("ADMIN");
-                    auth.requestMatchers("/api/v1/admin/**").hasRole("ADMIN");
-                    auth.requestMatchers("/api/v1/hotels/**").hasRole("ADMIN");
-                    auth.requestMatchers("/api/v1/hotels/**").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.GET, "/api/v1/hotels/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll();
+                    auth.requestMatchers("**").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer(oauth2 -> {

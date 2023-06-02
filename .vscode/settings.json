@@ -1,6 +1,10 @@
 {
     "java.debug.settings.onBuildFailureProceed": true,
     "conventionalCommits.scopes": [
-        "backend"
+        "backend",
+        "frontend",
+        "testing",
+        "infrastructure",
+        "project"
     ]
 }
