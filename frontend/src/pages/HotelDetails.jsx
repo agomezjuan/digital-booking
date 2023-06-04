@@ -11,6 +11,7 @@ import foto7 from '../assets/images/foto-7.jpg';
 import foto8 from '../assets/images/foto-8.jpg';
 import foto9 from '../assets/images/foto-9.jpg';
 import foto10 from '../assets/images/foto-10.jpg';
+import Header from '../components/Header/Header';
 
 const HotelDetails = () => {
   const imagenes = [foto1, foto2, foto3, foto4, foto5, foto6];
@@ -38,67 +39,72 @@ const HotelDetails = () => {
   };
 
   return (
-    <section className='hotel-gallery' id='hotel-portafolio'>
-      <div className='hotel-container'>
-        <h2 className='hotel-subtitulo'>KEEMALA</h2>
-        <div className='hotel-galeria-container'>
-          {imagenes.map((imagen, index) => (
-            <img
-              key={index}
-              src={imagen}
-              alt={`Foto ${index + 1}`}
-              className='hotel-img-galeria'
-              onClick={openLightbox}
-            />
-          ))}
-        </div>
+    <>
+      <div style={{ backgroundColor: 'gray', height: '140px' }}>
+        <Header />
       </div>
-
-      {showLightbox && (
-        <section
-          className='hotel-imagen-lightbox'
-          onClick={handleBackdropClick}
-        >
-          <i className='fas fa-times hotel-close' onClick={closeLightbox}></i>
-          <div className='hotel-carousel'>
-            {carouselImages.map((image, index) => (
-              <div
+      <section className='hotel-gallery' id='hotel-portafolio'>
+        <div className='hotel-container'>
+          <h2 className='hotel-subtitulo'>KEEMALA</h2>
+          <div className='hotel-galeria-container'>
+            {imagenes.map((imagen, index) => (
+              <img
                 key={index}
-                className={`hotel-carousel-slide ${
-                  currentSlide === index ? 'active' : ''
-                }`}
-              >
-                <img
-                  src={image}
-                  alt={`Slide ${index + 1}`}
-                  className='hotel-agregar-imagen'
-                />
-              </div>
+                src={imagen}
+                alt={`Foto ${index + 1}`}
+                className='hotel-img-galeria'
+                onClick={openLightbox}
+              />
             ))}
-            <div className='hotel-carousel-nav'>
-              {carouselImages.map((_, index) => (
-                <span
+          </div>
+        </div>
+
+        {showLightbox && (
+          <section
+            className='hotel-imagen-lightbox'
+            onClick={handleBackdropClick}
+          >
+            <i className='fas fa-times hotel-close' onClick={closeLightbox}></i>
+            <div className='hotel-carousel'>
+              {carouselImages.map((image, index) => (
+                <div
                   key={index}
-                  className={`hotel-carousel-dot ${
+                  className={`hotel-carousel-slide ${
                     currentSlide === index ? 'active' : ''
                   }`}
-                  onClick={() => changeSlide(index)}
-                ></span>
+                >
+                  <img
+                    src={image}
+                    alt={`Slide ${index + 1}`}
+                    className='hotel-agregar-imagen'
+                  />
+                </div>
               ))}
+              <div className='hotel-carousel-nav'>
+                {carouselImages.map((_, index) => (
+                  <span
+                    key={index}
+                    className={`hotel-carousel-dot ${
+                      currentSlide === index ? 'active' : ''
+                    }`}
+                    onClick={() => changeSlide(index)}
+                  ></span>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
-      <div className='hotel-map-container' id='map_lima'>
-        <iframe
-          src='https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d126450.15154039937!2d98.2114219133559!3d7.940183342931008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1685737432830!5m2!1ses!2sco'
-          style={{ border: 0 }}
-          allowfullscreen=''
-          loading='lazy'
-        ></iframe>
-      </div>
-    </section>
+        <div className='hotel-map-container' id='map_lima'>
+          <iframe
+            src='https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d126450.15154039937!2d98.2114219133559!3d7.940183342931008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1685737432830!5m2!1ses!2sco'
+            style={{ border: 0 }}
+            allowfullscreen=''
+            loading='lazy'
+          ></iframe>
+        </div>
+      </section>
+    </>
   );
 };
 

@@ -213,6 +213,11 @@ body {
 .card-text {
   color: var(--black-coral);
   font-size: var(--fs-5);
+  /* truncate text */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /*-----------------------------------*\
@@ -584,6 +589,11 @@ body {
 
 .package-list {
   margin-bottom: 40px;
+  /* ojo aqui */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: stretch;
+  gap: 20px;
 }
 
 .package-list > li:not(:last-child) {
@@ -1172,13 +1182,21 @@ address {
     margin-bottom: 50px;
   }
 
-  .package-list > li:not(:last-child) {
+  .package-list > li {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     margin-bottom: 40px;
   }
 
+  /* .package-list > li:not(:last-child) {
+  } */
+
   .package-card {
     display: grid;
-    grid-template-columns: 1.3fr 1.5fr 1fr;
+    grid-template-columns: 1.3fr 1.7fr;
+    flex-grow: 1;
+    /* grid-template-columns: 1.3fr 1.5fr 1fr; */
   }
 
   .package-card .card-banner {

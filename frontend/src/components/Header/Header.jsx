@@ -20,8 +20,8 @@ const Header = () => {
       <div className='header-top'>
         <div className='container'>
           <div className='logo-wrapper'>
-            <Link to='/admin' className='logo'>
-              <img src={logo} alt='Hospic logo' />
+            <Link to='/' className='logo'>
+              <img src={logo} alt='Digital Booking logo' />
             </Link>
 
             {/* <p className='slogan'>Explora. Vive. Hospedate.</p> */}
