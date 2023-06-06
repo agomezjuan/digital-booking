@@ -2,23 +2,61 @@
 spring:
   datasource:
     # URL de la base de datos MySQL utilizando variables de entorno
-    url: jdbc:mysql://db.ctd.academy:3306/0523TDPRON1C07LAED1021PT_GRUPO4
+    url: ${JDBC_PROD_DATABASE_URL}
     # Nombre de usuario de la base de datos utilizando variables de entorno
-    username: 0523TDPRON1C07LAED1021PT_GRUPO4
+    username: ${JDBC_PROD_DATABASE_USERNAME}
     # Contraseña de la base de datos utilizando variables de entorno
-    password: eepeP6vo
+    password: ${JDBC_PROD_DATABASE_PASSWORD}
     # Clase del driver JDBC de MySQL
     driver-class-name: com.mysql.cj.jdbc.Driver
     
   # Configuración de JPA para la base de datos MySQL
   jpa:
+    # Tipo de base de datos
+    database: MYSQL
     hibernate:
       # Acción a realizar en la base de datos en cada inicio de la aplicación
       ddl-auto: update
-    
+    properties:
+      hibernate:
+        # Muestra las consultas SQL generadas por Hibernate
+        '[show_sql]': true
+        # Formatea las consultas SQL generadas por Hibernate
+        '[format_sql]': true
+        # Dialecto de la base de datos MySQL
+        dialect: org.hibernate.dialect.MySQLDialect
+    # Genera el esquema de la base de datos automáticamente
+    generate-ddl: true
+  mail:
+    host: ${MAIL_HOST} # smtp.gmail.com
+    port: ${MAIL_PORT}
+    username: ${MAIL_SENDER}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  servlet:
+    # Configuración de Spring para el envío de archivos
+    multipart:
+      enabled: true  
 # Configuración de logging para mostrar consultas SQL
 logging:
   level:
     org:
       hibernate:
         SQL: debug
+
+server:
+  error:
+    include-stacktrace: never
+
+
+# Credenciales de AWS para el envío de archivos
+aws.s3.bucket.name: ${AWS_BUCKET}
+aws.s3.bucket.region: ${AWS_REGION}
+aws.access.key.id: ${AWS_ACCESS_KEY_ID}
+aws.access.key.secret: ${AWS_ACCESS_KEY_SECRET}
+
