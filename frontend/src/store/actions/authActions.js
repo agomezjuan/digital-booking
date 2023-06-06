@@ -32,6 +32,8 @@ export const login = createAsyncThunk(
 
       const { roles, token } = data;
 
+      sessionStorage.setItem('dhb_token', token);
+
       dispatch(getMe(token));
 
       const role = roles[0].authority;

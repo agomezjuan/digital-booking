@@ -213,6 +213,11 @@ body {
 .card-text {
   color: var(--black-coral);
   font-size: var(--fs-5);
+  /* truncate text */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /*-----------------------------------*\
@@ -224,14 +229,15 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  padding-top: 61px;
+  /* padding-top: 61px; */
   z-index: 4;
+  border-bottom: 1px solid hsla(0, 0%, 100%, 0.1); /* revisar para que no se superponga*/
 }
 
 .header-top {
-  position: absolute;
+  /* position: absolute;
   top: 0;
-  left: 0;
+  left: 0; */
   width: 100%;
   transition: var(--transition);
   border-bottom: 1px solid hsla(0, 0%, 100%, 0); /* revisar para que no se superponga*/
@@ -283,6 +289,10 @@ body {
   color: var(--white);
 }
 
+.header-btn-group a {
+  text-align: center;
+}
+
 .search-btn,
 .nav-open-btn {
   font-size: 30px;
@@ -295,6 +305,7 @@ body {
 
 .header-bottom {
   border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+  display: none;
 }
 
 .header-bottom .container {
@@ -521,6 +532,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.25s ease-in-out;
 }
 
 .popular-card .card-content {
@@ -577,6 +589,11 @@ body {
 
 .package-list {
   margin-bottom: 40px;
+  /* ojo aqui */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: stretch;
+  gap: 20px;
 }
 
 .package-list > li:not(:last-child) {
@@ -968,9 +985,9 @@ address {
      * Header
      */
 
-  .header {
+  /* .header {
     padding-top: 83px;
-  }
+  } */
 
   .helpline-box .icon-box {
     padding: 14px;
@@ -1125,8 +1142,11 @@ address {
      */
 
   .popular-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     gap: 30px;
     margin-bottom: 50px;
   }
@@ -1139,6 +1159,21 @@ address {
     right: 20px;
   }
 
+  .popular-card {
+    width: 320px;
+    transition: box-shadow var(--transition);
+  }
+
+  .popular-card:hover {
+    box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.2);
+    transition: var(--transition);
+  }
+
+  .popular-card:hover img {
+    transform: scale(1.05);
+    transition: var(--transition);
+  }
+
   /**
      * Paquetes hospedaje
      */
@@ -1147,13 +1182,21 @@ address {
     margin-bottom: 50px;
   }
 
-  .package-list > li:not(:last-child) {
+  .package-list > li {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     margin-bottom: 40px;
   }
 
+  /* .package-list > li:not(:last-child) {
+  } */
+
   .package-card {
     display: grid;
-    grid-template-columns: 1.3fr 1.5fr 1fr;
+    grid-template-columns: 1.3fr 1.7fr;
+    flex-grow: 1;
+    /* grid-template-columns: 1.3fr 1.5fr 1fr; */
   }
 
   .package-card .card-banner {
@@ -1257,6 +1300,7 @@ address {
 
   .header-bottom {
     border-bottom: none;
+    display: none;
   }
 
   .header.active .header-bottom {
