@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dh.pi.backend.app.dto.CategoryDTO;
+import com.dh.pi.backend.app.service.IAwsS3Service;
 import com.dh.pi.backend.app.service.ICategoryService;
 
 @RestController
@@ -22,9 +25,19 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
+    @Autowired
+    private IAwsS3Service awsS3Service;
+
     @PostMapping
-    public void saveCategory(@RequestBody CategoryDTO categoryDTO) {
+    public void saveCategory(@RequestBody CategoryDTO categoryDTO, @RequestPart(value = "file") MultipartFile file) {
+        String imageUrl = awsS3Service.uploadFile(file);
+        categoryDTO.setImageUrl(imageUrl);
         categoryService.createCategory(categoryDTO);
+    }
+
+    @PostMapping("/image")
+    public String uploadImage(@RequestPart(value = "file") MultipartFile file) {
+        return awsS3Service.uploadFile(file);
     }
 
     @GetMapping
