@@ -8,6 +8,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.dh.pi.backend.app.model.Hotel;
 
+/**
+ * Representa un repositorio de hoteles.
+ * 
+ * @autor A. Gómez Juan
+ * @version 1.0
+ */
 public interface IHotelRepository extends CrudRepository<Hotel, Long> {
     Optional<Hotel> findById(Long id);
 

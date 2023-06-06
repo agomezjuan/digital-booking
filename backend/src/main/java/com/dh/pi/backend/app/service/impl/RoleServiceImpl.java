@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dh.pi.backend.app.dto.RoleDTO;
-import com.dh.pi.backend.app.exception.RoleNotFoundException;
+import com.dh.pi.backend.app.exception.ResourceNotFoundException;
 import com.dh.pi.backend.app.model.Role;
 import com.dh.pi.backend.app.repository.IRoleRepository;
 import com.dh.pi.backend.app.service.IRoleService;
@@ -33,7 +33,11 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public RoleDTO getRole(Long id) throws RoleNotFoundException {
+    public RoleDTO getRole(Long id) throws ResourceNotFoundException {
+
+        if (!roleRepository.findById(id).isPresent()) {
+            throw new ResourceNotFoundException("Rol no encontrado");
+        }
 
         Role role = roleRepository.findById(id).get();
         RoleDTO roleDTO = modelMapper.map(role, RoleDTO.class);
@@ -60,10 +64,10 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public RoleDTO getRoleByName(String name) throws RoleNotFoundException {
+    public RoleDTO getRoleByName(String name) throws ResourceNotFoundException {
 
         if (!roleRepository.findByAuthority(name).isPresent()) {
-            throw new RoleNotFoundException("Role not found");
+            throw new ResourceNotFoundException("El rol " + name + " no existe");
         }
 
         Role role = roleRepository.findByAuthority(name).get();
