@@ -16,6 +16,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const status = useSelector((state) => state.auth.status);
 
   const {
@@ -33,7 +34,9 @@ const Register = () => {
   });
 
   useEffect(() => {
-    if (status === 'succeded') {
+    if (isLoggedIn) {
+      navigate('/');
+    } else if (status === 'succeeded') {
       reset();
       Swal.fire({
         title: 'Registro exitoso',
@@ -46,7 +49,8 @@ const Register = () => {
   }, [user]);
 
   const onSubmit = (data) => {
-    dispatch(registerUser(data));
+    const response = dispatch(registerUser(data));
+    console.log(response);
   };
 
   return (
@@ -64,7 +68,9 @@ const Register = () => {
               autoFocus
               {...register('name', { required: true })}
             />
-            {errors.name && <span>Este campo es requerido</span>}
+            {errors.name && (
+              <span className='error'>Este campo es requerido</span>
+            )}
             <i className='fa fa-user'></i>
           </div>
           <div className='register-input-wrapper'>
@@ -73,7 +79,9 @@ const Register = () => {
               placeholder='Apellido'
               {...register('lastname', { required: true })}
             />
-            {errors.lastname && <span>Este campo es requerido</span>}
+            {errors.lastname && (
+              <span className='error'>Este campo es requerido</span>
+            )}
             <i className='fa fa-user'></i>
           </div>
           <div className='register-input-wrapper'>
@@ -82,7 +90,9 @@ const Register = () => {
               placeholder='Correo electrónico'
               {...register('email', { required: true })}
             />
-            {errors.email && <span>Este campo es requerido</span>}
+            {errors.email && (
+              <span className='error'>Este campo es requerido</span>
+            )}
             <i className='fa fa-envelope'></i>
           </div>
           <div className='register-input-wrapper'>
@@ -91,15 +101,17 @@ const Register = () => {
               placeholder='Contraseña'
               {...register('password', { required: true })}
             />
-            {errors.password && <span>Este campo es requerido</span>}
+            {errors.password && (
+              <span className='error'>Este campo es requerido</span>
+            )}
             <i className='fa fa-key'></i>
           </div>
           <button type='submit' className='register-button'>
             Registrarse
           </button>
-          <p>
+          <span>
             ¿Ya tienes cuenta? <Link to='/login'>Iniciar Sesion</Link>
-          </p>
+          </span>
         </form>
         <footer className='register-footer'>
           <div className='register-social-icons'>
