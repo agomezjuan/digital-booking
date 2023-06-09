@@ -4,18 +4,24 @@ import {
   faTwitter,
   faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
-import './Login.css';
+import './Login.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/actions/authActions';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header/Header';
+import Swal from 'sweetalert2';
+import { resetUserError } from '../store/slices/authSlice';
+import SubmitButton from '../components/SubmitButton/SubmitButton';
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const { user, status, isLoggedIn, error } = useSelector(
+    (state) => state.auth,
+  );
+  const loading = status === 'loading';
   const {
     register,
     handleSubmit,
@@ -31,7 +37,25 @@ const Login = () => {
     if (isLoggedIn) {
       navigate('/');
     }
-  }, [isLoggedIn]);
+
+    if (error?.code === 403) {
+      Swal.fire({
+        title: 'Activa tu cuenta',
+        html: `<span style="font-size: 13px;">Tu usuario se encuentra inactivo porque no has verificado tu correo electrónico. Revisa tu buzón y haz click en el link de verificación. Si no lo encuentras, verifica la carpeta de spam o correo no deseado.</span>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0084b8',
+        cancelButtonColor: '#999999',
+        confirmButtonText: 'Reenviar link de verificación',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(resetUserError());
+          navigate('/login');
+        }
+      });
+    }
+  }, [user, isLoggedIn, status, error]);
 
   const onSubmit = (data) => {
     dispatch(login(data));
@@ -42,7 +66,9 @@ const Login = () => {
       <div
         style={{
           backgroundColor: '#11111FCC',
-          height: '140px',
+          height: '122px',
+          position: 'fixed',
+          width: '100%',
         }}
       >
         <Header />
@@ -57,8 +83,16 @@ const Login = () => {
                 placeholder='Username'
                 autoFocus
                 {...register('email', { required: true })}
+                style={
+                  errors.email && {
+                    border: '2px solid red',
+                    backgroundColor: '#FFD2D2',
+                  }
+                }
               />
-              {errors.email && <span>Este campo es requerido</span>}
+              {errors.email && (
+                <span className='error'>Este campo es requerido</span>
+              )}
               <i className='fa fa-user'></i>
             </div>
             <div className='input-wrapper'>
@@ -66,17 +100,25 @@ const Login = () => {
                 type='password'
                 placeholder='Password'
                 {...register('password', { required: true })}
+                style={
+                  errors.password && {
+                    border: '2px solid red',
+                    backgroundColor: '#FFD2D2',
+                  }
+                }
               />
-              {errors.password && <span>Este campo es requerido</span>}
-              <i className='fa fa-key'></i>
+              {errors.password && (
+                <span className='error'>Este campo es requerido</span>
+              )}
+              {/* <i className='fa fa-key'></i> */}
             </div>
-            {/* <a href='#'>Forgot your password?</a> */}
-            <button type='submit'>Log in</button>
+            <Link to='/forgot-password'>¿Olvidé mi contraseña?</Link>
+            <SubmitButton loading={loading} text='Iniciar Sesión' />
             <span>
               ¿No tienes cuenta? <Link to='/register'>Regístrate</Link>
             </span>
           </form>
-          <footer className='loginfooter'>
+          <footer className='login-footer'>
             <div className='social-icons'>
               <a href='#'>
                 <FontAwesomeIcon icon={faFacebookF} />
