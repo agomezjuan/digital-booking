@@ -1,20 +1,29 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
-import './Header.css';
+import './Header.scss';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 
 const Header = () => {
+  // Iniciazar los hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const user = useSelector((state) => state.auth.user);
+  const { pathname } = useLocation();
 
+  // Definir las variables para saber en que pagina estamos
+  const isLoginPage = pathname === '/login';
+  const isRegisterPage = pathname === '/register';
+
+  // Obtener los datos del store
+  const { user, isLoggedIn } = useSelector((state) => state.auth);
+
+  // Definir la funcion para cerrar sesion
   const handleLogout = () => {
     dispatch(logout());
     navigate('/');
   };
+
   return (
     <header className='header' data-testid='header' data-header>
       <div className='header-top'>
@@ -22,9 +31,8 @@ const Header = () => {
           <div className='logo-wrapper'>
             <Link to='/' className='logo'>
               <img src={logo} alt='Digital Booking logo' />
+              <p className='slogan'>Explora. Vive. Hospedate.</p>
             </Link>
-
-            {/* <p className='slogan'>Explora. Vive. Hospedate.</p> */}
           </div>
           {isLoggedIn ? (
             <div className='user'>
@@ -46,12 +54,16 @@ const Header = () => {
             </div>
           ) : (
             <div className='header-btn-group'>
-              <Link to='/register' className='btn btn-secondary'>
-                Crear cuenta
-              </Link>
-              <Link to='/login' className='btn btn-primary'>
-                Iniciar sesión
-              </Link>
+              {isRegisterPage ? null : (
+                <Link to='/register' className='btn btn-secondary'>
+                  Crear cuenta
+                </Link>
+              )}
+              {isLoginPage ? null : (
+                <Link to='/login' className='btn btn-primary'>
+                  Iniciar sesión
+                </Link>
+              )}
               {/* <button className='search-btn' aria-label='Search'>
                 <ion-icon name='search'></ion-icon>
               </button> */}
@@ -60,7 +72,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className='header-bottom'>
+      {/* <div className='header-bottom'>
         <div className='container'>
           <nav className='navbar' data-navbar>
             <div className='navbar-top'>
@@ -71,12 +83,12 @@ const Header = () => {
 
                 <p className='slogan'>Explora.Vive. Hospedate</p>
               </div>
-              {/* ... */}
+              
             </div>
-            <ul className='navbar-list'>{/* ... */}</ul>
+            <ul className='navbar-list'></ul>
           </nav>
         </div>
-      </div>
+      </div> */}
     </header>
   );
 };

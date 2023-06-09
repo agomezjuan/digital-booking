@@ -1,0 +1,23 @@
+@use '../../sass/base/variables' as *;
+@use '../../sass/base/mixins' as *;
+
+.submit-button {
+  @include flex;
+  height: 45px;
+  width: 100%;
+  background: #41b6e6;
+  color: #fff;
+  display: block;
+  border: none;
+  margin-top: 20px;
+  position: relative;
+  transition: all 0.2s ease;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+
+  &.loading {
+    max-height: 100%;
+    padding-top: 50px;
+  }
+}
