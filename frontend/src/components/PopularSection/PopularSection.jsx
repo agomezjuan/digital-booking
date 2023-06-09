@@ -3,19 +3,21 @@ import popular1 from '../../assets/images/popular-1.jpg';
 import popular2 from '../../assets/images/popular-2.jpg';
 import popular3 from '../../assets/images/popular-3.jpg';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCategories } from '../../store/actions/categoryActions';
 
 const catgImg = [popular1, popular2, popular3, popular1, popular2];
 
 const PopularSection = () => {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.category.categories);
+  const { categories, status } = useSelector((state) => state.category);
+  const [apiError, setApiError] = useState(false);
 
   useEffect(() => {
     console.log(categories);
-    if (categories.length === 0) dispatch(getCategories());
-  }, [categories]);
+    if (categories.length === 0 && status === 'idle') dispatch(getCategories());
+    if (status === 'failed') setApiError(true);
+  }, [categories, status, dispatch]);
 
   return (
     <section className='popular' id='destination'>
@@ -30,13 +32,19 @@ const PopularSection = () => {
           perfecta en los destinos más populares. ¡Déjate cautivar por la magia
           de estos lugares excepcionales!
         </p>
-        <ul className='popular-list'>
-          {categories.map((category, index) => (
-            <li key={category.id}>
-              <CategoryCard img={catgImg[index]} category={category} />
-            </li>
-          ))}
-        </ul>
+        {apiError ? (
+          <p style={{ textAlign: 'center', color: 'red' }}>
+            Las categorias no están disponibles
+          </p>
+        ) : (
+          <ul className='popular-list'>
+            {categories.map((category, index) => (
+              <li key={category.id}>
+                <CategoryCard img={catgImg[index]} category={category} />
+              </li>
+            ))}
+          </ul>
+        )}
         {/* <button className='btn btn-primary'>Más Destinos</button> */}
       </div>
     </section>
