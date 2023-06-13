@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dh.pi.backend.app.dto.RegisterRequestDTO;
 import com.dh.pi.backend.app.dto.UserDTO;
 import com.dh.pi.backend.app.service.IUserService;
 
@@ -34,8 +35,8 @@ public class UserController {
      * @return usuario creado
      */
     @PostMapping
-    public UserDTO saveUsuario(@RequestBody UserDTO usuarioDTO) {
-        return usuarioService.createUser(usuarioDTO);
+    public UserDTO saveUsuario(@RequestBody RegisterRequestDTO usuario) {
+        return usuarioService.createUser(usuario);
     }
 
     /**

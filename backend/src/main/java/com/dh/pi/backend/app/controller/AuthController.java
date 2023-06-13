@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,10 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dh.pi.backend.app.dto.LoginRequestDTO;
 import com.dh.pi.backend.app.dto.LoginResponseDTO;
+import com.dh.pi.backend.app.dto.RegisterRequestDTO;
 import com.dh.pi.backend.app.dto.UserDTO;
 import com.dh.pi.backend.app.event.RegistrationCompleteEvent;
+import com.dh.pi.backend.app.event.listener.RegistrationCompleteEventListener;
 import com.dh.pi.backend.app.model.Role;
 import com.dh.pi.backend.app.model.User;
+import com.dh.pi.backend.app.model.VerificationToken;
 import com.dh.pi.backend.app.service.impl.AuthServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,14 +33,20 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
+    @Value("${frontend.url}")
+    private String FRONTEND_URL;
+
     @Autowired
     private AuthServiceImpl authService;
 
     @Autowired
     ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    private RegistrationCompleteEventListener eventListener;
+
     @PostMapping("/register")
-    public ResponseEntity<HashMap<String, Object>> registerUser(@RequestBody UserDTO user,
+    public ResponseEntity<HashMap<String, Object>> registerUser(@RequestBody RegisterRequestDTO user,
             final HttpServletRequest request) {
 
         User newUser = authService.register(user);
@@ -73,6 +83,7 @@ public class AuthController {
         data.put("name", authService.getUserDetails(auth.getName()).getName());
         data.put("lastname", authService.getUserDetails(auth.getName()).getLastname());
         data.put("email", authService.getUserDetails(auth.getName()).getEmail());
+        data.put("role", authService.getUserDetails(auth.getName()).getRoles());
 
         response.put("message", "Usuario logueado correctamente");
         response.put("user", data);
@@ -81,8 +92,7 @@ public class AuthController {
     }
 
     private String applicationUrl(HttpServletRequest request) {
-        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-                + request.getContextPath();
+        return request.getScheme() + "://" + FRONTEND_URL + request.getContextPath();
     }
 
     @GetMapping("/verify")
@@ -95,4 +105,40 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/resend-verification-email")
+    public ResponseEntity<HashMap<String, String>> resendRegistrationToken(@RequestParam("token") String oldToken,
+            final HttpServletRequest request) {
+        VerificationToken verificationToken = authService.generateNewRegistrationToken(oldToken);
+
+        User user = verificationToken.getUser();
+
+        resendRegistrationToken(user, applicationUrl(request), verificationToken);
+
+        HashMap<String, String> response = new HashMap<>();
+        response.put("message", "Se ha enviado un nuevo link de activación al correo " + user.getEmail()
+                + ". Por favor, revise su bandeja de entrada.");
+
+        return ResponseEntity.ok(response);
+    }
+
+    private void resendRegistrationToken(User user, String applicationUrl, VerificationToken verificationToken) {
+        String verificationLink = applicationUrl + "/auth/verify/" + verificationToken;
+
+        eventListener.sendVerificationEmail(user.getName(), user.getEmail(), verificationLink);
+
+    }
+
+    // @PostMapping("/forgot-password")
+    // public ResponseEntity<HashMap<String, Object>>
+    // forgotPassword(@RequestParam("email") String email,
+    // final HttpServletRequest request) {
+    // String result = authService.forgotPassword(email);
+
+    // HashMap<String, Object> response = new HashMap<>();
+
+    // response.put("message", result);
+
+    // return ResponseEntity.ok(response);
+    // }
 }
