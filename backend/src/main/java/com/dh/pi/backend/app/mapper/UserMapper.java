@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import com.dh.pi.backend.app.model.User;
+import com.dh.pi.backend.app.dto.RegisterRequestDTO;
 import com.dh.pi.backend.app.dto.UserDTO;
 import com.dh.pi.backend.app.model.Role;
 
@@ -26,7 +27,19 @@ public class UserMapper {
         return userDTO;
     }
 
+    public UserDTO mapToUserDTO(RegisterRequestDTO user) {
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        return userDTO;
+    }
+
     public User mapToUser(UserDTO userDTO) {
+        User user = modelMapper.map(userDTO, User.class);
+
+        user.setRoles(mapRoleNamesToRoles(userDTO.getRoles()));
+        return user;
+    }
+
+    public User mapToUser(RegisterRequestDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
 
         user.setRoles(mapRoleNamesToRoles(userDTO.getRoles()));
@@ -44,8 +57,5 @@ public class UserMapper {
                 .map(Role::getAuthority)
                 .collect(Collectors.toList());
     }
-
-    // Si necesitas mapear los nombres de roles a objetos Role, puedes agregar un
-    // método similar aquí
 
 }

@@ -3,11 +3,12 @@ package com.dh.pi.backend.app.service;
 import jakarta.validation.Valid;
 import java.util.List;
 
+import com.dh.pi.backend.app.dto.RegisterRequestDTO;
 import com.dh.pi.backend.app.dto.UserDTO;
 import com.dh.pi.backend.app.model.User;
 
 public interface IUserService {
-    public UserDTO createUser(@Valid UserDTO usuarioDTO);
+    public UserDTO createUser(@Valid RegisterRequestDTO usuario);
 
     public List<UserDTO> getAllUsers();
 

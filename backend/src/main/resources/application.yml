@@ -60,3 +60,5 @@ aws.s3.bucket.region: ${AWS_REGION}
 aws.access.key.id: ${AWS_ACCESS_KEY_ID}
 aws.access.key.secret: ${AWS_ACCESS_KEY_SECRET}
 
+# Frontend url
+frontend.url: ${FRONTEND_URL}

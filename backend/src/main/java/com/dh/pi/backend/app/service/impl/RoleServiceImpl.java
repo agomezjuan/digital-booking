@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.dh.pi.backend.app.dto.RoleDTO;
@@ -36,7 +37,7 @@ public class RoleServiceImpl implements IRoleService {
     public RoleDTO getRole(Long id) throws ResourceNotFoundException {
 
         if (!roleRepository.findById(id).isPresent()) {
-            throw new ResourceNotFoundException("Rol no encontrado");
+            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, "Rol no encontrado");
         }
 
         Role role = roleRepository.findById(id).get();
@@ -67,7 +68,7 @@ public class RoleServiceImpl implements IRoleService {
     public RoleDTO getRoleByName(String name) throws ResourceNotFoundException {
 
         if (!roleRepository.findByAuthority(name).isPresent()) {
-            throw new ResourceNotFoundException("El rol " + name + " no existe");
+            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, "El rol " + name + " no existe");
         }
 
         Role role = roleRepository.findByAuthority(name).get();

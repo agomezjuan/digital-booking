@@ -66,9 +66,9 @@ public class UserAdminSeeder implements ApplicationListener<ContextRefreshedEven
                         roleRepository.save(roleAdmin);
                 }
 
-                userAdmin.setName("admin");
-                userAdmin.setLastname("admin");
-                userAdmin.setEmail("admin@test.com");
+                userAdmin.setName("Alberto");
+                userAdmin.setLastname("Gómez");
+                userAdmin.setEmail("agomezjuan@hotmail.com");
                 userAdmin.setPassword(passwordEncoder.encode("admin"));
 
                 Set<Role> roles = new HashSet<>();

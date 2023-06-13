@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import com.dh.pi.backend.app.dto.RegisterRequestDTO;
 import com.dh.pi.backend.app.dto.UserDTO;
 import com.dh.pi.backend.app.exception.ExistingResourceException;
 import com.dh.pi.backend.app.exception.TechnicalException;
@@ -54,18 +56,20 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     private IVerificationTokenRepository verificationTokenRepository;
 
     @Override
-    public UserDTO createUser(UserDTO usuarioDTO) {
+    public UserDTO createUser(RegisterRequestDTO usuarioDTO) {
         String email = usuarioDTO.getEmail();
 
         if (userRepository.findByEmail(email).isPresent()) {
             log.error("Intentando crear un usuario con un correo que ya existe: " + email);
             throw new ExistingResourceException("Ya existe un usuario con el correo " + email);
         }
-        User usuarioEntity = userMapper.mapToUser(usuarioDTO);
-
         Role role = roleService.getDefaultRole();
         Set<Role> roles = new HashSet<>();
         roles.add(role);
+        usuarioDTO.setRoles(roles.stream().map(Role::getAuthority).toList());
+
+        User usuarioEntity = userMapper.mapToUser(usuarioDTO);
+
         usuarioEntity.setRoles(roles);
 
         String encodedPassword = passwordEncoder.encode(usuarioDTO.getPassword());
@@ -102,7 +106,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         try {
             userRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Usuario no encontrado");
+            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         } catch (Exception e) {
             throw new TechnicalException(e);
         }
@@ -114,12 +118,11 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         User usuario = userRepository.findById(id).orElse(null);
 
         if (usuario == null) {
-            throw new ResourceNotFoundException("Usuario no encontrado");
+            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         }
         usuario.setName(usuarioDTO.getName());
         usuario.setLastname(usuarioDTO.getLastname());
         usuario.setEmail(usuarioDTO.getEmail());
-        usuario.setPassword(usuarioDTO.getPassword());
         userRepository.save(usuario);
 
         UserDTO usuarioDTOResponse = userMapper.mapToUserDTO(usuario);

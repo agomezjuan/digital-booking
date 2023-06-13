@@ -15,4 +15,5 @@ import com.dh.pi.backend.app.model.VerificationToken;
 public interface IVerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
 
     Optional<VerificationToken> findByToken(String token);
+
 }
