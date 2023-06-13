@@ -5,11 +5,12 @@ import {
   getMe,
   verifyUserEmail,
 } from '../actions/authActions';
+import Swal from 'sweetalert2';
 
 const initialState = {
   user: {},
-  role: '',
-  token: '',
+  role: null,
+  token: null,
   status: 'idle', // idle | loading | succeeded | failed
   error: null,
   isLoggedIn: false,
@@ -22,18 +23,27 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = {};
-      state.role = '';
-      state.token = '';
+      state.role = null;
+      state.token = null;
       state.status = 'idle';
       state.error = null;
       state.isLoggedIn = false;
       state.message = '';
       sessionStorage.removeItem('dhb_token');
+      Swal.fire({
+        icon: 'success',
+        title: 'Sesión cerrada',
+        html: 'Has cerrado la sesión correctamente,<br /> vuelve pronto.',
+        confirmButtonColor: '#0084b8',
+      });
     },
     resetUserError: (state) => {
       state.error = null;
       state.message = '';
       state.status = 'idle';
+    },
+    restoreSession: (state) => {
+      state.token = sessionStorage.getItem('dhb_token');
     },
   },
   extraReducers: (builder) => {
@@ -69,7 +79,8 @@ const authSlice = createSlice({
       })
       .addCase(getMe.fulfilled, (state, { payload }) => {
         state.status = 'succeeded';
-        state.user = payload;
+        state.user = payload.user;
+        state.role = payload.role;
         state.isLoggedIn = true;
       })
       .addCase(getMe.rejected, (state, action) => {
@@ -91,6 +102,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, resetUserError } = authSlice.actions;
+export const { logout, resetUserError, restoreSession } = authSlice.actions;
 
 export default authSlice.reducer;
