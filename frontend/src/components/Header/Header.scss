@@ -7,9 +7,10 @@
   left: 0;
   width: 100%;
   background-color: #0f0f0f09;
-  opacity: 0.8;
   z-index: 100;
-  .header-top {
+
+  // Header Top
+  &-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -43,21 +44,94 @@
     }
   }
 
-  .header-bottom {
+  // Header Bottom
+  &-bottom {
     background-color: #0a0a0a15;
     display: none;
     opacity: 0.9;
     padding: 10px 20px;
+  }
+
+  // User Menu
+  .user {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    cursor: pointer;
+    position: relative;
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-left: 10px;
+      cursor: pointer;
+      overflow: hidden;
+      background-color: $cultured;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $blue-ncs;
+      background-color: white;
+    }
+
+    &-menu {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      top: calc(100% + 10px);
+      right: 0;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      padding: 10px 5px;
+      width: 200px;
+      z-index: 100;
+
+      &-item {
+        padding: 10px 20px;
+        font-size: 14px;
+        line-height: 17px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+          background-color: $gainsboro;
+          transition: all 0.1s ease-in-out;
+          a {
+            color: $blue-ncs;
+          }
+
+          &.logout {
+            background-color: #ff000033;
+            transition: all 0.3s ease-in-out;
+
+            a {
+              color: red;
+            }
+          }
+        }
+
+        a {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          color: $black-coral;
+        }
+      }
+    }
+  }
+
+  .btn {
+    margin-left: 10px;
   }
 }
 
 .header-btn-group {
   display: flex;
   align-items: center;
-}
-
-.btn {
-  margin-left: 10px;
 }
 
 .search-btn {
@@ -68,24 +142,4 @@
   border: none;
   cursor: pointer;
   color: white;
-}
-
-.header .user {
-  display: flex;
-  align-items: center;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-.header .avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-left: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary-color);
-  background-color: white;
 }
