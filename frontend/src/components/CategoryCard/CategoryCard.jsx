@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 const CategoryCard = ({ img, category }) => {
   const { name, description } = category;
+  const [params, setParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const handleSearchCategory = () => {
+    navigate('/category');
+    setParams({ ...params, name: name });
+  };
+
   return (
-    <div className='popular-card'>
+    <div className='popular-card' onClick={handleSearchCategory}>
       <figure className='card-img'>
         <img src={img} alt={name} loading='lazy' />
       </figure>

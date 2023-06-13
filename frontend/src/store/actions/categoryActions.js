@@ -9,10 +9,11 @@ export const getCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await http.get('/categories');
-      console.log(data);
+      console.log('Data categorias', data);
       return data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      console.log(error.message);
+      return rejectWithValue(error.message);
     }
   },
 );

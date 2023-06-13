@@ -27,17 +27,22 @@
     ]
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/material": "^5.13.4",
+    "@mui/x-data-grid": "^6.7.0",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.44.2",
     "react-redux": "^8.0.7",
     "react-router-dom": "^6.11.2",
-    "react-hook-form": "^7.44.2",
+    "sass": "^1.62.1",
     "sweetalert2": "^11.7.10",
     "sweetalert2-react-content": "^5.0.7"
   },

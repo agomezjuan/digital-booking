@@ -1,0 +1,25 @@
+@use '../../../sass/base/mixins.scss' as *;
+@use '../../../sass/base/variables.scss' as *;
+
+/**
+* Avatar and user menu
+*/
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .user-name {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: $black-coral;
+  }
+}

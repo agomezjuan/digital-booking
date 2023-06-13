@@ -8,12 +8,17 @@ import http from '../../util/httpService';
  */
 export const register = createAsyncThunk(
   'auth/register',
-  async (data, { rejectWithValue }) => {
+  async (info, { rejectWithValue }) => {
     try {
-      const response = await http.post('/auth/register', data);
-      return response.data;
+      const { data } = await http.post('/auth/register', info);
+      console.log('Respuesta Registro', data);
+      return data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      console.log('Error Registro', error);
+      return rejectWithValue({
+        code: error.response.status,
+        message: error.response.data.error,
+      });
     }
   },
 );
@@ -40,7 +45,11 @@ export const login = createAsyncThunk(
 
       return { role, token };
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      console.log('Error Login', error.response);
+      return rejectWithValue({
+        code: error.response.status,
+        message: error.response.data.error,
+      });
     }
   },
 );
@@ -56,11 +65,32 @@ export const getMe = createAsyncThunk(
       http.defaults.headers.common.Authorization = `Bearer ${token}`;
       const { data } = await http.get('/auth/me');
 
-      const { user } = data;
+      const user = { ...data?.user, role: undefined };
 
-      return user;
+      return { user, role: data?.user?.role[0] };
     } catch (error) {
       return rejectWithValue(error.response.data);
+    }
+  },
+);
+
+/**
+ * Veryfy email
+ * @param {String} token
+ */
+export const verifyUserEmail = createAsyncThunk(
+  'auth/verifyUserEmail',
+  async (token, { rejectWithValue }) => {
+    try {
+      const { data } = await http.get(`/auth/verify?token=${token}`);
+      console.log('Respuesta Verificacion', data);
+      return data.message;
+    } catch (error) {
+      console.log('Error Verificacion', error.response);
+      return rejectWithValue({
+        code: error.response.status,
+        message: error.response.data.error || error.response.data.message,
+      });
     }
   },
 );

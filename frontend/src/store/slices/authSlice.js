@@ -1,11 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, login, getMe } from '../actions/authActions';
+import {
+  register,
+  login,
+  getMe,
+  verifyUserEmail,
+} from '../actions/authActions';
 import Swal from 'sweetalert2';
 
 const initialState = {
   user: {},
-  role: '',
-  token: '',
+  role: null,
+  token: null,
   status: 'idle', // idle | loading | succeeded | failed
   error: null,
   isLoggedIn: false,
@@ -18,13 +23,27 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = {};
-      state.role = '';
-      state.token = '';
+      state.role = null;
+      state.token = null;
       state.status = 'idle';
       state.error = null;
       state.isLoggedIn = false;
       state.message = '';
       sessionStorage.removeItem('dhb_token');
+      Swal.fire({
+        icon: 'success',
+        title: 'Sesión cerrada',
+        html: 'Has cerrado la sesión correctamente,<br /> vuelve pronto.',
+        confirmButtonColor: '#0084b8',
+      });
+    },
+    resetUserError: (state) => {
+      state.error = null;
+      state.message = '';
+      state.status = 'idle';
+    },
+    restoreSession: (state) => {
+      state.token = sessionStorage.getItem('dhb_token');
     },
   },
   extraReducers: (builder) => {
@@ -34,13 +53,12 @@ const authSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(login.fulfilled, (state, { payload }) => {
-        state.status = 'succeeded';
         state.token = payload.token;
         state.role = payload.role;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state, { payload }) => {
         state.status = 'failed';
-        state.error = action.error.message;
+        state.error = payload;
       })
       // Register
       .addCase(register.pending, (state) => {
@@ -49,19 +67,11 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, { payload }) => {
         state.status = 'succeeded';
         state.message = payload.message;
-        Swal.fire({
-          icon: 'success',
-          title: 'Registro exitoso',
-          text: 'Por favor inicia sesión',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = '/login';
-          }
-        });
+        state.user = payload.data;
       })
-      .addCase(register.rejected, (state, action) => {
+      .addCase(register.rejected, (state, { payload }) => {
         state.status = 'failed';
-        state.error = action.error.message;
+        state.error = payload;
       })
       // Get me
       .addCase(getMe.pending, (state) => {
@@ -69,16 +79,29 @@ const authSlice = createSlice({
       })
       .addCase(getMe.fulfilled, (state, { payload }) => {
         state.status = 'succeeded';
-        state.user = payload;
+        state.user = payload.user;
+        state.role = payload.role;
         state.isLoggedIn = true;
       })
       .addCase(getMe.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(verifyUserEmail.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(verifyUserEmail.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded';
+        state.message = payload;
+      })
+      .addCase(verifyUserEmail.rejected, (state, { payload }) => {
+        state.status = 'failed';
+        state.error = payload;
+        state.message = payload.message;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, resetUserError, restoreSession } = authSlice.actions;
 
 export default authSlice.reducer;

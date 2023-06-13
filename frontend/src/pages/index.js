@@ -1,0 +1,13 @@
+export { default as Admin } from './Admin/Admin';
+export { default as AdminLayout } from './Admin/AdminLayout/AdminLayout';
+export { default as Categories } from './Admin/Categories/Categories';
+export { default as Dashboard } from './Admin/Dashboard/Dashboard';
+export { default as Hotels } from './Admin/Hotels/Hotels';
+export { default as Users } from './Admin/Users/Users';
+export { default as ErrorPage } from './ErrorPage';
+export { default as Home } from './Home';
+export { default as HotelDetails } from './HotelDetails';
+export { default as Login } from './Login';
+export { default as Register } from './Register';
+export { default as UserProfile } from './UserProfile';
+export { default as VerifyEmail } from './VerifyEmail';

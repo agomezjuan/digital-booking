@@ -1,0 +1,50 @@
+@mixin btn-base {
+    color: var(--white);
+    text-transform: uppercase;
+    font-size: var(--fs-5);
+    border-radius: 100px;
+    padding: var(--padding, 8px 18px);
+    border: var(--border-width, 2px) solid transparent;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+@mixin btn-primary {
+    @include btn-base;
+    background: var(--bright-navy-blue);
+    border-color: var(--bright-navy-blue);
+
+    &:hover,
+    &:focus {
+        background: var(--yale-blue);
+        border-color: var(--yale-blue);
+    }
+}
+
+@mixin btn-secondary {
+    @include btn-base;
+    border-color: var(--white);
+
+    &:hover,
+    &:focus {
+        background: hsla(0, 0%, 100%, 0.1);
+    }
+}
+
+@mixin btn-tertiary {
+    @include btn-base;
+    color: var(--white);
+    background-color: var(--onyx);
+}
+
+.my-button {
+    @include btn-primary;
+}
+
+.another-button {
+    @include btn-secondary;
+}
+
+.yet-another-button {
+    @include btn-tertiary;
+}

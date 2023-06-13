@@ -1,43 +1,104 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import {
+  Admin,
+  Categories,
+  Dashboard,
+  Home,
+  HotelDetails,
+  Hotels,
+  Login,
+  Register,
+  Users,
+  VerifyEmail,
+} from './pages';
 import { store } from './store';
+import { Provider } from 'react-redux';
 
-import Home from './pages/Home.jsx';
+import withAuth from './HOC/withAuth';
+
 import './index.css';
-import Admin from './pages/Admin.jsx';
-import Register from './pages/Register.jsx';
-import Login from './pages/Login.jsx';
-import HotelDetails from './pages/HotelDetails.jsx';
+import './sass/main.scss';
+import { CategoryFilter } from './components';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/register',
-    element: <Register />,
-  },
-  {
-    path: '/admin',
-    element: <Admin />,
-  },
-  {
-    path: '/hotel',
-    element: <HotelDetails />,
-  },
-]);
+const App = () => {
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Home />,
+      errorElement: <div>Not Found</div>,
+    },
+    {
+      path: '/login',
+      element: <Login />,
+    },
+    {
+      path: '/register',
+      element: <Register />,
+    },
+    {
+      path: '/auth/verify/:token',
+      element: <VerifyEmail />,
+    },
+    {
+      path: '/category',
+      element: <CategoryFilter />,
+    },
+    {
+      path: '/hotel',
+      element: <HotelDetails />,
+    },
+    {
+      path: '/admin',
+      element: <Admin />,
+      children: [
+        {
+          path: 'dashboard',
+          element: <Dashboard />,
+        },
+        {
+          path: 'users',
+          element: <Users />,
+        },
+        {
+          path: 'categories',
+          element: <Categories />,
+        },
+        {
+          path: 'hotels',
+          element: <Hotels />,
+        },
+        {
+          path: 'rooms',
+          element: <div>Rooms</div>,
+        },
+        {
+          path: 'bookings',
+          element: <div>Bookings</div>,
+        },
+        {
+          path: 'reviews',
+          element: <div>Reviews</div>,
+        },
+        {
+          path: 'support',
+          element: <div>Support</div>,
+        },
+      ],
+    },
+    {
+      path: '*',
+      element: <div>Not Found</div>,
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
+};
+
+const AppWithAuthValidation = withAuth(App);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <AppWithAuthValidation />
+  </Provider>,
 );
