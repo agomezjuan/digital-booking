@@ -1,3 +1,6 @@
+import FooterBottom from './FooterBottom';
+import './Footer.scss';
+
 const Footer = () => {
   return (
     <footer className='footer'>
@@ -9,7 +12,9 @@ const Footer = () => {
             </a>
 
             <p className='footer-text'>
-            Queremos brindarte una experiencia inolvidable, llena de comodidad, atención personalizada y detalles únicos que harán de tu estadía algo especial.
+              Queremos brindarte una experiencia inolvidable, llena de
+              comodidad, atención personalizada y detalles únicos que harán de
+              tu estadía algo especial.
             </p>
           </div>
 
@@ -67,34 +72,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
-      <div className='footer-bottom'>
-        <div className='container'>
-          <p className='copyright'>
-            &copy; 2023 <a href=''>hospic</a>. Reservados todos los derechos
-          </p>
-
-          <ul className='footer-bottom-list'>
-            <li>
-              <a href='#' className='footer-bottom-link'>
-                Política de Privacidad
-              </a>
-            </li>
-
-            <li>
-              <a href='#' className='footer-bottom-link'>
-                Términos y condiciones
-              </a>
-            </li>
-
-            <li>
-              <a href='#' className='footer-bottom-link'>
-                FAQ
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <FooterBottom />
     </footer>
   );
 };

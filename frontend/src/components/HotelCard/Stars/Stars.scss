@@ -1,0 +1,17 @@
+@use '../../../sass/base/variables.scss' as *;
+
+/**
+* Rating
+*/
+.stars {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  gap: 5px;
+
+  ion-icon {
+    width: 15px;
+    height: 15px;
+    color: $blue-ncs;
+  }
+}

@@ -1,14 +1,11 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import './Header.scss';
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../store/slices/authSlice';
+import UserMenu from './UserMenu/UserMenu';
 
 const Header = () => {
   // Iniciazar los hooks
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   // Definir las variables para saber en que pagina estamos
@@ -16,13 +13,7 @@ const Header = () => {
   const isRegisterPage = pathname === '/register';
 
   // Obtener los datos del store
-  const { user, isLoggedIn } = useSelector((state) => state.auth);
-
-  // Definir la funcion para cerrar sesion
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/');
-  };
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   return (
     <header className='header' data-testid='header' data-header>
@@ -36,21 +27,11 @@ const Header = () => {
           </div>
           {isLoggedIn ? (
             <div className='user'>
-              <div>
-                <p className='slogan'>Hola, {user?.name}</p>
-              </div>
-              <div>
-                <div className='avatar'>
-                  <span>
-                    {user?.name[0]}
-                    {user?.lastname[0]}
-                  </span>
-                </div>
-              </div>
+              <UserMenu />
 
-              <button onClick={handleLogout} className='btn btn-primary'>
+              {/* <button onClick={handleLogout} className='btn btn-primary'>
                 <ion-icon name='log-out-outline'></ion-icon>
-              </button>
+              </button> */}
             </div>
           ) : (
             <div className='header-btn-group'>
