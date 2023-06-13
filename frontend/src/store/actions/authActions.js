@@ -65,9 +65,9 @@ export const getMe = createAsyncThunk(
       http.defaults.headers.common.Authorization = `Bearer ${token}`;
       const { data } = await http.get('/auth/me');
 
-      const { user } = data;
+      const user = { ...data?.user, role: undefined };
 
-      return user;
+      return { user, role: data?.user?.role[0] };
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -89,7 +89,7 @@ export const verifyUserEmail = createAsyncThunk(
       console.log('Error Verificacion', error.response);
       return rejectWithValue({
         code: error.response.status,
-        message: error.response.data.error,
+        message: error.response.data.error || error.response.data.message,
       });
     }
   },
