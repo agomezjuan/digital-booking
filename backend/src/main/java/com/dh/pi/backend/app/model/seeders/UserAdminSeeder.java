@@ -76,6 +76,9 @@ public class UserAdminSeeder implements ApplicationListener<ContextRefreshedEven
 
                 userAdmin.setRoles(roles);
 
+                // Activar el usuario
+                userAdmin.setEnabled(true);
+
                 // Se guarda el usuario admin
                 userRepository.save(userAdmin);
 

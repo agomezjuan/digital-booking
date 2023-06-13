@@ -14,10 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dh.pi.backend.app.dto.LoginResponseDTO;
 import com.dh.pi.backend.app.dto.UserDTO;
+import com.dh.pi.backend.app.exception.ExistingResourceException;
+import com.dh.pi.backend.app.exception.ResourceNotFoundException;
 import com.dh.pi.backend.app.model.Role;
 import com.dh.pi.backend.app.model.User;
+import com.dh.pi.backend.app.model.VerificationToken;
 import com.dh.pi.backend.app.repository.IRoleRepository;
 import com.dh.pi.backend.app.repository.IUserRepository;
+import com.dh.pi.backend.app.repository.IVerificationTokenRepository;
 import com.dh.pi.backend.app.service.TokenService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +46,16 @@ public class AuthServiceImpl {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private IVerificationTokenRepository verificationTokenRepository;
+
     public User register(UserDTO user) {
+        String email = user.getEmail();
+
+        if (userRepository.findByEmail(email).isPresent()) {
+            log.error("Intentando registro con email duplicado");
+            throw new ExistingResourceException("El email " + email + " ya está registrado");
+        }
 
         log.info("Se está registrando el usuario: " + user.getEmail());
 
@@ -69,6 +82,16 @@ public class AuthServiceImpl {
 
         log.info("Se está autenticando el usuario: " + email);
 
+        if (!userRepository.findByEmail(email).isPresent()) {
+            log.error("Intentando autenticar un usuario que no existe");
+            throw new ResourceNotFoundException("El usuario no existe");
+        }
+
+        if (!userRepository.findByEmail(email).get().isEnabled()) {
+            log.error("Intentando autenticar un usuario que no está activo");
+            throw new ResourceNotFoundException("El usuario no está activo. Por favor, confirme su correo");
+        }
+
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password));
@@ -94,6 +117,29 @@ public class AuthServiceImpl {
         userDTO.setEmail(user.getEmail());
 
         return userDTO;
+    }
+
+    public String confirmRegistration(String token) {
+
+        if (!verificationTokenRepository.findByToken(token).isPresent()) {
+            log.error("Intentando confirmar un token que no existe");
+            throw new ResourceNotFoundException("El token de verificación es inválido");
+        }
+
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token).get();
+
+        User user = verificationToken.getUser();
+
+        if (user.isEnabled()) {
+            log.error("El usuario ya está activo");
+            throw new ExistingResourceException("El usuario ya está activo. Por favor, inicie sesión");
+        }
+
+        user.setEnabled(true);
+
+        userRepository.save(user);
+
+        return "Usuario activado correctamente. Ahora puede iniciar sesión";
     }
 
 }

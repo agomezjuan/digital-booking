@@ -5,7 +5,6 @@ import java.util.Optional;
 // import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import com.dh.pi.backend.app.model.User;
 
@@ -15,7 +14,6 @@ import com.dh.pi.backend.app.model.User;
  * @author A. Gómez Juan
  * @version 1.0
  */
-@Repository
 public interface IUserRepository extends CrudRepository<User, Long> {
     Optional<User> findByEmail(String email);
 

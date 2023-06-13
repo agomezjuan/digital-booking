@@ -2,11 +2,11 @@
 spring:
   datasource:
     # URL de la base de datos MySQL utilizando variables de entorno
-    url: jdbc:mysql://localhost:3306/proyecto?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: ${JDBC_DEV_DATABASE_URL}
     # Nombre de usuario de la base de datos utilizando variables de entorno
-    username: usuariopi
+    username: ${JDBC_DATABASE_USERNAME}
     # Contraseña de la base de datos utilizando variables de entorno
-    password: k1.T[2t4hWJ2[YFk
+    password: ${JDBC_DATABASE_PASSWORD}
     # Clase del driver JDBC de MySQL
     driver-class-name: com.mysql.cj.jdbc.Driver
     
@@ -27,7 +27,21 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     # Genera el esquema de la base de datos automáticamente
     generate-ddl: true
-    
+  mail:
+    host: ${MAIL_HOST} # smtp.gmail.com
+    port: ${MAIL_PORT}
+    username: ${MAIL_SENDER}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  servlet:
+    # Configuración de Spring para el envío de archivos
+    multipart:
+      enabled: true  
 # Configuración de logging para mostrar consultas SQL
 logging:
   level:
@@ -39,4 +53,10 @@ server:
   error:
     include-stacktrace: never
 
+
+# Credenciales de AWS para el envío de archivos
+aws.s3.bucket.name: ${AWS_BUCKET}
+aws.s3.bucket.region: ${AWS_REGION}
+aws.access.key.id: ${AWS_ACCESS_KEY_ID}
+aws.access.key.secret: ${AWS_ACCESS_KEY_SECRET}
 

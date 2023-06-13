@@ -74,7 +74,8 @@ const Register = () => {
   }, [user, isLoggedIn, status, error]);
 
   const onSubmit = (data) => {
-    dispatch(registerUser(data));
+    const response = dispatch(registerUser(data));
+    console.log(response);
   };
 
   return (

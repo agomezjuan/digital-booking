@@ -50,11 +50,16 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Reservation> reservations = new HashSet<>();
 
+    private String avatar;
+
+    private boolean isEnabled;
+
     public User(String name, String lastname, String email, String password) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.isEnabled = false;
     }
 
     @Override
@@ -84,7 +89,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.isEnabled;
     }
 
 }
