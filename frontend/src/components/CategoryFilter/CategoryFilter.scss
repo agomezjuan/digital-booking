@@ -1,0 +1,22 @@
+@use '../../sass/base/variables.scss' as *;
+
+.no-category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 24px;
+  line-height: 29px;
+  color: $onyx;
+  min-height: 350px;
+  padding: 40px;
+
+  span {
+    margin: 20px;
+  }
+
+  ion-icon {
+    font-size: 100px;
+  }
+}

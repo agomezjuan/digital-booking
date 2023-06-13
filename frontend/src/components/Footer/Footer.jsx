@@ -1,4 +1,5 @@
 import FooterBottom from './FooterBottom';
+import logo from '../../assets/images/logo.png';
 import './Footer.scss';
 
 const Footer = () => {
@@ -8,7 +9,7 @@ const Footer = () => {
         <div className='container'>
           <div className='footer-brand'>
             <a href='#' className='logo'>
-              <img src='./src/assets/images/logo.png' alt='Hospic logo' />
+              <img src={logo} alt='Hospic logo' />
             </a>
 
             <p className='footer-text'>

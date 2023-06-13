@@ -4,7 +4,8 @@
 .login-body {
   /* Estilos específicos para la sección de inicio de sesión */
   font-family: 'Open Sans', sans-serif;
-  height: 100vh;
+  display: flex;
+  flex-grow: 1;
   background: url('https://e00-telva.uecdn.es/assets/multimedia/imagenes/2020/04/08/15863625342920.jpg')
     50% fixed;
   background-size: cover;

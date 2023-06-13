@@ -1,0 +1,170 @@
+@use '../../sass/base/variables.scss' as *;
+@use '../../sass/base/mixins.scss' as *;
+
+.admin {
+  padding-top: 130px;
+  background-color: $black-coral;
+  min-height: 100vh;
+  display: flex;
+
+  &-container {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: $cultured;
+    gap: 20px;
+  }
+
+  &-wrapper {
+    display: flex;
+    max-width: 1800px;
+    gap: 20px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    flex-grow: 1;
+
+    @include desktop() {
+      flex-direction: row;
+    }
+  }
+
+  &-sidebar {
+    min-width: 250px;
+    background-color: $gainsboro;
+    padding: 20px;
+    border-radius: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: $oxford-blue;
+    }
+
+    &-item {
+      padding: 10px 0;
+      display: flex;
+      border-bottom: 1px solid $cultured;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    &-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: $onyx;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 22px;
+      text-decoration: none;
+      &:hover {
+        color: $yale-blue;
+      }
+    }
+
+    &-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+
+  &-content {
+    width: 100%;
+    flex-grow: 1;
+    h2 {
+      font-size: 24px;
+      line-height: 29px;
+      color: $onyx;
+      text-align: left;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 20px;
+
+      &-search {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 3px 20px;
+        background-color: $gainsboro;
+        border-radius: 40px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+          rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+
+        input {
+          width: 100%;
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid $cultured;
+          outline: none;
+          font-size: 14px;
+          line-height: 17px;
+          color: $onyx;
+          &:focus {
+            border: 1px solid $blue-ncs;
+          }
+        }
+      }
+
+      &-actions a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 20px;
+      }
+    }
+
+    &-category {
+      &-block {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+
+        &-name {
+          font-size: 14px;
+          line-height: 17px;
+          color: $onyx;
+        }
+
+        & > div {
+          display: flex;
+          padding: 10px 20px;
+          background-color: $gainsboro;
+          border-radius: 5px;
+          box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+            rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+          margin-bottom: 10px;
+        }
+
+        &-actions {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faFacebookF,
-  faTwitter,
-  faInstagram,
-} from '@fortawesome/free-brands-svg-icons';
 import './Login.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/actions/authActions';
@@ -14,6 +8,7 @@ import Header from '../components/Header/Header';
 import Swal from 'sweetalert2';
 import { resetUserError } from '../store/slices/authSlice';
 import SubmitButton from '../components/SubmitButton/SubmitButton';
+import SocialIcons from '../components/SocialIcons/SocialIcons';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -69,6 +64,7 @@ const Login = () => {
           height: '122px',
           position: 'fixed',
           width: '100%',
+          zIndex: '100',
         }}
       >
         <Header />
@@ -119,17 +115,7 @@ const Login = () => {
             </span>
           </form>
           <footer className='login-footer'>
-            <div className='social-icons'>
-              <a href='#'>
-                <FontAwesomeIcon icon={faFacebookF} />
-              </a>
-              <a href='#'>
-                <FontAwesomeIcon icon={faTwitter} />
-              </a>
-              <a href='#'>
-                <FontAwesomeIcon icon={faInstagram} />
-              </a>
-            </div>
+            <SocialIcons />
             <p>Digital Booking</p>
           </footer>
         </div>

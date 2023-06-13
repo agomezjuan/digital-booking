@@ -1,0 +1,163 @@
+@use '../../sass/base/mixins.scss' as *;
+@use '../../sass/base/variables.scss' as *;
+
+/**
+* Paquetes hospedaje
+*/
+
+.package-list {
+  margin-bottom: 50px;
+
+  & > li {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+
+  .package-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    @include tablet() {
+      grid-template-columns: 1.2fr 1.8fr;
+      flex-grow: 1;
+    }
+    /* grid-template-columns: 1.3fr 1.5fr 1fr; */
+
+    .card-banner {
+      max-height: 300px;
+      @include tablet() {
+        max-height: 100%;
+      }
+    }
+
+    .card-price {
+      display: grid;
+      place-content: center;
+
+      .wrapper {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+
+/*-----------------------------------*\
+* Paquetes de hospedajes
+\*-----------------------------------*/
+
+.package {
+  padding-block: $section-padding-sm;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .all {
+      margin: auto;
+    }
+  }
+
+  &-list {
+    margin-bottom: 40px;
+    /* ojo aqui */
+    display: grid;
+    grid-template-columns: 1fr;
+    @include desktop() {
+      grid-template-columns: repeat(2, 1fr);
+      align-items: stretch;
+      gap: 20px;
+    }
+  }
+}
+
+.card-meta-list {
+  background: var(--white);
+  max-width: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.15);
+  border-radius: 50px;
+  align-self: flex-start;
+}
+
+.card-meta-item {
+  position: relative;
+}
+
+.card-meta-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: -1px;
+  bottom: 4px;
+  width: 1px;
+  background: hsla(0, 0%, 0%, 0.3);
+}
+
+.meta-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding-inline: 9px;
+  color: var(--black-coral);
+  font-size: 10px;
+}
+
+.meta-box > ion-icon {
+  color: var(--bright-navy-blue);
+  font-size: 13px;
+}
+
+.package-card .card-price {
+  background: var(--united-nations-blue);
+  color: var(--white);
+  padding: 25px 20px;
+  text-align: center;
+}
+
+.package-card .card-price .wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px 15px;
+  margin-bottom: 10px;
+}
+
+.package-card .card-price .reviews {
+  font-size: var(--fs-5);
+}
+
+.package-card .card-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
+  font-size: 14px;
+}
+
+.package-card .card-rating ion-icon:last-child {
+  color: hsl(0, 0%, 80%);
+}
+
+.package-card .price {
+  font-size: var(--fs-2);
+  font-family: var(--ff-montserrat);
+  font-weight: var(--fw-800);
+  margin-bottom: 20px;
+}
+
+.package-card .price span {
+  font-size: var(--fs-7);
+  font-weight: initial;
+}
+
+.package .btn {
+  justify-self: end;
+}

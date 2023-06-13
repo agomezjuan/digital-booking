@@ -86,6 +86,7 @@ const Register = () => {
           height: '122px',
           position: 'fixed',
           width: '100%',
+          zIndex: '1000',
         }}
       >
         <Header />

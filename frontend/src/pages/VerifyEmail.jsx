@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { verifyUserEmail } from '../store/actions/authActions';
-import Header from '../components/Header/Header';
-import SubmitButton from '../components/SubmitButton/SubmitButton';
-import Spinner from '../components/Spinner/Spinner';
 import { resetUserError } from '../store/slices/authSlice';
-// import Footer from '../components/Footer/Footer';
+import { FooterBottom, Header, Spinner, SubmitButton } from '../components';
 
 const VerifyEmail = () => {
-  const [response, setResponse] = useState(''); //[{}
   const { token } = useParams();
   const dispatch = useDispatch();
   const { status, message } = useSelector((state) => state.auth);
@@ -17,29 +13,25 @@ const VerifyEmail = () => {
 
   useEffect(() => {
     dispatch(verifyUserEmail(token));
-    if (status === 'succeeded') {
-      setResponse(message);
-    } else if (status === 'failed') {
-      setResponse(message);
-    }
+
     return () => {
       dispatch(resetUserError());
     };
-  }, []);
+  }, [dispatch, token]);
 
   return (
     <>
-      <div
-        style={{
-          backgroundColor: '#11111FCC',
-          height: '122px',
-          position: 'fixed',
-          width: '100%',
-        }}
-      >
-        <Header />
-      </div>
       <main className='verify-email-body'>
+        <div
+          style={{
+            backgroundColor: '#11111FCC',
+            height: '122px',
+            position: 'fixed',
+            width: '100%',
+          }}
+        >
+          <Header />
+        </div>
         <div className='wrapper'>
           <div className='box'>
             <h2>Verificación de cuenta</h2>
@@ -47,16 +39,16 @@ const VerifyEmail = () => {
               <Spinner mode={'dark'} />
             ) : (
               <>
-                <p>{response}</p>
-                <Link to='/login'>
-                  <SubmitButton text='Iniciar Sesión' />
+                <p>{message}</p>
+                <Link to='/'>
+                  <SubmitButton text='Volver a inicio' />
                 </Link>
               </>
             )}
           </div>
         </div>
       </main>
-      {/* <Footer /> */}
+      <FooterBottom />
     </>
   );
 };

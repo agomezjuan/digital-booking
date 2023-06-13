@@ -16,10 +16,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 122px 20px 20px;
+    padding: 40px 20px 0;
     width: 100%;
     flex-grow: 1;
     background: rgba(1, 16, 27, 0.404);
+
+    .register {
+      border-radius: 5px;
+      margin-top: auto;
+      padding: 40px;
+      width: 90%;
+      max-width: 500px;
+      background: #ffffff;
+      position: relative;
+      box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+    }
   }
 }
 
@@ -31,17 +42,6 @@
   100% {
     transform: rotateZ(359deg);
   }
-}
-
-.register {
-  border-radius: 5px;
-  margin-top: auto;
-  padding: 40px;
-  width: 90%;
-  max-width: 500px;
-  background: #ffffff;
-  position: relative;
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 .register span {
