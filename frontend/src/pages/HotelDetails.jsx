@@ -15,6 +15,8 @@ import Header from '../components/Header/Header';
 import TopSection from '../components/TopSection/TopSection';
 import Stars from '../components/HotelCard/Stars/Stars';
 import HotelFeatures from '../components/HotelFeatures/HotelFeatures';
+import AvailableProductDates from '../components/AvailableProductDates/AvailableProductDates';
+import Footer from '../components/Footer/Footer';
 // import Rating from '../components/HotelCard/Rating/Rating';
 
 const HotelDetails = () => {
@@ -151,9 +153,13 @@ const HotelDetails = () => {
             <h2 className='titulo'>Detalles del producto</h2>
 
             <HotelFeatures features={[]} />
+            <div>
+              <AvailableProductDates />
+            </div>
           </div>
-
+          <div></div>
           {/* Mapa */}
+          <h2 className='titulo'>¿Donde vas a estar?</h2>
           <div className='hotel-map-container' id='map_lima'>
             <iframe
               src='https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d126450.15154039937!2d98.2114219133559!3d7.940183342931008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1685737432830!5m2!1ses!2sco'
@@ -164,6 +170,7 @@ const HotelDetails = () => {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 };
