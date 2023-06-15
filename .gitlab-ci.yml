@@ -19,7 +19,7 @@ build_frontend:
     paths:
       - ./frontend/dist/
 
-build_spring_boot:
+build_backend:
   stage: build_backend
   script:
     - mvn clean package -DskipTests=true
