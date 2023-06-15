@@ -46,6 +46,6 @@ deploy:
     - aws s3api put-object-acl --bucket bucket-grupo4-frontend --key index.html --acl public-read
     - aws s3api put-object-acl --bucket bucket-grupo4-frontend --key favicon.ico --acl public-read
     - aws s3 sync ./frontend/dist/assets s3://bucket-grupo4-frontend/assets --acl public-read
-    - aws s3 cp target/myapp.war s3://bucket-grupo4-backend/myapp.war
+    - aws s3 cp ./backend/target/DigitalBooking.war s3://bucket-grupo4-backend/DigitalBooking.war
     - aws ec2 run-instances --image-id ami-024e6efaf93d85776 --count 1 --instance-type t2.micro --key-name grupo4-keypair-ec2-backend --security-group-ids grupo4-sec-group --subnet-id subnet-07388b09d5835ee84 --associate-public-ip-address --user-data "#!/bin/bash
       wget https://s3.amazonaws.com/bucket-grupo4-backend/DigitalBooking.war -O /home/ubuntu/DigitalBooking.war java -jar /home/ubuntu/DigitalBooking.war > /home/ubuntu/app.log 2>&1 &"
