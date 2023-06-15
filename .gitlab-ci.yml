@@ -3,9 +3,16 @@ variables:
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 
 stages:
+  - setup
   - build_frontend
   - build_backend
   - deploy
+
+install_awscli:
+  stage: setup
+  image: python:latest
+  script:
+    - pip install awscli
 
 build_frontend:
   stage: build_frontend
