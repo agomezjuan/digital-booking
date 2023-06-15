@@ -1,18 +1,12 @@
 variables:
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+  AWS_REGION: $AWS_REGION
 
 stages:
-  - setup
   - build_frontend
   - build_backend
   - deploy
-
-install_awscli:
-  stage: setup
-  image: python:latest
-  script:
-    - pip install awscli
 
 build_frontend:
   stage: build_frontend
@@ -38,7 +32,9 @@ deploy:
   needs:
     - build_frontend
     - build_backend
+  image: python:latest
   script:
+    - pip install awscli
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws configure set default.region $AWS_REGION
