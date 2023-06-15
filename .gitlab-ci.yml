@@ -21,6 +21,7 @@ build_frontend:
 
 build_backend:
   stage: build_backend
+  image: maven:latest
   script:
     - mvn clean package -DskipTests=true
 
