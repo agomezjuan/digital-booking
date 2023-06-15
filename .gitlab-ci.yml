@@ -28,5 +28,5 @@ deploy_frontend:
     - aws configure set aws_secret_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws s3 sync ./frontend/dist s3://bucket-grupo4-frontend
-    - aws s3api put-bucket-acl --bucket bucket-grupo4-frontend --acl public-read --delete
+    - aws s3api put-bucket-acl --bucket bucket-grupo4-frontend --acl public-read
     
