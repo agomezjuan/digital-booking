@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
-import { Header } from '../../../components';
+import { FooterBottom, Header } from '../../../components';
 import '../Admin.scss';
 
 const AdminLayout = () => {
@@ -89,6 +89,7 @@ const AdminLayout = () => {
           </div>
         </div>
       </div>
+      <FooterBottom />
     </div>
   );
 };

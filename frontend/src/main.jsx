@@ -17,9 +17,14 @@ import { Provider } from 'react-redux';
 
 import withAuth from './HOC/withAuth';
 
+import mapboxgl from 'mapbox-gl';
+
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+
 import './index.css';
 import './sass/main.scss';
 import { CategoryFilter } from './components';
+import CreateHotel from './pages/Admin/Hotels/CreateHotel/CreateHotel';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -67,6 +72,12 @@ const App = () => {
         {
           path: 'hotels',
           element: <Hotels />,
+          children: [
+            {
+              path: 'create',
+              element: <CreateHotel />,
+            },
+          ],
         },
         {
           path: 'rooms',

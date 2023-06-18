@@ -1,0 +1,163 @@
+@use '../../../../sass/base/variables.scss' as *;
+@use '../../../../sass/base/mixins.scss' as *;
+
+.create-hotel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  @include desktop() {
+    padding: 0 20px;
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    @include large() {
+      flex-direction: row;
+      gap: 40px;
+    }
+
+    .hotel-form-container {
+      background-color: $gainsboro;
+      border-radius: 15px;
+      padding: 10px;
+      border: none;
+      outline: none;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      transition: all 0.3s ease-in-out;
+      flex: 1;
+    }
+
+    .form-group {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      gap: 10px;
+      label {
+        font-weight: 600;
+        color: $bright-navy-blue;
+      }
+
+      &-address {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        #street {
+          flex: 2;
+        }
+
+        #number {
+          flex: 1;
+        }
+
+        @include desktop() {
+          flex-direction: row;
+          &-street {
+            flex: 1;
+          }
+        }
+      }
+
+      &-country {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-city {
+          flex: 1;
+        }
+
+        @include desktop() {
+          flex-direction: row;
+          &-city {
+            flex: 1;
+          }
+        }
+      }
+
+      &-coordinates {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+
+        &-latitude {
+          flex: 1;
+        }
+
+        &-longitude {
+          flex: 1;
+        }
+      }
+
+      &-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        @include desktop() {
+          gap: 20px;
+        }
+      }
+    }
+
+    .form-control {
+      display: block;
+      padding: 8px 10px;
+      width: 100%;
+      border-radius: 2px;
+      border: 1px solid #ccc;
+      transition: border-width 0.2s ease;
+      color: $black-coral;
+      background-color: $cultured;
+
+      &:focus {
+        outline: none;
+        color: #444;
+        border-color: $bright-navy-blue;
+        border-left-width: 35px;
+      }
+    }
+  }
+
+  textarea.form-control {
+    height: 100px;
+    resize: vertical;
+  }
+}
+
+.create-hotel-map {
+  display: flex;
+  width: 100%;
+  min-height: 250px;
+  flex: 1;
+  align-items: stretch;
+  @include large() {
+    position: sticky;
+    top: 20px;
+    order: 2;
+  }
+}
+
+a.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-bottom-right {
+  display: none !important;
+}
+
+.mapboxgl-map {
+  width: 100%;
+  min-height: 250px;
+  height: 100%;
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  transition: all 0.3s ease-in-out;
+}

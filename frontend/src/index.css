@@ -166,6 +166,10 @@ body {
   background-color: var(--onyx);
 }
 
+.btn-tertiary:is(:hover, :focus) {
+  background-color: var(--jet);
+}
+
 .h1,
 .h2,
 .h3 {

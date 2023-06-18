@@ -18,15 +18,14 @@
 
   &-wrapper {
     display: flex;
-    max-width: 1800px;
     gap: 20px;
-    padding: 20px;
     flex-direction: column;
     align-items: stretch;
     flex-grow: 1;
 
     @include desktop() {
       flex-direction: row;
+      padding: 20px;
     }
   }
 
