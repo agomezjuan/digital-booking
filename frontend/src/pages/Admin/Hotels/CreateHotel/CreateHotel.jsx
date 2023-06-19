@@ -1,12 +1,14 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect, useState } from 'react';
 import { Map, Marker, Popup } from 'mapbox-gl';
-import './CreateHotel.scss';
 import { useSelector } from 'react-redux';
-import UploadImages from '../../../../components/UploadImages/UploadImages';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { getReverseGeocodingData } from '../../../../util/reverseGeocoding';
+import Swal from 'sweetalert2';
+import './CreateHotel.scss';
 
 const CreateHotel = () => {
+  const [images, setImages] = useState([]);
   const { categories } = useSelector((state) => state.category);
   const mapDiv = useRef(null);
   const {
@@ -89,6 +91,63 @@ const CreateHotel = () => {
     setValue('number', number);
   }
 
+  const handleImages = (e) => {
+    console.log('e.target.files', e.target.files);
+    const files = e.target.files;
+
+    const fileReaders = [];
+    const imageResults = [];
+    const allowedFormats = ['image/jpeg', 'image/png'];
+    const maxFiles = 10;
+
+    if (files.length > maxFiles) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `Se excede el límite máximo de ${maxFiles} archivos.`,
+        confirmButtonColor: '#3085d6',
+      });
+      setImages([]);
+      return;
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      const file = files[i];
+
+      if (!allowedFormats.includes(file.type)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          html: `El archivo ${file.name} tiene un formato no admitido.<br/>Solo se admiten archivos con formato .jpg o .png.`,
+          confirmButtonColor: '#3085d6',
+        });
+        continue; // Saltar el archivo y pasar al siguiente
+      }
+
+      register('images').onChange((e) => {
+        e.target.files = files;
+      });
+
+      reader.onloadend = () => {
+        imageResults.push(reader.result);
+
+        // Comprobar si se han leído todos los archivos
+        if (imageResults.length === files.length) {
+          // Aquí puedes hacer algo con los resultados de lectura
+          setImages(imageResults);
+          console.log('imageResults', imageResults);
+        }
+      };
+
+      // Leer el archivo actual
+      reader.readAsDataURL(file);
+
+      // Agregar el FileReader a la lista fileReaders
+      fileReaders.push(reader);
+    }
+  };
+
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -144,7 +203,7 @@ const CreateHotel = () => {
                   id='number'
                   className='form-control'
                   placeholder='Número'
-                  {...register('number', { required: true })}
+                  {...register('number')}
                 />
               </div>
             </div>
@@ -198,18 +257,33 @@ const CreateHotel = () => {
               id='description'
               className='form-control'
               placeholder='Descripción del hotel'
+              {...register('description', { required: true })}
             />
           </div>
           <div className='form-group'>
-            <label htmlFor='image'>Imagenes</label>
-            <input type='file' multiple id='images' className='hotel-images' />
+            <label htmlFor='images'>Elegir Imagenes</label>
+            <input
+              type='file'
+              id='images'
+              name='images'
+              onChange={handleImages}
+              multiple
+              style={{ display: 'none' }}
+              // {...register('images', { required: true })}
+            />
+            <div className='selected-images'>
+              {images.map((image, index) => (
+                <img src={image} alt='' key={index} />
+              ))}
+            </div>
           </div>
-
-          <UploadImages />
 
           <div className='form-group-buttons'>
             <button className='btn btn-primary'>Crear hotel</button>
-            <button className='btn btn-tertiary'>Cancelar</button>
+
+            <Link to={'/admin/hotels'} className='btn btn-tertiary'>
+              Cancelar
+            </Link>
           </div>
         </div>
       </form>
