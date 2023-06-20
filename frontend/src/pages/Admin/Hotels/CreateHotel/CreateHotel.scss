@@ -29,6 +29,9 @@
         rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
       transition: all 0.3s ease-in-out;
       flex: 1;
+      @include desktop() {
+        order: 1;
+      }
     }
 
     .form-group {
@@ -141,6 +144,7 @@
     .form-control {
       display: block;
       padding: 8px 10px;
+      font-size: 14px;
       width: 100%;
       border-radius: 2px;
       border: 1px solid #ccc;
@@ -171,7 +175,7 @@
   align-items: stretch;
   position: relative;
   @include desktop() {
-    order: 2;
+    order: 1;
   }
 }
 
@@ -191,6 +195,9 @@ a.mapboxgl-ctrl-logo,
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
     rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   transition: all 0.3s ease-in-out;
+  @include tablet() {
+    height: 350px;
+  }
   @include desktop() {
     position: sticky;
     top: 30px;
@@ -198,3 +205,37 @@ a.mapboxgl-ctrl-logo,
     max-height: 500px;
   }
 }
+
+// .css-1hmgytg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+//   border-radius: 10px;
+//   &-:hover {
+//     border-color: $bright-navy-blue;
+//   }
+// }
+
+// .MuiSelect-select {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiSelect-outlined {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiSelect-multiple {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiInputBase-input {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiOutlinedInput-input {
+//   border-color: $bright-navy-blue;
+// }
+// .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiFormControl-root.css-1t9nedf-MuiFormControl-root {
+//   border-color: $bright-navy-blue !important;
+// }

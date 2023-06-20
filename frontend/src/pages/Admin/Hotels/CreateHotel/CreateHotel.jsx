@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { getReverseGeocodingData } from '../../../../util/reverseGeocoding';
 import Swal from 'sweetalert2';
 import './CreateHotel.scss';
+import MultiSelectChips from '../../../../components/MultiSelectChips/MultiSelectChips';
+import { features } from '../../../../mocks/features';
 
 const CreateHotel = () => {
   const [images, setImages] = useState([]);
@@ -15,6 +17,7 @@ const CreateHotel = () => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
     setValue,
     getValues,
   } = useForm({
@@ -23,12 +26,15 @@ const CreateHotel = () => {
       category: '',
       street: '',
       number: '',
+      state: '',
+      zipcode: '',
       city: '',
       country: '',
       longitude: -57.98310726304649,
       latitude: -34.80738384249134,
       phone: '',
       email: '',
+      features: [],
       description: '',
       price: '',
       images: [],
@@ -36,6 +42,7 @@ const CreateHotel = () => {
   });
 
   useLayoutEffect(() => {
+    // Mapbox. Creacion del mapa
     const map = new Map({
       container: mapDiv.current,
       style: 'mapbox://styles/mapbox/streets-v12',
@@ -44,18 +51,25 @@ const CreateHotel = () => {
       navigationControl: true,
     });
 
+    // Nombre del hotel, para mostrar en el popup.
+    // Está siendo tomado desde el formulario
     const name = getValues('name');
 
+    // Creación del popup. Mostrará el nombre del hotel
     const myPopup = new Popup({ offset: 25 }).setHTML(`<h4>${name}</h4>`);
-    const marker = new Marker({ color: '#41add8' })
+    // Creación del marcador
+    const marker = new Marker({ color: '#41add8', draggable: true })
       .setLngLat([-57.98310726304649, -34.80738384249134])
       .setPopup(myPopup)
       .addTo(map);
 
+    // Eventos del mapa
+    // Al hacer click en el mapa, se obtienen los datos de la dirección
     map.on('click', (e) => reverseGeocode(e, marker, map));
     map.on('dragend', (e) => reverseGeocode(e, marker, map));
 
     return () => {
+      // Al desmontar el componente, se remueven el mapa y el marcador
       map.remove();
       marker.remove();
     };
@@ -76,23 +90,22 @@ const CreateHotel = () => {
       zoom: 12,
     });
 
+    // Setear los valores de las coordenadas en el formulario
     setValue('longitude', coordinates.lng);
     setValue('latitude', coordinates.lat);
-    const { country, city, street, number } = await getReverseGeocodingData(
-      coordinates,
-    );
-
-    console.log('address', coordinates);
+    const { country, city, street, number, state, postalCode } =
+      await getReverseGeocodingData(coordinates);
 
     // Setear los valores en el formulario
     setValue('country', country);
     setValue('city', city);
     setValue('street', street);
     setValue('number', number);
+    setValue('state', state);
+    setValue('zipcode', postalCode);
   }
 
   const handleImages = (e) => {
-    console.log('e.target.files', e.target.files);
     const files = e.target.files;
 
     const fileReaders = [];
@@ -150,6 +163,7 @@ const CreateHotel = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    alert(JSON.stringify(data));
   };
 
   return (
@@ -186,7 +200,7 @@ const CreateHotel = () => {
             </select>
           </div>
           <div className='form-group'>
-            <label htmlFor='address'>Dirección</label>
+            <label htmlFor='street'>Dirección</label>
             <div className='form-group-address'>
               <div className='form-group-address-street'>
                 <input
@@ -220,6 +234,26 @@ const CreateHotel = () => {
               <div className='form-group-country-city'>
                 <input
                   type='text'
+                  id='zipcode'
+                  className='form-control'
+                  placeholder='Código Postal'
+                  {...register('zipcode', { required: true })}
+                />
+              </div>
+            </div>
+            <div className='form-group-country'>
+              <div className='form-group-country-city'>
+                <input
+                  type='text'
+                  id='state'
+                  className='form-control'
+                  placeholder='Estado/Provincia'
+                  {...register('state', { required: true })}
+                />
+              </div>
+              <div className='form-group-country-city'>
+                <input
+                  type='text'
                   id='country'
                   className='form-control'
                   placeholder='País'
@@ -229,7 +263,7 @@ const CreateHotel = () => {
             </div>
           </div>
           <div className='form-group'>
-            <label htmlFor='phone'>Coordenadas</label>
+            <label htmlFor='latitude'>Coordenadas</label>
             <div className='form-group-coordinates'>
               <div className='form-group-coordinates-latitude'>
                 <input
@@ -259,6 +293,37 @@ const CreateHotel = () => {
               placeholder='Descripción del hotel'
               {...register('description', { required: true })}
             />
+          </div>
+          <div className='form-group'>
+            <label htmlFor='features'>Características</label>
+            <MultiSelectChips
+              name={'features'}
+              control={control}
+              options={features}
+            />
+          </div>
+          <div className='form-group'>
+            <label htmlFor='adult-price'>Precios ($)</label>
+            <div className='form-group-coordinates'>
+              <div className='form-group-coordinates-latitude'>
+                <input
+                  type='text'
+                  id='adult-price'
+                  className='form-control'
+                  placeholder='Adultos'
+                  {...register('adult-price', { required: true })}
+                />
+              </div>
+              <div className='form-group-coordinates-longitude'>
+                <input
+                  type='text'
+                  id='children-price'
+                  className='form-control'
+                  placeholder='Niños'
+                  {...register('children-price', { required: true })}
+                />
+              </div>
+            </div>
           </div>
           <div className='form-group'>
             <label htmlFor='images'>Elegir Imagenes</label>

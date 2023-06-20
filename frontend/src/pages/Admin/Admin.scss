@@ -93,6 +93,9 @@
   &-content {
     width: 100%;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
     h2 {
       font-size: 24px;
       line-height: 29px;
@@ -186,8 +189,18 @@
             padding: 10px;
             width: 100%;
 
+            h3 {
+              transition: all 0.3s ease-in-out;
+            }
+
+            &:hover h3 {
+              color: $bright-navy-blue;
+              transition: all 0.3s ease-in-out;
+            }
+
             p {
               @include truncate();
+              color: $onyx;
             }
           }
         }
@@ -196,15 +209,21 @@
           display: flex;
           align-items: center;
           gap: 10px;
-          padding: 10px;
+          padding: 10px 20px;
 
-          a > ion-icon {
-            font-size: 20px;
-            color: $onyx;
+          a {
+            color: $bright-navy-blue;
+            transition: all 0.3s ease-in-out;
+            font-size: 25px;
             cursor: pointer;
             &:hover {
-              color: $blue-ncs;
+              color: $onyx;
+              transform: scale(1.1);
+              transition: all 0.3s ease-in-out;
             }
+          }
+          .trash:hover {
+            color: red;
           }
         }
       }

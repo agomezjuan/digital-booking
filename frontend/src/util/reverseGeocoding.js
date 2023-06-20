@@ -8,10 +8,18 @@ export async function getReverseGeocodingData(lngLat) {
 
     const features = data.features;
 
+    console.log('features', features);
+
     if (features.length > 0) {
       // Obtener el primer lugar y extraer información de ubicación
       const place = features[0];
       const country = place?.context.find((c) => c.id.startsWith('country'));
+      const state = place?.context.find((c) => c.id.startsWith('region'));
+      const postalCode = place?.context.find((c) =>
+        c.id.startsWith('postcode'),
+      );
+
+      console.log('postalcode', postalCode);
       const city = place?.context.find((c) => c.id.startsWith('place'));
       const street = place?.text || '';
       const number =
@@ -21,6 +29,8 @@ export async function getReverseGeocodingData(lngLat) {
 
       return {
         country: country.text ?? '',
+        state: state?.text ?? city?.text ?? '',
+        postalCode: postalCode?.text ?? '',
         city: city.text ?? '',
         street: street.replace(number, '').trim(),
         number,
@@ -28,6 +38,8 @@ export async function getReverseGeocodingData(lngLat) {
     } else {
       return {
         country: '',
+        state: '',
+        postalCode: '',
         city: '',
         street: '',
         number: '',

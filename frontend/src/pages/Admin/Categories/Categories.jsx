@@ -88,10 +88,14 @@ const Categories = () => {
                 </div>
                 <div className='admin-content-category-block-actions'>
                   <Link to={`/admin/categories/${category.id}/edit`}>
-                    <ion-icon name='create-outline'></ion-icon>
+                    <ion-icon name='create'></ion-icon>
                   </Link>
-                  <Link to={''} onClick={() => handleDelete(category.id)}>
-                    <ion-icon name='trash-outline'></ion-icon>
+                  <Link
+                    className='trash'
+                    to={''}
+                    onClick={() => handleDelete(category.id)}
+                  >
+                    <ion-icon name='trash'></ion-icon>
                   </Link>
                 </div>
               </div>
