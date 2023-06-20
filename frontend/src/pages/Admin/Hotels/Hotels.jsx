@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 const Hotels = () => {
   return (
@@ -14,11 +14,14 @@ const Hotels = () => {
           </div>
         </div>
         <div className='admin-content-header-actions'>
-          <Link to='/admin/users/create' className='btn btn-primary'>
+          <Link to='/admin/hotels/create' className='btn btn-primary'>
             <ion-icon name='add-outline'></ion-icon>
             <span>Crear</span>
           </Link>
         </div>
+      </div>
+      <div className='admin-content-body'>
+        <Outlet />
       </div>
     </>
   );

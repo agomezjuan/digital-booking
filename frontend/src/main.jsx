@@ -17,9 +17,15 @@ import { Provider } from 'react-redux';
 
 import withAuth from './HOC/withAuth';
 
+import mapboxgl from 'mapbox-gl';
+
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+
 import './index.css';
 import './sass/main.scss';
 import { CategoryFilter } from './components';
+import CreateHotel from './pages/Admin/Hotels/CreateHotel/CreateHotel';
+import CreateCategory from './pages/Admin/Categories/CreateCategory.jsx/CreateCategory';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -63,10 +69,26 @@ const App = () => {
         {
           path: 'categories',
           element: <Categories />,
+          children: [
+            {
+              path: 'create',
+              element: <CreateCategory />,
+            },
+            {
+              path: ':id/edit',
+              element: <div>Edit Category</div>,
+            },
+          ],
         },
         {
           path: 'hotels',
           element: <Hotels />,
+          children: [
+            {
+              path: 'create',
+              element: <CreateHotel />,
+            },
+          ],
         },
         {
           path: 'rooms',
