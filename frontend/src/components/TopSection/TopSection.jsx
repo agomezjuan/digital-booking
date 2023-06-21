@@ -1,4 +1,4 @@
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import './TopSection.scss';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -17,6 +17,12 @@ const TopSection = ({ hotelName }) => {
     document.title = category?.name ?? 'Categoría';
   }, [name, categories]);
 
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className='top-section'>
       <div className='container'>
@@ -33,6 +39,9 @@ const TopSection = ({ hotelName }) => {
               <h2>{hotelName}</h2>
             </>
           )}
+        </div>
+        <div className='top-section-back' onClick={goBack}>
+          <ion-icon name='chevron-back-outline'></ion-icon>
         </div>
       </div>
     </div>

@@ -80,6 +80,7 @@
 .hotel-galeria-main img {
   width: 100%;
   height: 100%;
+  cursor: pointer;
   object-fit: cover;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
@@ -116,28 +117,43 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
 }
 
-.hotel-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  color: #fff;
-  cursor: pointer;
-}
-
 .hotel-carousel {
   position: relative;
+  .hotel-close {
+    position: absolute;
+    margin: 0;
+    right: 10px;
+    font-size: 32px;
+    color: $bright-navy-blue;
+    background-color: $gainsboro;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      background-color: $bright-navy-blue;
+      color: $gainsboro;
+    }
+  }
 }
 
 .hotel-carousel-slide {
   display: none;
+}
+
+.hotel-carousel-slide img {
+  width: 100%;
+  aspect-ratio: 900 / 600;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .hotel-carousel-slide.active {
@@ -160,6 +176,47 @@
   left: 0;
   right: 0;
   text-align: center;
+
+  &-arrows {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+
+    .hotel-carousel-arrow-left,
+    .hotel-carousel-arrow-right {
+      position: absolute;
+      background-color: $gainsboro;
+      color: $bright-navy-blue;
+      width: 50px;
+      height: 50px;
+      top: calc(50% - 20px);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      &:hover {
+        background-color: $bright-navy-blue;
+        color: $white;
+      }
+    }
+    .hotel-carousel-arrow-left {
+      padding-right: 5px;
+      left: 80px;
+    }
+
+    .hotel-carousel-arrow-right {
+      padding-left: 5px;
+      right: 80px;
+    }
+  }
 }
 
 .hotel-carousel-dot {
@@ -169,6 +226,7 @@
   border-radius: 50%;
   background-color: #fff;
   margin: 0 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
@@ -206,6 +264,9 @@
   color: #383b58;
   gap: 6px;
   padding: 15px;
+  .address {
+    cursor: pointer;
+  }
 }
 
 .share {
