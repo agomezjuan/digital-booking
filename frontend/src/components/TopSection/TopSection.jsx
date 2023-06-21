@@ -27,7 +27,7 @@ const TopSection = ({ hotelName }) => {
     <div className='top-section'>
       <div className='container'>
         <div className='top-section-title'>
-          {location.pathname === '/categories' ? (
+          {location.pathname === '/category' ? (
             <>
               <span>Categoría</span>
               <h2>{name}</h2>
