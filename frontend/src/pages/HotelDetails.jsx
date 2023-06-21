@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './HotelDetails.scss';
 
 import foto1 from '../assets/images/foto-1.jpg';
@@ -17,13 +17,24 @@ import Stars from '../components/HotelCard/Stars/Stars';
 import HotelFeatures from '../components/HotelFeatures/HotelFeatures';
 import AvailableProductDates from '../components/AvailableProductDates/AvailableProductDates';
 import Footer from '../components/Footer/Footer';
-// import Rating from '../components/HotelCard/Rating/Rating';
+import { hotels } from '../mocks/hotels';
+import { useParams } from 'react-router-dom';
 
 const HotelDetails = () => {
   const imagenes = [foto1, foto2, foto3, foto4, foto5, foto6];
   const [showLightbox, setShowLightbox] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselImages = [foto7, foto8, foto9, foto10];
+
+  const { id } = useParams();
+  console.log(id);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const hotel = hotels.find((hotel) => hotel.id == id);
+  const { city, country } = hotel.location;
 
   const openLightbox = () => {
     setShowLightbox(true);
@@ -47,12 +58,19 @@ const HotelDetails = () => {
   return (
     <>
       <Header />
-      <TopSection />
+      <TopSection hotelName={hotel.name} />
       <div className='hotel'>
         <div className='hotel-location'>
           <div className='container'>
             <div>
-              <p>Ciudad, direccion</p>
+              <p>
+                <span
+                  style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+                >
+                  <ion-icon name='location'></ion-icon>
+                  {city}, {country}
+                </span>
+              </p>
               <p>Distancia desde el centro</p>
             </div>
             <div>
@@ -67,19 +85,24 @@ const HotelDetails = () => {
                   <span>7</span>
                 </div>
               </div>
-
-              {/* aahdjad */}
             </div>
           </div>
         </div>
       </div>
       <div className='container'>
+        <div className='share'>
+          <span className='icon'>
+            <ion-icon name='share-social-outline'></ion-icon>
+          </span>
+          <span className='icon'>
+            <ion-icon name='heart-outline'></ion-icon>
+          </span>
+        </div>
         <section className='hotel-gallery' id='hotel-portafolio'>
-          <div className='hotel-containers'>
-            <h2 className='hotel-subtitulo'>KEEMALA</h2>
+          <div className='hotel-container'>
             <div className='hotel-galeria-container'>
               <div className='hotel-galeria-main'>
-                <img src={imagenes[0]} alt='Foto 1' />
+                <img src={imagenes[0]} alt='Foto 1' onClick={openLightbox} />
               </div>
               <div className='hotel-galeria-more'>
                 {imagenes.map((imagen, index) => {
@@ -141,35 +164,34 @@ const HotelDetails = () => {
 
           <div className='hotel-product-description'>
             <h2 className='titulo'>Descripcion del producto</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus
-              magni officia, velit ullam aliquam eius modi quibusdam accusantium
-              unde placeat pariatur perferendis doloremque consectetur suscipit
-              magnam sit dignissimos, quaerat soluta.
-            </p>
+            {hotel.description.split('.').map((parrafo, index) => (
+              <p key={index}>{parrafo}.</p>
+            ))}
           </div>
 
           <div className='hotel-product-details'>
             <h2 className='titulo'>Detalles del producto</h2>
 
             <HotelFeatures features={[]} />
-            <div>
-              <AvailableProductDates />
-            </div>
-          </div>
-          <div></div>
-          {/* Mapa */}
-          <h2 className='titulo'>¿Donde vas a estar?</h2>
-          <div className='hotel-map-container' id='map_lima'>
-            <iframe
-              src='https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d126450.15154039937!2d98.2114219133559!3d7.940183342931008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1685737432830!5m2!1ses!2sco'
-              style={{ border: 0 }}
-              allowfullscreen=''
-              loading='lazy'
-            ></iframe>
           </div>
         </section>
       </div>
+
+      <AvailableProductDates />
+
+      <div className='container'>
+        {/* Mapa */}
+        <h2 className='titulo'>¿Donde vas a estar?</h2>
+        <div className='hotel-map-container' id='map_lima'>
+          <iframe
+            src='https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d126450.15154039937!2d98.2114219133559!3d7.940183342931008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1685737432830!5m2!1ses!2sco'
+            style={{ border: 0 }}
+            allowfullscreen=''
+            loading='lazy'
+          ></iframe>
+        </div>
+      </div>
+
       <Footer />
     </>
   );

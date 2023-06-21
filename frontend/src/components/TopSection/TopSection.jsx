@@ -2,7 +2,10 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import './TopSection.scss';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-const TopSection = () => {
+
+import PropTypes from 'prop-types';
+
+const TopSection = ({ hotelName }) => {
   const [params] = useSearchParams();
   const location = useLocation();
   const name = params.get('name') ?? '';
@@ -27,13 +30,17 @@ const TopSection = () => {
           ) : (
             <>
               <span>Hotel</span>
-              <h2>Almirante</h2>
+              <h2>{hotelName}</h2>
             </>
           )}
         </div>
       </div>
     </div>
   );
+};
+
+TopSection.propTypes = {
+  hotelName: PropTypes.string,
 };
 
 export default TopSection;
