@@ -51,7 +51,7 @@ const App = () => {
       element: <CategoryFilter />,
     },
     {
-      path: '/hotel',
+      path: '/hotel/:id',
       element: <HotelDetails />,
     },
     {

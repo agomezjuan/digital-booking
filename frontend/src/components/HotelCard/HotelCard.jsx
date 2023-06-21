@@ -7,7 +7,7 @@ import './HotelCard.scss';
 import Favorite from './Favorite/Favorite';
 
 const HotelCard = ({ hotel }) => {
-  const { name, description, image, rating, location } = hotel;
+  const { id, name, description, image, rating, location } = hotel;
   return (
     <li>
       <div className='package-card'>
@@ -28,7 +28,7 @@ const HotelCard = ({ hotel }) => {
           <MetaList location={location} time={'3N/2D'} />
           <p className='card-text'>{description}</p>
 
-          <LinkButton link='/hotel' text='Ver más' primary />
+          <LinkButton link={`/hotel/${id}`} text='Ver más' primary />
         </div>
         {/* <div className='card-price'>
                 <div className='wrapper'>

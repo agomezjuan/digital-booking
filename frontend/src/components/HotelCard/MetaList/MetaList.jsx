@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 
 const MetaList = ({ location, people, time }) => {
+  const { city, country } = location;
   return (
     <ul className='card-meta-list'>
       {time && (
@@ -23,7 +24,9 @@ const MetaList = ({ location, people, time }) => {
         <li className='card-meta-item'>
           <div className='meta-box'>
             <ion-icon name='location'></ion-icon>
-            <p className='text'>{location}</p>
+            <p className='text'>
+              {city}, {country}
+            </p>
           </div>
         </li>
       )}
