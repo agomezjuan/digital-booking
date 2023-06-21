@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const TopSection = ({ hotelName }) => {
   const [params] = useSearchParams();
-  const location = useLocation();
+  const { pathname } = useLocation();
   const name = params.get('name') ?? '';
   const { categories } = useSelector((state) => state.category);
   const [category, setCategory] = useState({});
@@ -20,14 +20,14 @@ const TopSection = ({ hotelName }) => {
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate(-1);
+    pathname === '/category' ? navigate('/') : navigate(-1);
   };
 
   return (
     <div className='top-section'>
       <div className='container'>
         <div className='top-section-title'>
-          {location.pathname === '/category' ? (
+          {pathname === '/category' ? (
             <>
               <span>Categoría</span>
               <h2>{name}</h2>

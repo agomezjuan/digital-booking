@@ -106,9 +106,13 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 .hotel-img-galeria {
+  width: calc(50% - 20px);
   height: auto;
   object-fit: cover;
   cursor: pointer;
+  @include tablet() {
+    height: 100%;
+  }
 }
 
 .hotel-imagen-lightbox {
@@ -234,20 +238,6 @@
   background-color: $bright-navy-blue;
 }
 
-.hotel-map-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  height: 500px;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-}
-.hotel-map-container iframe {
-  width: 100%;
-  height: 100%;
-}
-
 .hotel-location {
   width: 100%;
   display: flex;
@@ -300,8 +290,23 @@
   }
 }
 
-@media screen and (max-width: 768px) {
-  .hotel-img-galeria {
-    width: calc(50% - 20px);
+.map-section {
+  padding: 40px 0px;
+
+  &-title {
+    border-bottom: 2px solid $bright-navy-blue;
+    margin-bottom: 20px;
+  }
+
+  .titulo {
+    font-size: 20px;
+    color: $gunmetal;
+    margin-bottom: 10px;
+  }
+
+  h5 {
+    font-size: 16px;
+    color: $gunmetal;
+    margin-bottom: 20px;
   }
 }

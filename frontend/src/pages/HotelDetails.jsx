@@ -15,6 +15,7 @@ import AvailableProductDates from '../components/AvailableProductDates/Available
 import Footer from '../components/Footer/Footer';
 import { hotels } from '../mocks/hotels';
 import { useParams } from 'react-router-dom';
+import { HotelMap } from '../components';
 
 const HotelDetails = () => {
   const imagenes = [foto1, foto2, foto3, foto4, foto5, foto6];
@@ -216,29 +217,43 @@ const HotelDetails = () => {
               <p key={index}>{parrafo}.</p>
             ))}
           </div>
-
-          <div className='hotel-product-details'>
-            <h2 className='titulo'>Detalles del producto</h2>
-
-            <HotelFeatures features={[]} />
-          </div>
         </section>
       </div>
 
-      <AvailableProductDates />
-
-      <div className='container'>
-        {/* Mapa */}
-        <h2 className='titulo'>¿Donde vas a estar?</h2>
-        <div ref={mapRef} className='hotel-map-container' id='map_lima'>
-          <iframe
-            src='https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d126450.15154039937!2d98.2114219133559!3d7.940183342931008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1685737432830!5m2!1ses!2sco'
-            style={{ border: 0 }}
-            loading='lazy'
-          ></iframe>
-        </div>
+      {/* Detalles del producto */}
+      <div className='hotel-product-details'>
+        <HotelFeatures
+          features={[
+            'Aire acondicionado',
+            'Cocina equipada',
+            'Wi-Fi',
+            'Piscina',
+            'TV por cable',
+          ]}
+        />
       </div>
 
+      {/* Calendario de fechas disponibles */}
+      <AvailableProductDates />
+
+      {/* Mapa */}
+      <div ref={mapRef} className='map-section'>
+        <div className='map-section-title'>
+          <div className='container'>
+            <h2 className='titulo'>¿Donde vas a estar?</h2>
+          </div>
+        </div>
+        <div className='container'>
+          <h5>
+            {city}, {country}
+          </h5>
+          {/* Mapa */}
+          <HotelMap
+            name={hotel.name}
+            location={[-57.98310726304649, -34.80738384249134]}
+          />
+        </div>
+      </div>
       <Footer />
     </>
   );
