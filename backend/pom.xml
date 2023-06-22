@@ -12,7 +12,7 @@
 	<groupId>com.dh.pi.backend</groupId>
 	<artifactId>app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>app</name>
 	<description>Proyecto Integrador Camada 7 - Grupo 4</description>
 	<properties>
