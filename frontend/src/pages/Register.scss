@@ -7,9 +7,67 @@
   flex-grow: 1;
   flex-direction: column;
   padding-top: 122px;
-  background: url('https://e00-telva.uecdn.es/assets/multimedia/imagenes/2020/04/08/15863625342920.jpg')
+  background: url('https://bucket-grupo4-assets.s3.amazonaws.com/login-bg.png')
     50% fixed;
   background-size: cover;
+
+  .bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: brightness(0.6);
+    z-index: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 5;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation: pulse 2.5s infinite;
+    background-color: var(--text-color);
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  &.loaded::before {
+    animation: none;
+    content: none;
+  }
+
+  .bg {
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
+  }
+
+  &.loaded .bg {
+    opacity: 1;
+  }
 
   .wrapper {
     display: flex;
@@ -148,6 +206,7 @@
   margin-bottom: 40px;
   text-align: center;
   color: #fff;
+  z-index: 1;
 }
 
 .register-social-icons {

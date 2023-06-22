@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { resetUserError } from '../store/slices/authSlice';
 import SubmitButton from '../components/SubmitButton/SubmitButton';
 import SocialIcons from '../components/SocialIcons/SocialIcons';
+import backgroundImg from '../assets/images/login-bg.jpg';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,19 @@ const Login = () => {
   });
 
   useEffect(() => {
+    const loginDiv = document.querySelector('.login-body');
+    const background = loginDiv.querySelector('.bg');
+
+    function loaded() {
+      loginDiv.classList.add('loaded');
+    }
+
+    if (background.complete) {
+      loaded();
+    } else {
+      background.addEventListener('load', loaded);
+    }
+
     if (isLoggedIn) {
       navigate('/');
     }
@@ -70,6 +84,7 @@ const Login = () => {
         <Header />
       </div>
       <div className='login-body'>
+        <img src={backgroundImg} className='bg' loading='lazy' />
         <div className='wrapper'>
           <form className={`login`} onSubmit={handleSubmit(onSubmit)}>
             <p className='title'>Iniciar Sesión</p>
