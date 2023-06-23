@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import './CreateHotel.scss';
 import MultiSelectChips from '../../../../components/MultiSelectChips/MultiSelectChips';
 import { features } from '../../../../mocks/features';
+import { policies } from '../../../../mocks/policies';
 
 const CreateHotel = () => {
   const [images, setImages] = useState([]);
@@ -24,20 +25,24 @@ const CreateHotel = () => {
     defaultValues: {
       name: '',
       category: '',
-      street: '',
-      number: '',
-      state: '',
-      zipcode: '',
-      city: '',
-      country: '',
-      longitude: -57.98310726304649,
-      latitude: -34.80738384249134,
+      street: '', // Address
+      number: '', // Address
+      state: '', // Address
+      zipcode: '', // Address
+      city: '', // Address
+      country: '', // Address
+      longitude: -57.98310726304649, // Address
+      latitude: -34.80738384249134, // Address
       phone: '',
       email: '',
       features: [],
       description: '',
-      price: '',
+      adultPrice: '',
+      childPrice: '',
       images: [],
+      rules: '',
+      security: '',
+      cancellation: '',
     },
   });
 
@@ -163,7 +168,12 @@ const CreateHotel = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    alert(JSON.stringify(data));
+  };
+
+  const chooseStandardPolicies = () => {
+    setValue('rules', policies.rules);
+    setValue('security', policies.security);
+    setValue('cancellation', policies.cancellation);
   };
 
   return (
@@ -175,6 +185,7 @@ const CreateHotel = () => {
           <div ref={mapDiv}></div>
         </div>
         <div className='hotel-form-container'>
+          {/* Nombre del hotel */}
           <div className='form-group'>
             <label htmlFor='name'>Nombre</label>
             <input
@@ -188,6 +199,7 @@ const CreateHotel = () => {
               <span className='text-danger'>Este campo es obligatorio</span>
             )}
           </div>
+          {/* Categoría */}
           <div className='form-group'>
             <label htmlFor='category'>Categoría</label>
             <select id='category' className='form-control'>
@@ -199,6 +211,7 @@ const CreateHotel = () => {
               ))}
             </select>
           </div>
+          {/* Dirección bloque calle */}
           <div className='form-group'>
             <label htmlFor='street'>Dirección</label>
             <div className='form-group-address'>
@@ -211,6 +224,7 @@ const CreateHotel = () => {
                   {...register('street', { required: true })}
                 />
               </div>
+              {/* Dirección bloque numero */}
               <div className='form-group-address-street'>
                 <input
                   type='text'
@@ -221,6 +235,7 @@ const CreateHotel = () => {
                 />
               </div>
             </div>
+            {/* Dirección bloque ciudad */}
             <div className='form-group-country'>
               <div className='form-group-country-city'>
                 <input
@@ -231,6 +246,7 @@ const CreateHotel = () => {
                   {...register('city', { required: true })}
                 />
               </div>
+              {/* Dirección bloque código postal */}
               <div className='form-group-country-city'>
                 <input
                   type='text'
@@ -241,6 +257,7 @@ const CreateHotel = () => {
                 />
               </div>
             </div>
+            {/* Dirección bloque estado/provincia */}
             <div className='form-group-country'>
               <div className='form-group-country-city'>
                 <input
@@ -251,6 +268,7 @@ const CreateHotel = () => {
                   {...register('state', { required: true })}
                 />
               </div>
+              {/* Dirección bloque país */}
               <div className='form-group-country-city'>
                 <input
                   type='text'
@@ -262,9 +280,11 @@ const CreateHotel = () => {
               </div>
             </div>
           </div>
+          {/* Coordenadas */}
           <div className='form-group'>
             <label htmlFor='latitude'>Coordenadas</label>
             <div className='form-group-coordinates'>
+              {/* Latitud */}
               <div className='form-group-coordinates-latitude'>
                 <input
                   type='text'
@@ -274,6 +294,7 @@ const CreateHotel = () => {
                   {...register('latitude', { required: true })}
                 />
               </div>
+              {/* Longitud */}
               <div className='form-group-coordinates-longitude'>
                 <input
                   type='text'
@@ -285,6 +306,7 @@ const CreateHotel = () => {
               </div>
             </div>
           </div>
+          {/* Descripción */}
           <div className='form-group'>
             <label htmlFor='description'>Descripción</label>
             <textarea
@@ -294,6 +316,7 @@ const CreateHotel = () => {
               {...register('description', { required: true })}
             />
           </div>
+          {/* Características */}
           <div className='form-group'>
             <label htmlFor='features'>Características</label>
             <MultiSelectChips
@@ -302,29 +325,33 @@ const CreateHotel = () => {
               options={features}
             />
           </div>
+          {/* Precios */}
           <div className='form-group'>
             <label htmlFor='adult-price'>Precios ($)</label>
-            <div className='form-group-coordinates'>
-              <div className='form-group-coordinates-latitude'>
+            <div className='form-group-prices'>
+              {/* Precio adultos */}
+              <div className='form-group-prices-adults'>
                 <input
                   type='text'
                   id='adult-price'
                   className='form-control'
                   placeholder='Adultos'
-                  {...register('adult-price', { required: true })}
+                  {...register('adultPrice', { required: true })}
                 />
               </div>
-              <div className='form-group-coordinates-longitude'>
+              {/* Precio niños */}
+              <div className='form-group-prices-children'>
                 <input
                   type='text'
                   id='children-price'
                   className='form-control'
                   placeholder='Niños'
-                  {...register('children-price', { required: true })}
+                  {...register('childPrice', { required: true })}
                 />
               </div>
             </div>
           </div>
+
           <div className='form-group'>
             <label htmlFor='images'>Elegir Imagenes</label>
             <input
@@ -343,6 +370,34 @@ const CreateHotel = () => {
             </div>
           </div>
 
+          {/* Políticas */}
+
+          <div className='form-group'>
+            <label htmlFor='policies'>
+              Políticas{' '}
+              <span onClick={chooseStandardPolicies}>
+                Elegir política standar de Digital Booking
+              </span>
+            </label>
+            <textarea
+              id='rules'
+              className='form-control'
+              placeholder='Normas del hotel'
+              {...register('rules', { required: true })}
+            />
+            <textarea
+              id='security'
+              className='form-control'
+              placeholder='Politicás de seguridad'
+              {...register('security', { required: true })}
+            />
+            <textarea
+              id='cancelation'
+              className='form-control'
+              placeholder='Política de cancelación'
+              {...register('cancellation', { required: true })}
+            />
+          </div>
           <div className='form-group-buttons'>
             <button className='btn btn-primary'>Crear hotel</button>
 
