@@ -37,12 +37,14 @@ const Header = () => {
             <div className='header-btn-group'>
               {isRegisterPage ? null : (
                 <Link to='/register' className='btn btn-secondary'>
-                  Crear cuenta
+                  <ion-icon name='person-add'></ion-icon>
+                  <span>Crear cuenta</span>
                 </Link>
               )}
               {isLoginPage ? null : (
                 <Link to='/login' className='btn btn-primary'>
-                  Iniciar sesión
+                  <ion-icon name='log-in'></ion-icon>
+                  <span>Iniciar sesión</span>
                 </Link>
               )}
               {/* <button className='search-btn' aria-label='Search'>
