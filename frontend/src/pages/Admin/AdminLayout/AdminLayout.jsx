@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { FooterBottom, Header } from '../../../components';
+import { FooterBottom, Header, TopAdmin } from '../../../components';
 import '../Admin.scss';
 import SidebarProvider from '../../../contexts/SidebarContext';
 import SidebarMenu from '../../../components/SidebarMenu/SidebarMenu';
@@ -9,6 +9,7 @@ const AdminLayout = () => {
   return (
     <div>
       <Header />
+      <TopAdmin />
       <div className='admin'>
         <div className='admin-container'>
           <SidebarProvider>

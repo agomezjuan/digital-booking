@@ -16,7 +16,7 @@ const MetaList = ({ location, people, time }) => {
         <li className='card-meta-item'>
           <div className='meta-box'>
             <ion-icon name='people'></ion-icon>
-            <p className='text'>pax: {people}</p>
+            {/* <p className='text'>pax: {people}</p> */}
           </div>
         </li>
       )}
@@ -35,7 +35,7 @@ const MetaList = ({ location, people, time }) => {
 };
 
 MetaList.propTypes = {
-  location: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
   people: PropTypes.number,
   time: PropTypes.string,
 };
