@@ -1,0 +1,33 @@
+@use '../../../sass/base/variables.scss' as *;
+@use '../../../sass/base/mixins.scss' as *;
+
+.admin-statistics {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 0 20px;
+  @include tablet() {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include desktop() {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  &-card {
+    border-radius: 10px;
+    background-color: $gainsboro;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 20px 36px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+  }
+}

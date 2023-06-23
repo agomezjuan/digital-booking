@@ -37,6 +37,7 @@
           img {
             height: 100px;
             width: auto;
+            object-fit: contain;
             cursor: pointer;
           }
         }
@@ -132,6 +133,18 @@
 .header-btn-group {
   display: flex;
   align-items: center;
+  ion-icon {
+    font-size: 18px;
+    @include tablet() {
+      display: none;
+    }
+  }
+  span {
+    display: none;
+    @include tablet() {
+      display: block;
+    }
+  }
 }
 
 .search-btn {

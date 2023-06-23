@@ -238,17 +238,6 @@ body {
   border-bottom: 1px solid hsla(0, 0%, 100%, 0.1); /* revisar para que no se superponga*/
 }
 
-.header-top {
-  /* position: absolute;
-  top: 0;
-  left: 0; */
-  width: 100%;
-  transition: var(--transition);
-  border-bottom: 1px solid hsla(0, 0%, 100%, 0); /* revisar para que no se superponga*/
-  padding-block: 15px;
-  z-index: 1;
-}
-
 .header.active .header-top {
   position: fixed;
   background: var(--gunmetal);
