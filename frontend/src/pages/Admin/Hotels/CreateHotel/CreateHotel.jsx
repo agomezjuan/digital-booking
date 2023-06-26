@@ -7,16 +7,24 @@ import { getReverseGeocodingData } from '../../../../util/reverseGeocoding';
 import Swal from 'sweetalert2';
 import './CreateHotel.scss';
 import MultiSelectChips from '../../../../components/MultiSelectChips/MultiSelectChips';
-import { features } from '../../../../mocks/features';
 import { policies } from '../../../../mocks/policies';
 import { createHotel } from '../../../../store/actions/hotelActions';
+import { getCategories } from '../../../../store/actions/categoryActions';
+import { getFeatures } from '../../../../store/actions/featureActions';
 
 const CreateHotel = () => {
+  // Inicializar los hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
   const [imgFiles, setImgFiles] = useState([]);
   const { categories } = useSelector((state) => state.category);
+  const { features } = useSelector((state) => state.feature);
+
+  // Obtener las categorías
+  categories.length === 0 ? dispatch(getCategories()) : null;
+  features.length === 0 ? dispatch(getFeatures()) : null;
+
   const mapDiv = useRef(null);
   const {
     register,
@@ -54,7 +62,7 @@ const CreateHotel = () => {
   const onSubmit = (data) => {
     const hotel = {
       name: data.name,
-      categoryId: parseInt(data.category),
+      category: data.category,
       street: data.street,
       number: data.number,
       city: data.city,
@@ -85,13 +93,19 @@ const CreateHotel = () => {
       formData.append('images', imgFiles[i], fileName);
     }
 
-    console.log('imagenes', imgFiles);
-
     console.log('hotel', hotel);
 
     try {
       dispatch(createHotel({ hotel: formData })).then(({ payload }) => {
         console.log('payload', payload);
+        if (payload.status !== 201) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ocurrió un error al crear el hotel',
+          });
+          return;
+        }
         Swal.fire({
           icon: 'success',
           title: 'Hotel creado correctamente',
@@ -267,7 +281,7 @@ const CreateHotel = () => {
             >
               <option value=''>Selecciona una categoría</option>
               {categories.map((category) => (
-                <option value={category.id} key={category.id}>
+                <option value={category.name} key={category.id}>
                   {category.name}
                 </option>
               ))}

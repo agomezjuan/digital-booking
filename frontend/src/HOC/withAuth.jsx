@@ -2,10 +2,13 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { restoreSession } from '../store/slices/authSlice';
 import { getMe } from '../store/actions/authActions';
+import { getFeatures } from '../store/actions/featureActions';
 
 export default (WrappedComponent) => {
   const withAuthValidation = ({ ...props }) => {
     const dispatch = useDispatch();
+
+    dispatch(getFeatures());
 
     const { token } = useSelector((state) => state.auth);
 

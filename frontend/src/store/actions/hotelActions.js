@@ -82,3 +82,40 @@ export const updateHotel = createAsyncThunk(
     }
   },
 );
+
+/**
+ * Delete hotel
+ * @param {string} id
+ * @returns {Promise}
+ * @throws {Error}
+ */
+export const deleteHotel = createAsyncThunk(
+  'hotel/deleteHotel',
+  async (id, { dispatch, rejectWithValue }) => {
+    try {
+      const { data } = await http.delete(`/hotels/${id}`);
+      dispatch(getHotels());
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
+/**
+ * Get random hotels
+ * @returns {Promise}
+ * @throws {Error}
+ * @param {number} limit
+ */
+export const getRandomHotels = createAsyncThunk(
+  'hotel/getRandomHotels',
+  async (limit, { rejectWithValue }) => {
+    try {
+      const { data } = await http.get(`/hotels/random/${limit}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);

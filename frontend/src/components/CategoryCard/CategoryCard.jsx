@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 const CategoryCard = ({ img, category }) => {
@@ -11,17 +12,19 @@ const CategoryCard = ({ img, category }) => {
     setParams({ ...params, name: name });
   };
 
-  let images = document.querySelectorAll('.skeleton');
-  images.forEach((image) => {
-    image.addEventListener('load', () => {
-      image.classList.remove('skeleton');
+  useEffect(() => {
+    let images = document.querySelectorAll('.skeleton');
+    images.forEach((image) => {
+      image.addEventListener('load', () => {
+        image.classList.remove('skeleton');
+      });
     });
-  });
+  }, []);
 
   return (
     <div className='popular-card' onClick={handleSearchCategory}>
-      <figure className='card-img'>
-        <img src={img} alt={name} loading='lazy' className='skeleton' />
+      <figure className='card-img skeleton'>
+        <img src={img} alt={name} loading='lazy' className='image' />
       </figure>
       <div className='card-content'>
         <div className='card-rating'>
