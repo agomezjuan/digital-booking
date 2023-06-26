@@ -76,7 +76,7 @@ const App = () => {
             },
             {
               path: ':id/edit',
-              element: <div>Edit Category</div>,
+              element: <CreateCategory />,
             },
           ],
         },

@@ -3,59 +3,66 @@ import { useContext } from 'react';
 import { SidebarContext } from '../../../contexts/SidebarContext';
 
 const Sidebar = () => {
-  const [isMenuOpen] = useContext(SidebarContext);
+  const [isMenuOpen, setIsMenuOpen] = useContext(SidebarContext);
+  const menuItems = [
+    {
+      name: 'Dashboard',
+      icon: 'grid',
+      link: '/admin/dashboard',
+    },
+    {
+      name: 'Usuarios',
+      icon: 'person',
+      link: '/admin/users',
+    },
+    {
+      name: 'Categorías',
+      icon: 'albums',
+      link: '/admin/categories',
+    },
+    {
+      name: 'Hoteles',
+      icon: 'home',
+      link: '/admin/hotels',
+    },
+    {
+      name: 'Habitaciones',
+      icon: 'bed',
+      link: '/admin/rooms',
+    },
+    {
+      name: 'Reservas',
+      icon: 'calendar',
+      link: '/admin/bookings',
+    },
+    {
+      name: 'Reseñas',
+      icon: 'star',
+      link: '/admin/reviews',
+    },
+    {
+      name: 'Soporte',
+      icon: 'help-circle',
+      link: '/admin/support',
+    },
+  ];
+
   return (
     <div className={`wrapper ${isMenuOpen ? 'open' : ''}`}>
       <div className='admin-sidebar'>
         <ul className='admin-sidebar-list'>
-          <li className='admin-sidebar-item'>
-            <NavLink to='/admin/dashboard' className='admin-sidebar-link'>
-              <ion-icon name='grid'></ion-icon>
-              <span>Dashboard</span>
-            </NavLink>
-          </li>
-          <li className='admin-sidebar-item'>
-            <NavLink to='/admin/users' className={'admin-sidebar-link'}>
-              <ion-icon name='person'></ion-icon>
-              <span>Usuarios</span>
-            </NavLink>
-          </li>
-          <li className='admin-sidebar-item'>
-            <NavLink to='/admin/categories' className='admin-sidebar-link'>
-              <ion-icon name='albums'></ion-icon>
-              <span>Categorías</span>
-            </NavLink>
-          </li>
-          <li className='admin-sidebar-item'>
-            <NavLink to='/admin/hotels' className='admin-sidebar-link'>
-              <ion-icon name='home'></ion-icon>
-              <span>Hoteles</span>
-            </NavLink>
-          </li>
-          <li className='admin-sidebar-item'>
-            <NavLink to='/admin/rooms' className='admin-sidebar-link'>
-              <ion-icon name='bed'></ion-icon>
-              <span>Habitaciones</span>
-            </NavLink>
-          </li>
-          <li className='admin-sidebar-item'>
-            <NavLink to='/admin/bookings' className='admin-sidebar-link'>
-              <ion-icon name='bookmark'></ion-icon>
-              <span>Reservas</span>
-            </NavLink>
-          </li>
-          <li className='admin-sidebar-item'>
-            <NavLink to='/admin/reviews' className='admin-sidebar-link'>
-              <ion-icon name='star'></ion-icon>
-              <span>Reseñas</span>
-            </NavLink>
-          </li>
-          <li className='admin-sidebar-item'>
-            <NavLink to='/admin/support' className='admin-sidebar-link'>
-              <ion-icon name='help-outline'></ion-icon>
-              <span>Soporte</span>
-            </NavLink>
-          </li>
+          {menuItems.map((item, index) => (
+            <li className='admin-sidebar-item' key={index}>
+              <NavLink
+                to={item.link}
+                className='admin-sidebar-link'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <ion-icon name={item.icon}></ion-icon>
+                <span>{item.name}</span>
+              </NavLink>
+            </li>
+          ))}
         </ul>
 
         <div className='admin-sidebar-footer'>
