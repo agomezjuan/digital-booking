@@ -11,10 +11,17 @@ const CategoryCard = ({ img, category }) => {
     setParams({ ...params, name: name });
   };
 
+  let images = document.querySelectorAll('.skeleton');
+  images.forEach((image) => {
+    image.addEventListener('load', () => {
+      image.classList.remove('skeleton');
+    });
+  });
+
   return (
     <div className='popular-card' onClick={handleSearchCategory}>
       <figure className='card-img'>
-        <img src={img} alt={name} loading='lazy' />
+        <img src={img} alt={name} loading='lazy' className='skeleton' />
       </figure>
       <div className='card-content'>
         <div className='card-rating'>

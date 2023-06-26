@@ -43,7 +43,7 @@ const Categories = () => {
         dispatch(deleteCategory(id)).then(({ payload }) => {
           Swal.fire({
             icon: 'success',
-            title: payload,
+            text: payload,
             showConfirmButton: false,
             timer: 1500,
           });
