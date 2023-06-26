@@ -1,0 +1,182 @@
+@use '../../sass/base/variables.scss' as *;
+@use '../../sass/base/mixins.scss' as *;
+
+/*-----------------------------------*\
+   * Busqueda de Hospedajes
+\*-----------------------------------*/
+
+.tour-search {
+  background: $bright-navy-blue;
+  padding-block: $section-padding;
+
+  .btn {
+    width: 100%;
+    border-width: 1px;
+    font-weight: $fw-600;
+    margin-top: 35px;
+    grid-column: span 2;
+    @include desktop() {
+      padding: 14px;
+      grid-column: unset;
+      margin-top: 0;
+    }
+  }
+}
+
+.tour-search-form {
+  .input-label {
+    color: $white;
+    font-size: var(--fs-4);
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+
+  .input-wrapper {
+    margin-bottom: 15px;
+
+    .rmdp-container {
+      width: 100%;
+      height: auto;
+      border: none;
+      grid-column: span 2;
+
+      .rmdp-calendar {
+        display: flex;
+        flex-direction: column;
+        .rmdp-day-picker {
+          gap: 10px;
+          .rmdp-week {
+            gap: 3px;
+            margin-top: 3px;
+          }
+        }
+        @include tablet() {
+          padding: 10px;
+        }
+      }
+
+      .rmdp-header-values {
+        color: $bright-navy-blue;
+        font-weight: $fw-600;
+        display: flex;
+      }
+
+      .rmdp-left {
+        background-color: $bright-navy-blue;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        z-index: 99;
+      }
+
+      .rmdp-right {
+        background-color: $bright-navy-blue;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        z-index: 99;
+        &:hover {
+          background-color: $bright-navy-blue;
+        }
+      }
+
+      .rmdp-arrow {
+        margin: 0px;
+        height: 9px;
+        width: 9px;
+        color: $white;
+        border-color: $white;
+      }
+    }
+
+    .rmdp-input {
+      width: 100%;
+      height: auto;
+      border: none;
+      grid-column: span 2;
+      @include desktop() {
+        grid-column: unset;
+      }
+    }
+
+    .rmdp-week-day {
+      color: $oxford-blue;
+      font-weight: 600 !important;
+    }
+
+    .rmdp-range {
+      background-color: $bright-navy-blue;
+      color: $white;
+      border-radius: 5px;
+      box-shadow: 0 0 3px #8798ad;
+    }
+
+    .rmdp-range-hover {
+      background-color: $gainsboro;
+      border-radius: 5px;
+      color: $oxford-blue;
+    }
+
+    .rmdp-range-hover.start,
+    .rmdp-range.start {
+      border-bottom-left-radius: 50%;
+      border-top-left-radius: 50%;
+    }
+
+    .rmdp-range-hover.end,
+    .rmdp-range.end {
+      border-bottom-right-radius: 50%;
+      border-top-right-radius: 50%;
+    }
+
+    .input-field,
+    .rmdp-input {
+      background: $white;
+      padding: 10px 15px;
+      font-size: $fs-5;
+      border-radius: 50px;
+
+      &::placeholder {
+        color: $spanish-gray;
+      }
+
+      &::-webkit-datetime-edit {
+        color: $spanish-gray;
+        text-transform: uppercase;
+      }
+
+      @include tablet() {
+        padding: 15px 20px;
+      }
+    }
+    @include tablet() {
+      margin-bottom: 0;
+    }
+  }
+
+  @include tablet() {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-end;
+    gap: 15px;
+  }
+
+  @include desktop() {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
+.rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+  background-color: $bright-navy-blue;
+  color: $white;
+}
+
+@media (max-height: 450px) {
+  .rmdp-mobile .rmdp-header,
+  .rmdp-mobile .rmdp-panel-header {
+    height: 50px;
+  }
+}

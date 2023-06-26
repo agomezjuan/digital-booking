@@ -94,3 +94,7 @@ export const verifyUserEmail = createAsyncThunk(
     }
   },
 );
+
+/**
+ * Resend verification email
+ */

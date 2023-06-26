@@ -11,7 +11,7 @@
   background-size: cover;
   background-position: top center;
   display: flex;
-  padding-top: 122px;
+  // padding-top: 122px;
   position: relative;
   .bg {
     position: fixed;
@@ -79,6 +79,7 @@
     width: 100%;
     flex-grow: 1;
     background: rgba(1, 16, 27, 0.404);
+    padding-top: 0.1px;
   }
 
   .input-wrapper {
@@ -100,12 +101,16 @@
 .login {
   border-radius: 5px;
   padding: $section-padding-sm;
-  margin-top: auto;
+  margin-top: 150px;
+  margin-bottom: 10px;
   width: 90%;
   max-width: 500px;
   background: #ffffff;
   position: relative;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+  @include tablet() {
+    margin-top: auto;
+  }
 
   .error {
     color: #ff0000;

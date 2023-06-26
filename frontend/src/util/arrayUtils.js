@@ -12,3 +12,30 @@ export function getRandomHotels(hotels) {
   }
   return randomTenHotels;
 }
+
+/**
+ * Meses en español
+ * @type {Array}
+ * @constant
+ */
+export const months = [
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
+];
+
+/**
+ * Dias de la semana en español
+ * @type {Array}
+ * @constant
+ */
+export const days = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
