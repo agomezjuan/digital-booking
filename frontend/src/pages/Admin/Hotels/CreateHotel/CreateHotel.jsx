@@ -1,17 +1,21 @@
 import { useRef, useLayoutEffect, useState } from 'react';
 import { Map, Marker, Popup } from 'mapbox-gl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getReverseGeocodingData } from '../../../../util/reverseGeocoding';
 import Swal from 'sweetalert2';
 import './CreateHotel.scss';
 import MultiSelectChips from '../../../../components/MultiSelectChips/MultiSelectChips';
 import { features } from '../../../../mocks/features';
 import { policies } from '../../../../mocks/policies';
+import { createHotel } from '../../../../store/actions/hotelActions';
 
 const CreateHotel = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [images, setImages] = useState([]);
+  const [imgFiles, setImgFiles] = useState([]);
   const { categories } = useSelector((state) => state.category);
   const mapDiv = useRef(null);
   const {
@@ -21,6 +25,7 @@ const CreateHotel = () => {
     control,
     setValue,
     getValues,
+    reset,
   } = useForm({
     defaultValues: {
       name: '',
@@ -39,12 +44,67 @@ const CreateHotel = () => {
       description: '',
       adultPrice: '',
       childPrice: '',
-      images: [],
+      imgFiles: [],
       rules: '',
       security: '',
       cancellation: '',
     },
   });
+
+  const onSubmit = (data) => {
+    const hotel = {
+      name: data.name,
+      categoryId: parseInt(data.category),
+      street: data.street,
+      number: data.number,
+      city: data.city,
+      state: data.state,
+      country: data.country,
+      zipcode: data.zipcode,
+      longitude: data.longitude,
+      latitude: data.latitude,
+      phone: data.phone,
+      email: data.email,
+      features: data.features,
+      description: data.description,
+      adultPrice: data.adultPrice,
+      childPrice: data.childPrice,
+      rules: data.rules,
+      security: data.security,
+      cancellation: data.cancellation,
+    };
+
+    const formData = new FormData();
+
+    formData.append('data', JSON.stringify(hotel));
+    formData.append('images', imgFiles);
+
+    for (let i = 0; i < imgFiles.length; i++) {
+      const timestamp = new Date().getTime();
+      const fileName = `${timestamp}_${imgFiles[i].name}`;
+      formData.append('images', imgFiles[i], fileName);
+    }
+
+    console.log('imagenes', imgFiles);
+
+    console.log('hotel', hotel);
+
+    try {
+      dispatch(createHotel({ hotel: formData })).then(({ payload }) => {
+        console.log('payload', payload);
+        Swal.fire({
+          icon: 'success',
+          title: 'Hotel creado correctamente',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        reset();
+        navigate('/admin/hotels');
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useLayoutEffect(() => {
     // Mapbox. Creacion del mapa
@@ -113,6 +173,8 @@ const CreateHotel = () => {
   const handleImages = (e) => {
     const files = e.target.files;
 
+    setImgFiles(files);
+
     const fileReaders = [];
     const imageResults = [];
     const allowedFormats = ['image/jpeg', 'image/png'];
@@ -166,10 +228,6 @@ const CreateHotel = () => {
     }
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
   const chooseStandardPolicies = () => {
     setValue('rules', policies.rules);
     setValue('security', policies.security);
@@ -202,7 +260,11 @@ const CreateHotel = () => {
           {/* Categoría */}
           <div className='form-group'>
             <label htmlFor='category'>Categoría</label>
-            <select id='category' className='form-control'>
+            <select
+              id='category'
+              className='form-control'
+              {...register('category', { required: true })}
+            >
               <option value=''>Selecciona una categoría</option>
               {categories.map((category) => (
                 <option value={category.id} key={category.id}>
@@ -352,6 +414,7 @@ const CreateHotel = () => {
             </div>
           </div>
 
+          {/* Imágenes */}
           <div className='form-group'>
             <label htmlFor='images'>Elegir Imagenes</label>
             <input
@@ -376,7 +439,7 @@ const CreateHotel = () => {
             <label htmlFor='policies'>
               Políticas{' '}
               <span onClick={chooseStandardPolicies}>
-                Elegir política standar de Digital Booking
+                Elegir política estándar de Digital Booking
               </span>
             </label>
             <textarea

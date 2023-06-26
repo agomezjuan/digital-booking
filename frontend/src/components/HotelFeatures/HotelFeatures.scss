@@ -17,17 +17,29 @@
   border-bottom: solid 2px $bright-navy-blue;
 }
 
-.ContainerTitleFeatures h2 {
-  width: 1284px;
-  padding-bottom: 10px;
-  color: rgb(0, 0, 0);
+.ContainerTitleFeatures {
+  h2 {
+    width: 100%;
+    padding-bottom: 10px;
+    text-align: left;
+    color: rgb(0, 0, 0);
+  }
+  .container {
+    width: 100%;
+  }
 }
 
 .ContainerFeaturesAndIcons {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   padding: 50px 0;
   gap: 50px 20px;
+  @include tablet() {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include desktop() {
+    grid-template-columns: repeat(4, 1fr);
+  }
   .hotel-feature {
     display: flex;
     flex-direction: column;

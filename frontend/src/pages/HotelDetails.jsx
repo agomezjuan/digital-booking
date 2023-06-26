@@ -1,37 +1,40 @@
 import { useEffect, useRef, useState } from 'react';
 import './HotelDetails.scss';
-
-import foto1 from '../assets/images/foto-1.jpg';
-import foto2 from '../assets/images/foto-2.jpg';
-import foto3 from '../assets/images/foto-3.jpg';
-import foto4 from '../assets/images/foto-4.jpg';
-import foto5 from '../assets/images/foto-5.jpg';
-import foto6 from '../assets/images/foto-6.jpg';
 import Header from '../components/Header/Header';
 import TopSection from '../components/TopSection/TopSection';
 import Stars from '../components/HotelCard/Stars/Stars';
 import HotelFeatures from '../components/HotelFeatures/HotelFeatures';
 import AvailableProductDates from '../components/AvailableProductDates/AvailableProductDates';
 import Footer from '../components/Footer/Footer';
-import { hotels } from '../mocks/hotels';
 import { useParams } from 'react-router-dom';
 import { HotelMap } from '../components';
+import { useDispatch, useSelector } from 'react-redux';
+import { getHotel } from '../store/actions/hotelActions';
 
 const HotelDetails = () => {
-  const imagenes = [foto1, foto2, foto3, foto4, foto5, foto6];
   const [showLightbox, setShowLightbox] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [coordinates, setCoordinates] = useState([-58.3816, -34.6037]);
   const mapRef = useRef(null);
-
   const { id } = useParams();
-  console.log(id);
+  const dispatch = useDispatch();
+
+  const hotel = useSelector((state) => state.hotel.currentHotel);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
 
-  const hotel = hotels.find((hotel) => hotel.id == id);
-  const { city, country } = hotel.location;
+    setCoordinates([hotel?.longitude, hotel?.latitude] ?? [-58.3816, -34.6037]);
+
+    dispatch(getHotel(id));
+
+    let images = document.querySelectorAll('.skeleton');
+    images.forEach((image) => {
+      image.addEventListener('load', () => {
+        image.classList.remove('skeleton');
+      });
+    });
+  }, [id, dispatch, hotel?.longitude, hotel?.latitude]);
 
   const openLightbox = (index) => {
     setShowLightbox(true);
@@ -74,7 +77,7 @@ const HotelDetails = () => {
   return (
     <>
       <Header />
-      <TopSection hotelName={hotel.name} />
+      <TopSection hotelName={hotel?.name} />
       <div className='hotel'>
         <div className='hotel-location'>
           <div className='container'>
@@ -84,7 +87,8 @@ const HotelDetails = () => {
                   style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
                 >
                   <ion-icon name='location'></ion-icon>
-                  {city}, {country}
+                  {hotel?.address.street}, {hotel?.address.city},{' '}
+                  {hotel?.address.country}
                 </span>
               </p>
               <p>Distancia desde el centro</p>
@@ -119,20 +123,21 @@ const HotelDetails = () => {
             <div className='hotel-galeria-container'>
               <div className='hotel-galeria-main'>
                 <img
-                  src={imagenes[0]}
+                  src={hotel?.images[0]}
                   alt='Foto 1'
                   onClick={() => openLightbox(0)}
+                  className='skeleton'
                 />
               </div>
               <div className='hotel-galeria-more'>
-                {imagenes.map((imagen, index) => {
+                {hotel?.images.map((imagen, index) => {
                   if (index > 0 && index < 5) {
                     return (
                       <img
                         key={index}
                         src={imagen}
                         alt={`Foto ${index + 1}`}
-                        className='hotel-img-galeria'
+                        className='hotel-img-galeria skeleton'
                         onClick={() => openLightbox(index)}
                       />
                     );
@@ -151,7 +156,7 @@ const HotelDetails = () => {
                 <span className='hotel-close' onClick={closeLightbox}>
                   <ion-icon name='close-outline'></ion-icon>
                 </span>
-                {imagenes.map((image, index) => (
+                {hotel?.images.map((image, index) => (
                   <div
                     tabIndex='2'
                     onKeyDown={handleKeyDown}
@@ -170,7 +175,9 @@ const HotelDetails = () => {
                         className='hotel-carousel-arrow-left'
                         onClick={() =>
                           changeSlide(
-                            index == 0 ? imagenes.length - 1 : currentSlide - 1,
+                            index == 0
+                              ? hotel?.images.length - 1
+                              : currentSlide - 1,
                           )
                         }
                       >
@@ -183,7 +190,9 @@ const HotelDetails = () => {
                         className='hotel-carousel-arrow-right'
                         onClick={() =>
                           changeSlide(
-                            index == imagenes.length - 1 ? 0 : currentSlide + 1,
+                            index == hotel?.images.length - 1
+                              ? 0
+                              : currentSlide + 1,
                           )
                         }
                       >
@@ -197,7 +206,7 @@ const HotelDetails = () => {
                 ))}
 
                 <div className='hotel-carousel-nav'>
-                  {imagenes.map((_, index) => (
+                  {hotel?.images.map((_, index) => (
                     <span
                       key={index}
                       className={`hotel-carousel-dot ${
@@ -213,7 +222,7 @@ const HotelDetails = () => {
 
           <div className='hotel-product-description'>
             <h2 className='titulo'>Descripcion del producto</h2>
-            {hotel.description.split('.\n').map((parrafo, index) => (
+            {hotel?.description.split('.\n').map((parrafo, index) => (
               <p key={index}>{parrafo}.</p>
             ))}
           </div>
@@ -245,13 +254,10 @@ const HotelDetails = () => {
         </div>
         <div className='container'>
           <h5>
-            {city}, {country}
+            {hotel?.address.city}, {hotel?.address.country}
           </h5>
           {/* Mapa */}
-          <HotelMap
-            name={hotel.name}
-            location={[-57.98310726304649, -34.80738384249134]}
-          />
+          <HotelMap name={hotel?.name} location={coordinates} />
         </div>
       </div>
       <Footer />

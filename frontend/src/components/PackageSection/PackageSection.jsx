@@ -1,10 +1,21 @@
 import { Link } from 'react-router-dom';
 import './PackageSection.scss';
 import HotelCard from '../HotelCard/HotelCard';
-import { hotels } from '../../mocks/hotels';
+import { useDispatch, useSelector } from 'react-redux';
 import { getRandomHotels } from '../../util/arrayUtils';
+import { useEffect } from 'react';
+import { getHotels } from '../../store/actions/hotelActions';
 
 const PackageSection = () => {
+  const dispatch = useDispatch();
+  const { hotels } = useSelector((state) => state.hotel);
+
+  console.log(hotels);
+
+  useEffect(() => {
+    dispatch(getHotels());
+  }, [dispatch]);
+
   return (
     <section className='package' id='package'>
       <div className='container'>

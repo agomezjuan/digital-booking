@@ -1,3 +1,4 @@
+@use '../../sass/base/variables.scss' as *;
 @use '../../sass/base/mixins.scss' as *;
 
 .ContainerAvailableDates {
@@ -11,7 +12,7 @@
 
   h2 {
     width: 100%;
-    max-width: 1284px;
+    margin-bottom: 20px;
     color: #000000;
   }
 
@@ -23,8 +24,9 @@
     align-items: center;
 
     .rmdp-wrapper {
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       border-radius: 5px;
+      box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 0px 8px;
       height: 309px;
     }
   }
@@ -36,10 +38,11 @@
     justify-content: center;
     gap: 30px;
     border-radius: 8px;
-    padding: 0px 22px;
+    padding: 10px 22px;
     @include large {
       background-color: #ffff;
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 0px 8px;
       min-height: 150px;
     }
 
@@ -85,34 +88,36 @@
       position: absolute;
       top: 130px;
       left: 10px;
-      background-color: #41b6e6;
+      background-color: $bright-navy-blue;
       width: 35px;
       height: 35px;
       display: flex;
       align-items: center;
+      z-index: 99;
     }
 
     .rmdp-right {
       position: absolute;
       top: 130px;
       right: 10px;
-      background-color: #41b6e6;
+      background-color: $bright-navy-blue;
       width: 35px;
       height: 35px;
       display: flex;
       align-items: center;
+      z-index: 99;
     }
 
     .rmdp-arrow {
       margin-top: 0px;
       height: 9px;
       width: 9px;
-      color: #fff;
-      border-color: #fff;
+      color: $white;
+      border-color: $white;
     }
 
     .rmdp-arrow-container:hover {
-      background-color: #41b6e6;
+      background-color: $bright-navy-blue;
     }
 
     .rmdp-calendar {
@@ -121,13 +126,43 @@
       flex-direction: column;
     }
 
+    .rmdp-header-values {
+      color: $bright-navy-blue;
+      display: flex;
+    }
+
     .rmdp-header-values span {
       font-weight: 700 !important;
     }
 
     .rmdp-week-day {
-      color: #383b58;
+      color: $oxford-blue;
       font-weight: 700 !important;
+    }
+
+    .rmdp-range {
+      background-color: $bright-navy-blue;
+      color: $white;
+      border-radius: 5px;
+      box-shadow: 0 0 3px #8798ad;
+    }
+
+    .rmdp-range-hover {
+      background-color: $gainsboro;
+      border-radius: 5px;
+      color: $oxford-blue;
+    }
+
+    .rmdp-range-hover.start,
+    .rmdp-range.start {
+      border-bottom-left-radius: 50%;
+      border-top-left-radius: 50%;
+    }
+
+    .rmdp-range-hover.end,
+    .rmdp-range.end {
+      border-bottom-right-radius: 50%;
+      border-top-right-radius: 50%;
     }
 
     .rmdp-week,
@@ -138,19 +173,19 @@
 
     .rmdp-day.rmdp-today span {
       background: none;
-      color: #000;
+      color: $jet;
     }
 
     .rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
       background: none;
-      color: #000;
+      color: $jet;
       box-shadow: none;
     }
 
     .rmdp-day.rmdp-selected span:not(.highlight) {
       background: none;
       box-shadow: none;
-      color: #000;
+      color: $jet;
     }
 
     .rmdp-day span {
