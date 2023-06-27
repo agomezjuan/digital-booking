@@ -61,6 +61,7 @@ const TourSearch = () => {
                     numberOfMonths={useMediaQuery('(max-width: 768px)') ? 1 : 2}
                     value={value || ''}
                     range
+                    rangeHover
                     placeholder='Seleccionar fechas'
                     months={months}
                     weekDays={['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']}

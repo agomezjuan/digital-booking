@@ -18,15 +18,15 @@ const CategoryFilter = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     setAvailableHotels(
-      hotels.filter((hotel) => hotel.categoryId === category.id),
+      hotels.filter((hotel) => hotel?.category === category.name),
     );
-  }, [name]);
+  }, [name, category, hotels]);
 
   return (
     <>
       <Header />
       <TopSection />
-      {!categoryExists ? (
+      {!categoryExists || availableHotels?.length === 0 ? (
         <div className='no-category'>
           <ion-icon name='alert-circle-outline'></ion-icon>
           <span>

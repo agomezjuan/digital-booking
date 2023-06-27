@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { HotelMap, Spinner } from '../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHotel } from '../store/actions/hotelActions';
+import ProductPolicy from '../components/ProductPolicy/ProductPolicy';
 
 const HotelDetails = () => {
   const [showLightbox, setShowLightbox] = useState(false);
@@ -241,7 +242,7 @@ const HotelDetails = () => {
               )}
 
               <div className='hotel-product-description'>
-                <h2 className='titulo'>Descripcion del producto</h2>
+                <h3 className='titulo'>Descripcion del producto</h3>
                 {hotel?.description.split('.\n').map((parrafo, index) => (
                   <p key={index}>{parrafo}.</p>
                 ))}
@@ -272,6 +273,18 @@ const HotelDetails = () => {
               <HotelMap />
             </div>
           </div>
+          <div className='ContainerProductFeatures'>
+            <div className='ContainerTitleFeatures'>
+              <div className='container'>
+                <h2>¿Qué tienes que saber?</h2>
+              </div>
+            </div>
+            <div className='container'>
+              <ProductPolicy />
+            </div>
+          </div>
+
+          {/* Comentarios */}
         </>
       )}
       <Footer />

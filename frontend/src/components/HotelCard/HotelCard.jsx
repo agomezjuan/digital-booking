@@ -39,7 +39,7 @@ const HotelCard = ({ hotel }) => {
               <Rating rating={hotel?.rating} />
             </div>
           </div>
-          <MetaList location={hotel?.address} time={'3N/2D'} />
+          <MetaList location={hotel?.address} />
           <p className='card-text'>{hotel?.description}</p>
 
           <LinkButton link={`/hotel/${hotel?.id}`} text='Ver más' primary />
