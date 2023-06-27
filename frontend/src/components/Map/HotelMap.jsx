@@ -1,18 +1,23 @@
 import { Map, Marker, Popup } from 'mapbox-gl';
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import './HotelMap.scss';
 import { useSelector } from 'react-redux';
 
 const HotelMap = () => {
   const mapDiv = React.useRef(null);
+  const [coordinates, setCoordinates] = React.useState([-58.3816, -34.6037]); // Buenos Aires
   const hotel = useSelector((state) => state.hotel.currentHotel);
 
   useEffect(() => {
+    setCoordinates([hotel?.location.longitude, hotel?.location.latitude]);
+  }, [hotel]);
+
+  useLayoutEffect(() => {
     // Mapbox. Creacion del mapa
     const map = new Map({
       container: mapDiv.current,
       style: 'mapbox://styles/mapbox/streets-v12',
-      center: [hotel?.location?.longitude, hotel?.location?.latitude],
+      center: coordinates,
       zoom: 10,
       navigationControl: true,
     });
@@ -24,8 +29,8 @@ const HotelMap = () => {
 
     const marker = new Marker({ color: '#41add8' })
       .setLngLat([
-        parseFloat(hotel?.location?.longitude ?? 0),
-        parseFloat(hotel?.location?.latitude ?? 0),
+        parseFloat(coordinates[0] || 0),
+        parseFloat(coordinates[1] || 0),
       ])
       .setPopup(myPopup)
       .addTo(map);
@@ -44,7 +49,7 @@ const HotelMap = () => {
       marker.remove();
       map.remove();
     };
-  }, []);
+  }, [coordinates, hotel]);
   return (
     <div className='hotel-map-container'>
       <div ref={mapDiv}></div>

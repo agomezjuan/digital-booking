@@ -2,13 +2,10 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { restoreSession } from '../store/slices/authSlice';
 import { getMe } from '../store/actions/authActions';
-import { getFeatures } from '../store/actions/featureActions';
 
 export default (WrappedComponent) => {
   const withAuthValidation = ({ ...props }) => {
     const dispatch = useDispatch();
-
-    dispatch(getFeatures());
 
     const { token } = useSelector((state) => state.auth);
 
@@ -21,6 +18,10 @@ export default (WrappedComponent) => {
         sessionStorage.removeItem('dhb_token');
       }
     }
+
+    sessionStorage.getItem('dhb_token') == null &&
+      sessionStorage.removeItem('dhb_token');
+
     return <WrappedComponent {...props} />;
   };
 

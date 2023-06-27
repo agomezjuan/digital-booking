@@ -87,7 +87,7 @@ function AvailableProductDates({ id }) {
             ) : (
               <p>Agrega tus fechas de viaje para obtener precios exactos</p>
             )}
-            <Link to={`/product/${id}/booking`}>
+            <Link to={`/hotel/${id}/booking`}>
               <button className='ContainerStartBookingButton'>
                 Iniciar reserva
               </button>
@@ -100,7 +100,7 @@ function AvailableProductDates({ id }) {
 }
 
 AvailableProductDates.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
 
 export default AvailableProductDates;

@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import './PackageSection.scss';
 import HotelCard from '../HotelCard/HotelCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRandomHotels } from '../../util/arrayUtils';
 import { useEffect } from 'react';
 import { getHotels } from '../../store/actions/hotelActions';
 
@@ -29,12 +28,12 @@ const PackageSection = () => {
           preocupaciones adicionales!
         </p>
         <ul className='package-list'>
-          {getRandomHotels(hotels).map((hotel, i) => (
+          {hotels.map((hotel, i) => (
             <HotelCard key={i} hotel={hotel} />
           ))}
         </ul>
         <Link to={'/search'} className='all'>
-          <button className='btn btn-primary'>VER TODOS LOS PAQUETES</button>
+          <button className='btn btn-primary'>VER TODOS LOS HOTELES</button>
         </Link>
       </div>
     </section>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/actions/authActions';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import Swal from 'sweetalert2';
 import { resetUserError } from '../store/slices/authSlice';
@@ -18,6 +18,9 @@ const Login = () => {
     (state) => state.auth,
   );
   const loading = status === 'loading';
+  const [params] = useSearchParams();
+  const redirect = params.get('redirect') ?? '';
+
   const {
     register,
     handleSubmit,
@@ -44,7 +47,7 @@ const Login = () => {
     }
 
     if (isLoggedIn) {
-      navigate('/');
+      redirect ? navigate(-1) : navigate('/');
     }
 
     if (error?.code === 403) {
@@ -88,6 +91,11 @@ const Login = () => {
         <div className='wrapper'>
           <form className={`login`} onSubmit={handleSubmit(onSubmit)}>
             <p className='title'>Iniciar Sesión</p>
+            {redirect && (
+              <p className='toast'>
+                Se requiere iniciar sesión para hacer reservas.
+              </p>
+            )}
             <div className='input-wrapper'>
               <input
                 type='text'
