@@ -1,13 +1,17 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Calendar } from 'react-multi-date-picker';
+import { Calendar, DateObject } from 'react-multi-date-picker';
 import '../AvailableProductDates/AvailableProductDates.scss';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDates as setSelectedDates } from '../../store/slices/reservationSlice';
 
 function AvailableProductDates({ id }) {
+  const dispatch = useDispatch();
   const datePickerRef = useRef();
   const [dates, setDates] = useState([]);
+  const { dates: selectedDates } = useSelector((state) => state.reservation);
   const weekDays = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
   const months = [
     'Enero',
@@ -23,6 +27,12 @@ function AvailableProductDates({ id }) {
     'Noviembre',
     'Diciembre',
   ];
+
+  useEffect(() => {
+    if (selectedDates.length > 0) {
+      setDates(selectedDates.map((date) => new DateObject(date)));
+    }
+  }, []);
 
   function formatDate(date) {
     if (!date) return;
@@ -51,6 +61,20 @@ function AvailableProductDates({ id }) {
       Math.abs(dates[dates.length - 1] - dates[0]) / (1000 * 60 * 60 * 24),
     ) + 1;
 
+  function convertDates(dates) {
+    const newDates =
+      dates.length == 2
+        ? dates.map((date) => date.format())
+        : [dates[0].format()];
+    return newDates;
+  }
+
+  const handleSelectDates = (dates) => {
+    setDates(dates);
+    console.log(dates[0].format());
+    dispatch(setSelectedDates(convertDates(dates)));
+  };
+
   return (
     <div className='ContainerAvailableDates'>
       <div className='container'>
@@ -67,7 +91,7 @@ function AvailableProductDates({ id }) {
             months={months}
             ref={datePickerRef}
             value={dates}
-            onChange={setDates}
+            onChange={handleSelectDates}
             rangeHover
             mapDays={() => {
               // Agregar la lógica para deshabilitar las fechas
