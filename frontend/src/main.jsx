@@ -26,6 +26,7 @@ import './sass/main.scss';
 import { CategoryFilter } from './components';
 import CreateHotel from './pages/Admin/Hotels/CreateHotel/CreateHotel';
 import CreateCategory from './pages/Admin/Categories/CreateCategory.jsx/CreateCategory';
+import Reservation from './pages/Reservation';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -54,6 +55,12 @@ const App = () => {
       path: '/hotel/:id',
       element: <HotelDetails />,
     },
+
+    {
+      path: '/hotel/:id/booking',
+      element: <Reservation />,
+    },
+
     {
       path: '/admin',
       element: <Admin />,

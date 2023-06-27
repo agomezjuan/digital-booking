@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Stars from './Stars/Stars';
 import Rating from './Rating/Rating';
 import LinkButton from '../LinkButton/LinkButton';
-// import MetaList from './MetaList/MetaList';
+import MetaList from './MetaList/MetaList';
 import './HotelCard.scss';
 import Favorite from './Favorite/Favorite';
 import { useEffect } from 'react';
@@ -39,7 +39,7 @@ const HotelCard = ({ hotel }) => {
               <Rating rating={hotel?.rating} />
             </div>
           </div>
-          {/* <MetaList location={hotel?.location} time={'3N/2D'} /> */}
+          <MetaList location={hotel?.address} time={'3N/2D'} />
           <p className='card-text'>{hotel?.description}</p>
 
           <LinkButton link={`/hotel/${hotel?.id}`} text='Ver más' primary />

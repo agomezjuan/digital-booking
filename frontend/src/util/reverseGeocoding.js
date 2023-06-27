@@ -28,10 +28,10 @@ export async function getReverseGeocodingData(lngLat) {
           : '';
 
       return {
-        country: country.text ?? '',
+        country: country?.text ?? '',
         state: state?.text ?? city?.text ?? '',
         postalCode: postalCode?.text ?? '',
-        city: city.text ?? '',
+        city: city?.text ?? '',
         street: street.replace(number, '').trim(),
         number,
       };

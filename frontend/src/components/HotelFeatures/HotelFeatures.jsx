@@ -1,8 +1,18 @@
+import { useDispatch, useSelector } from 'react-redux';
 import './HotelFeatures.scss';
 import PropTypes from 'prop-types';
-import { features as allFeatures } from '../../mocks/features';
+import { useEffect } from 'react';
+import { getFeatures } from '../../store/actions/featureActions';
 
 function HotelFeatures({ features }) {
+  const dispatch = useDispatch();
+  const { features: allFeatures } = useSelector((state) => state.feature);
+
+  useEffect(() => {
+    if (!allFeatures.length) {
+      dispatch(getFeatures());
+    }
+  }, []);
   return (
     <div className='ContainerProductFeatures'>
       <div className='ContainerTitleFeatures'>
@@ -12,16 +22,16 @@ function HotelFeatures({ features }) {
       </div>
       <div className='container'>
         <div className='ContainerFeaturesAndIcons'>
-          {features.map((feature) => {
+          {features?.map((feature) => {
             const featRender = allFeatures.find((f) => f.name === feature);
             return (
-              <div className='hotel-feature' key={featRender.name}>
+              <div className='hotel-feature' key={featRender?.id}>
                 <div>
-                  <ion-icon name={featRender.icon}></ion-icon>
-                  <span>{featRender.name}</span>
+                  <ion-icon name={featRender?.icon}></ion-icon>
+                  <span>{featRender?.name}</span>
                 </div>
 
-                <p>{featRender.description}</p>
+                <p>{featRender?.description}</p>
               </div>
             );
           })}
@@ -32,7 +42,7 @@ function HotelFeatures({ features }) {
 }
 
 HotelFeatures.propTypes = {
-  features: PropTypes.array.isRequired,
+  features: PropTypes.array,
 };
 
 export default HotelFeatures;
