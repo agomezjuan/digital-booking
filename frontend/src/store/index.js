@@ -4,6 +4,7 @@ import categoryReducer from './slices/categorySlice';
 import userReducer from './slices/userSlice';
 import hotelReducer from './slices/hotelSlice';
 import featureReducer from './slices/featureSlice';
+import reservationReducer from './slices/reservationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     user: userReducer,
     hotel: hotelReducer,
     feature: featureReducer,
+    reservation: reservationReducer,
   },
 });

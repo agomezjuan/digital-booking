@@ -35,6 +35,7 @@ const Reservation = () => {
           <p>Cargando...</p>{' '}
         </div>
       ) : null}
+
       <FooterBottom />
     </>
   );

@@ -32,7 +32,7 @@ export async function getReverseGeocodingData(lngLat) {
         state: state?.text ?? city?.text ?? '',
         postalCode: postalCode?.text ?? '',
         city: city?.text ?? '',
-        street: street.replace(number, '').trim(),
+        street: street?.replace(number, '').trim(),
         number,
       };
     } else {
