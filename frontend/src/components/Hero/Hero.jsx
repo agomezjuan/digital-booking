@@ -12,11 +12,10 @@ const Hero = () => {
         <h2 className='h1 hero-title'>Descubre hospedajes únicos</h2>
 
         <p className='hero-text'>
-          ¡Bienvenidos a nuestra página de hospedajes increíbles y nada comunes
-          con un toque estético único! Descubre un mundo de posibilidades donde
-          el confort se fusiona con la belleza en cada detalle. ¡Prepárate para
-          vivir una estadía inolvidable en lugares que desafían lo convencional
-          y estimulan tus sentidos!
+          ¡Descubre un mundo de posibilidades donde el confort se fusiona con la
+          belleza en cada detalle. Preparate para vivir una experiencia
+          inolvidable en lugares que desafían lo convencional y estimulan tus
+          sentidos!
         </p>
 
         <div className='btn-group'>

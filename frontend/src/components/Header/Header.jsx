@@ -22,7 +22,7 @@ const Header = () => {
           <div className='logo-wrapper'>
             <Link to='/' className='logo'>
               <img src={logo} alt='Digital Booking logo' />
-              <p className='slogan'>Explora. Vive. Hospedate.</p>
+              <p className='slogan'>Explora. Vive. Aventúrate.</p>
             </Link>
           </div>
           {isLoggedIn ? (

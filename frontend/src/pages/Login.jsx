@@ -81,6 +81,11 @@ const Login = () => {
     dispatch(login(data));
   };
 
+  const validateEmail = (value) => {
+    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return regex.test(value) || 'Ingrese un correo electrónico válido';
+  };
+
   return (
     <>
       <div
@@ -109,7 +114,10 @@ const Login = () => {
                 type='text'
                 placeholder='Username'
                 autoFocus
-                {...register('email', { required: true })}
+                {...register('email', {
+                  required: true,
+                  validate: validateEmail,
+                })}
                 style={
                   errors.email && {
                     border: '2px solid red',
