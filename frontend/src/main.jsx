@@ -95,6 +95,10 @@ const App = () => {
               path: 'create',
               element: <CreateHotel />,
             },
+            {
+              path: ':id/edit',
+              element: <CreateHotel />,
+            },
           ],
         },
         {

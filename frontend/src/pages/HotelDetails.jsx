@@ -24,6 +24,19 @@ const HotelDetails = () => {
 
   console.log(hotel);
 
+  const ratingScale = {
+    2: 'Muy malo',
+    3: 'Malo',
+    4: 'Insuficiente',
+    5: 'Suficiente',
+    6: 'Aceptable',
+    7: 'Bueno',
+    8: 'Muy bueno',
+    9: 'Excelente',
+    10: 'Fantástico',
+  };
+  const ratingText = ratingScale[hotel?.rating - (hotel?.rating % 1)];
+
   useEffect(() => {
     dispatch(getHotel(id));
     window.scrollTo(0, 0);
@@ -119,11 +132,11 @@ const HotelDetails = () => {
                    */}
                   <div className='hotel-score'>
                     <div className='hotel-score-text'>
-                      <p>TextoScore</p>
-                      <Stars rating={4} />
+                      <p>{ratingText}</p>
+                      <Stars rating={hotel?.rating} />
                     </div>
                     <div className='hotel-rating'>
-                      <span>7</span>
+                      <span>{hotel?.rating}</span>
                     </div>
                   </div>
                 </div>
