@@ -66,10 +66,18 @@ const Login = () => {
           navigate('/login');
         }
       });
+    } else if (error?.code === 401) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Credenciales inválidas',
+        icon: 'error',
+        confirmButtonColor: '#0084b8',
+      });
     }
   }, [user, isLoggedIn, status, error]);
 
   const onSubmit = (data) => {
+    dispatch(resetUserError());
     dispatch(login(data));
   };
 
@@ -128,6 +136,11 @@ const Login = () => {
               />
               {errors.password && (
                 <span className='error'>Este campo es requerido</span>
+              )}
+              {error?.code == 401 && (
+                <span className='error'>
+                  Credenciales inválidas. Intenta nuevamente.
+                </span>
               )}
               {/* <i className='fa fa-key'></i> */}
             </div>

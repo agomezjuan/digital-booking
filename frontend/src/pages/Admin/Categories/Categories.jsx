@@ -15,7 +15,7 @@ const Categories = () => {
   const isMainPage = location.pathname == '/admin/categories';
 
   useEffect(() => {
-    document.title = 'Usuarios';
+    document.title = 'Categories';
     dispatch(getCategories());
   }, []);
 

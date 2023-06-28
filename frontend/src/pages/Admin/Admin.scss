@@ -197,11 +197,19 @@
         }
       }
 
-      &-actions a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 20px;
+      &-actions {
+        span {
+          display: none;
+          @include tablet() {
+            display: block;
+          }
+        }
+        a {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 20px;
+        }
       }
     }
 
@@ -283,6 +291,112 @@
           }
           .trash:hover {
             color: red;
+          }
+        }
+      }
+    }
+
+    &-hotel {
+      &-block {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+
+        @include tablet() {
+          gap: 20px;
+        }
+
+        @include large() {
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+        }
+
+        @include xlarge() {
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 20px;
+        }
+      }
+
+      &-card {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: $gainsboro;
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+          rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+        margin-bottom: 10px;
+
+        @include tablet() {
+          flex-direction: row;
+          height: 250px;
+        }
+
+        &-image {
+          width: 100%;
+          aspect-ratio: 9/6;
+
+          @include tablet() {
+            height: 100%;
+            aspect-ratio: 1/1;
+            flex: 1;
+          }
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+          }
+        }
+
+        &-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 10px;
+          width: 100%;
+
+          @include tablet() {
+            flex: 2;
+          }
+
+          h3 {
+            transition: all 0.3s ease-in-out;
+          }
+
+          &:hover h3 {
+            color: $bright-navy-blue;
+            transition: all 0.3s ease-in-out;
+          }
+
+          p {
+            @include truncate();
+            color: $onyx;
+          }
+
+          &-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 10px 20px;
+
+            a {
+              color: $bright-navy-blue;
+              transition: all 0.3s ease-in-out;
+              font-size: 25px;
+              cursor: pointer;
+              &:hover {
+                color: $onyx;
+                transform: scale(1.1);
+                transition: all 0.3s ease-in-out;
+              }
+            }
+            .trash:hover {
+              color: red;
+            }
           }
         }
       }

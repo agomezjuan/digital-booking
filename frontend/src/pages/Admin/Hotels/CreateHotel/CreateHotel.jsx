@@ -17,7 +17,6 @@ const CreateHotel = () => {
   // Inicializar los hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const mapDiv = useRef(null);
   const [images, setImages] = useState([]);
   const [imgFiles, setImgFiles] = useState([]);
   const { categories } = useSelector((state) => state.category);
@@ -32,6 +31,7 @@ const CreateHotel = () => {
 
   const loading = status === 'loading';
 
+  const mapDiv = useRef(null);
   const {
     register,
     handleSubmit,
@@ -157,7 +157,7 @@ const CreateHotel = () => {
       map.remove();
       marker.remove();
     };
-  }, []);
+  }, [mapDiv, getValues]);
 
   /**
    * Esta función se encarga de obtener los datos de la dirección
