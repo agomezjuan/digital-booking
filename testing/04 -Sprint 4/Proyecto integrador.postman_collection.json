@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "c92dae8b-4263-4a66-992a-5871485792bd",
+		"name": "Proyecto integrador",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21898794",
+		"_collection_link": "https://planetary-rocket-883080.postman.co/workspace/Prueba~cb853cb5-6904-4359-8947-e4d28bbdbd38/collection/21898794-c92dae8b-4263-4a66-992a-5871485792bd?action=share&creator=21898794&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "digital booking",
+			"item": [
+				{
+					"name": "inicio sesión aws",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"leonel_cabello@hotmail.com\",\r\n    \"password\":\"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://bucket-grupo4-frontend.s3-website.us-east-2.amazonaws.com/",
+							"protocol": "http",
+							"host": [
+								"bucket-grupo4-frontend",
+								"s3-website",
+								"us-east-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logeo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"leonel_cabello@hotmail.com\",\r\n    \"password\":\"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://digital-booking-production.up.railway.app/api/v1/auth/login",
+							"protocol": "https",
+							"host": [
+								"digital-booking-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuarios",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Categorias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://digital-booking-production.up.railway.app/api/v1/categories",
+							"protocol": "https",
+							"host": [
+								"digital-booking-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar hoteles",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://digital-booking-production.up.railway.app/api/v1/hotels/11",
+							"protocol": "https",
+							"host": [
+								"digital-booking-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Caracteristicas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://digital-booking-production.up.railway.app/api/v1/features",
+							"protocol": "https",
+							"host": [
+								"digital-booking-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"features"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
