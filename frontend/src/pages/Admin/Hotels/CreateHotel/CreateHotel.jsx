@@ -19,6 +19,8 @@ const CreateHotel = () => {
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
   const [imgFiles, setImgFiles] = useState([]);
+  const [map, setMap] = useState(null);
+  const mapDiv = useRef(null);
   const { categories } = useSelector((state) => state.category);
   const { features } = useSelector((state) => state.feature);
   const { status } = useSelector((state) => state.hotel);
@@ -27,11 +29,10 @@ const CreateHotel = () => {
     // Obtener las categorías
     categories.length === 0 ? dispatch(getCategories()) : null;
     features.length === 0 ? dispatch(getFeatures()) : null;
-  }, [dispatch, categories, features]);
+  }, [dispatch, categories, features, mapDiv]);
 
   const loading = status === 'loading';
 
-  const mapDiv = useRef(null);
   const {
     register,
     handleSubmit,
@@ -127,13 +128,16 @@ const CreateHotel = () => {
 
   useLayoutEffect(() => {
     // Mapbox. Creacion del mapa
-    const map = new Map({
-      container: mapDiv.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [-57.98310726304649, -34.80738384249134],
-      zoom: 14,
-      navigationControl: true,
-    });
+    if (mapDiv.current && !map) {
+      const map = new Map({
+        container: mapDiv.current || '',
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [-57.98310726304649, -34.80738384249134],
+        zoom: 14,
+        navigationControl: true,
+      });
+      setMap(map);
+    }
 
     // Nombre del hotel, para mostrar en el popup.
     // Está siendo tomado desde el formulario
