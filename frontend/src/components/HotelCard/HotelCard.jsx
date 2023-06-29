@@ -27,7 +27,7 @@ const HotelCard = ({ hotel }) => {
             loading='lazy'
             className='skeleton'
           />
-          <Favorite />
+          <Favorite id={hotel?.id} />
         </figure>
         <div className='card-content'>
           <div className='card-content-header'>

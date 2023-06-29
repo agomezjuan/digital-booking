@@ -1,5 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { FooterBottom, Header, Spinner, TopSection } from '../components';
+import {
+  FooterBottom,
+  Header,
+  ProductPolicy,
+  Spinner,
+  TopSection,
+} from '../components';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
@@ -34,8 +40,33 @@ const Reservation = () => {
           <Spinner />
           <p>Cargando...</p>{' '}
         </div>
-      ) : null}
-
+      ) : (
+        <>
+          <div className='reservation'>
+            <div className='container'>
+              <div className='reservation-left'>
+                <div className='reservation-left-title'>
+                  <h2>Reserva</h2>
+                </div>
+                <div className='reservation-left-form'></div>
+              </div>
+              <div className='reservation-right'>
+                <div className='reservation-right-card'></div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      <div className='ContainerProductFeatures'>
+        <div className='ContainerTitleFeatures'>
+          <div className='container'>
+            <h2>¿Qué tienes que saber?</h2>
+          </div>
+        </div>
+        <div className='container'>
+          <ProductPolicy />
+        </div>
+      </div>
       <FooterBottom />
     </>
   );

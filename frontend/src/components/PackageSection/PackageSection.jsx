@@ -13,7 +13,7 @@ const PackageSection = () => {
 
   useEffect(() => {
     dispatch(getHotels());
-  }, [dispatch]);
+  }, []);
 
   return (
     <section className='package' id='package'>

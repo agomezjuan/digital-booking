@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { restoreSession } from '../store/slices/authSlice';
+import { handleFavorite, restoreSession } from '../store/slices/authSlice';
 import { getMe } from '../store/actions/authActions';
 
 export default (WrappedComponent) => {
@@ -14,6 +14,9 @@ export default (WrappedComponent) => {
       if (token) {
         dispatch(restoreSession(token));
         dispatch(getMe(token));
+        JSON.parse(localStorage.getItem('dhb_favorites'))?.forEach((id) => {
+          if (typeof id === 'number') dispatch(handleFavorite(id));
+        });
       } else {
         sessionStorage.removeItem('dhb_token');
       }

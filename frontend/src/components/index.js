@@ -22,7 +22,7 @@ export { default as MultiSelectChips } from './MultiSelectChips/MultiSelectChips
 export { default as PackageCard } from './PackageCard/PackageCard';
 export { default as PackageSection } from './PackageSection/PackageSection';
 export { default as PopularSection } from './PopularSection/PopularSection';
-export * from './ProductPolicy/ProductPolicy';
+export { default as ProductPolicy } from './ProductPolicy/ProductPolicy';
 export { default as SearchBar } from './SearchBar/SearchBar';
 export { default as SidebarMenu } from './SidebarMenu/SidebarMenu';
 export { default as SocialIcons } from './SocialIcons/SocialIcons';
