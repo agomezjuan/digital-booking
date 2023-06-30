@@ -1,37 +1,68 @@
-import { useRef, useLayoutEffect, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Map, Marker, Popup } from 'mapbox-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getReverseGeocodingData } from '../../../../util/reverseGeocoding';
 import Swal from 'sweetalert2';
 import './CreateHotel.scss';
 import MultiSelectChips from '../../../../components/MultiSelectChips/MultiSelectChips';
 import { policies } from '../../../../mocks/policies';
-import { createHotel } from '../../../../store/actions/hotelActions';
+import {
+  createHotel,
+  updateHotel,
+} from '../../../../store/actions/hotelActions';
 import { getCategories } from '../../../../store/actions/categoryActions';
 import { getFeatures } from '../../../../store/actions/featureActions';
-import { Spinner } from '../../../../components';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const CreateHotel = () => {
   // Inicializar los hooks
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
   const [images, setImages] = useState([]);
   const [imgFiles, setImgFiles] = useState([]);
-  const [map, setMap] = useState(null);
+  const [coords, setCoords] = useState([
+    -57.98310726304649, -34.80738384249134,
+  ]); // [lng, lat]
   const mapDiv = useRef(null);
   const { categories } = useSelector((state) => state.category);
+  const { hotels } = useSelector((state) => state.hotel);
   const { features } = useSelector((state) => state.feature);
-  const { status } = useSelector((state) => state.hotel);
 
   useEffect(() => {
     // Obtener las categorías
     categories.length === 0 ? dispatch(getCategories()) : null;
     features.length === 0 ? dispatch(getFeatures()) : null;
-  }, [dispatch, categories, features, mapDiv]);
 
-  const loading = status === 'loading';
+    if (id) {
+      const hotel = hotels.find((hotel) => hotel.id == id);
+
+      setValue('name', hotel?.name);
+      setValue('category', hotel?.category);
+      setValue('street', hotel?.address.street);
+      setValue('number', hotel?.address.number);
+      setValue('city', hotel?.address.city);
+      setValue('state', hotel?.address.state);
+      setValue('country', hotel?.address.country);
+      setValue('zipcode', hotel?.address.zipcode);
+      setValue('longitude', hotel?.location.longitude);
+      setValue('latitude', hotel?.location.latitude);
+      setValue('phone', hotel?.phone);
+      setValue('email', hotel?.email);
+      setValue('features', hotel?.features);
+      setValue('description', hotel?.description);
+      setValue('adultPrice', hotel?.adultPrice);
+      setValue('childPrice', hotel?.childPrice);
+      setValue('rules', hotel?.rules);
+      setValue('security', hotel?.security);
+      setValue('cancellation', hotel?.cancellation);
+      setImages(hotel?.images);
+
+      setCoords([hotel?.location.longitude, hotel?.location.latitude]);
+    }
+  }, [dispatch, categories, features]);
 
   const {
     register,
@@ -100,7 +131,27 @@ const CreateHotel = () => {
       formData.append('images', imgFiles[i], fileName);
     }
 
-    console.log('hotel', hotel);
+    if (id) {
+      dispatch(updateHotel({ hotel: formData, id: id })).then(({ payload }) => {
+        if (payload == 'Error guardando el hotel') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: payload,
+          });
+          return;
+        }
+        Swal.fire({
+          icon: 'success',
+          title: payload,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        reset();
+        navigate('/admin/hotels');
+      });
+      return;
+    }
 
     try {
       dispatch(createHotel({ hotel: formData })).then(({ payload }) => {
@@ -126,18 +177,15 @@ const CreateHotel = () => {
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Mapbox. Creacion del mapa
-    if (mapDiv.current && !map) {
-      const map = new Map({
-        container: mapDiv.current || '',
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [-57.98310726304649, -34.80738384249134],
-        zoom: 14,
-        navigationControl: true,
-      });
-      setMap(map);
-    }
+    const map = new Map({
+      container: mapDiv.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: coords,
+      zoom: 14,
+      navigationControl: true,
+    });
 
     // Nombre del hotel, para mostrar en el popup.
     // Está siendo tomado desde el formulario
@@ -147,7 +195,7 @@ const CreateHotel = () => {
     const myPopup = new Popup({ offset: 25 }).setHTML(`<h4>${name}</h4>`);
     // Creación del marcador
     const marker = new Marker({ color: '#41add8', draggable: true })
-      .setLngLat([-57.98310726304649, -34.80738384249134])
+      .setLngLat(coords)
       .setPopup(myPopup)
       .addTo(map);
 
@@ -161,7 +209,7 @@ const CreateHotel = () => {
       map.remove();
       marker.remove();
     };
-  }, [mapDiv, getValues]);
+  }, [mapDiv, coords, getValues]);
 
   /**
    * Esta función se encarga de obtener los datos de la dirección
@@ -259,268 +307,250 @@ const CreateHotel = () => {
 
   return (
     <>
-      {loading ? (
-        <>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              flexGrow: 1,
-            }}
-          >
-            <Spinner />
-          </div>
-        </>
-      ) : (
-        <>
-          <div className='create-hotel'>
-            <h3>Crear hotel</h3>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <div className='create-hotel'>
+          <h3>{id ? 'Editar' : 'Crear'} hotel</h3>
 
-            <form
-              className='create-hotel-form'
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className='create-hotel-map'>
-                <div ref={mapDiv}></div>
+          <form className='create-hotel-form' onSubmit={handleSubmit(onSubmit)}>
+            <div className='create-hotel-map'>
+              <div ref={mapDiv}></div>
+            </div>
+            <div className='hotel-form-container'>
+              {/* Nombre del hotel */}
+              <div className='form-group'>
+                <label htmlFor='name'>Nombre</label>
+                <input
+                  type='text'
+                  id='name'
+                  className='form-control'
+                  placeholder='Nombre del hotel'
+                  {...register('name', { required: true })}
+                />
+                {errors.name && (
+                  <span className='text-danger'>Este campo es obligatorio</span>
+                )}
               </div>
-              <div className='hotel-form-container'>
-                {/* Nombre del hotel */}
-                <div className='form-group'>
-                  <label htmlFor='name'>Nombre</label>
-                  <input
-                    type='text'
-                    id='name'
-                    className='form-control'
-                    placeholder='Nombre del hotel'
-                    {...register('name', { required: true })}
-                  />
-                  {errors.name && (
-                    <span className='text-danger'>
-                      Este campo es obligatorio
-                    </span>
-                  )}
-                </div>
-                {/* Categoría */}
-                <div className='form-group'>
-                  <label htmlFor='category'>Categoría</label>
-                  <select
-                    id='category'
-                    className='form-control'
-                    {...register('category', { required: true })}
-                  >
-                    <option value=''>Selecciona una categoría</option>
-                    {categories.map((category) => (
-                      <option value={category.name} key={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {/* Dirección bloque calle */}
-                <div className='form-group'>
-                  <label htmlFor='street'>Dirección</label>
-                  <div className='form-group-address'>
-                    <div className='form-group-address-street'>
-                      <input
-                        type='text'
-                        id='street'
-                        className='form-control'
-                        placeholder='Calle'
-                        {...register('street', { required: true })}
-                      />
-                    </div>
-                    {/* Dirección bloque numero */}
-                    <div className='form-group-address-street'>
-                      <input
-                        type='text'
-                        id='number'
-                        className='form-control'
-                        placeholder='Número'
-                        {...register('number')}
-                      />
-                    </div>
+              {/* Categoría */}
+              <div className='form-group'>
+                <label htmlFor='category'>Categoría</label>
+                <select
+                  id='category'
+                  className='form-control'
+                  {...register('category', { required: true })}
+                >
+                  <option value=''>Selecciona una categoría</option>
+                  {categories.map((category) => (
+                    <option value={category.name} key={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* Dirección bloque calle */}
+              <div className='form-group'>
+                <label htmlFor='street'>Dirección</label>
+                <div className='form-group-address'>
+                  <div className='form-group-address-street'>
+                    <input
+                      type='text'
+                      id='street'
+                      className='form-control'
+                      placeholder='Calle'
+                      {...register('street', { required: true })}
+                    />
                   </div>
-                  {/* Dirección bloque ciudad */}
-                  <div className='form-group-country'>
-                    <div className='form-group-country-city'>
-                      <input
-                        type='text'
-                        id='city'
-                        className='form-control'
-                        placeholder='Ciudad'
-                        {...register('city', { required: true })}
-                      />
-                    </div>
-                    {/* Dirección bloque código postal */}
-                    <div className='form-group-country-city'>
-                      <input
-                        type='text'
-                        id='zipcode'
-                        className='form-control'
-                        placeholder='Código Postal'
-                        {...register('zipcode', { required: true })}
-                      />
-                    </div>
-                  </div>
-                  {/* Dirección bloque estado/provincia */}
-                  <div className='form-group-country'>
-                    <div className='form-group-country-city'>
-                      <input
-                        type='text'
-                        id='state'
-                        className='form-control'
-                        placeholder='Estado/Provincia'
-                        {...register('state', { required: true })}
-                      />
-                    </div>
-                    {/* Dirección bloque país */}
-                    <div className='form-group-country-city'>
-                      <input
-                        type='text'
-                        id='country'
-                        className='form-control'
-                        placeholder='País'
-                        {...register('country', { required: true })}
-                      />
-                    </div>
+                  {/* Dirección bloque numero */}
+                  <div className='form-group-address-street'>
+                    <input
+                      type='text'
+                      id='number'
+                      className='form-control'
+                      placeholder='Número'
+                      {...register('number')}
+                    />
                   </div>
                 </div>
-                {/* Coordenadas */}
-                <div className='form-group'>
-                  <label htmlFor='latitude'>Coordenadas</label>
-                  <div className='form-group-coordinates'>
-                    {/* Latitud */}
-                    <div className='form-group-coordinates-latitude'>
-                      <input
-                        type='text'
-                        id='latitude'
-                        className='form-control'
-                        placeholder='Latitud'
-                        {...register('latitude', { required: true })}
-                      />
-                    </div>
-                    {/* Longitud */}
-                    <div className='form-group-coordinates-longitude'>
-                      <input
-                        type='text'
-                        id='longitude'
-                        className='form-control'
-                        placeholder='Longitud'
-                        {...register('longitude', { required: true })}
-                      />
-                    </div>
+                {/* Dirección bloque ciudad */}
+                <div className='form-group-country'>
+                  <div className='form-group-country-city'>
+                    <input
+                      type='text'
+                      id='city'
+                      className='form-control'
+                      placeholder='Ciudad'
+                      {...register('city', { required: true })}
+                    />
+                  </div>
+                  {/* Dirección bloque código postal */}
+                  <div className='form-group-country-city'>
+                    <input
+                      type='text'
+                      id='zipcode'
+                      className='form-control'
+                      placeholder='Código Postal'
+                      {...register('zipcode', { required: true })}
+                    />
                   </div>
                 </div>
-                {/* Descripción */}
-                <div className='form-group'>
-                  <label htmlFor='description'>Descripción</label>
-                  <textarea
-                    id='description'
-                    className='form-control'
-                    placeholder='Descripción del hotel'
-                    {...register('description', {
-                      required: true,
-                      maxLength: 1000,
-                    })}
-                  />
-                </div>
-                {/* Características */}
-                <div className='form-group'>
-                  <label htmlFor='features'>Características</label>
-                  <MultiSelectChips
-                    name={'features'}
-                    control={control}
-                    options={features}
-                  />
-                </div>
-                {/* Precios */}
-                <div className='form-group'>
-                  <label htmlFor='adult-price'>Precios ($)</label>
-                  <div className='form-group-prices'>
-                    {/* Precio adultos */}
-                    <div className='form-group-prices-adults'>
-                      <input
-                        type='text'
-                        id='adult-price'
-                        className='form-control'
-                        placeholder='Adultos'
-                        {...register('adultPrice', { required: true })}
-                      />
-                    </div>
-                    {/* Precio niños */}
-                    <div className='form-group-prices-children'>
-                      <input
-                        type='text'
-                        id='children-price'
-                        className='form-control'
-                        placeholder='Niños'
-                        {...register('childPrice', { required: true })}
-                      />
-                    </div>
+                {/* Dirección bloque estado/provincia */}
+                <div className='form-group-country'>
+                  <div className='form-group-country-city'>
+                    <input
+                      type='text'
+                      id='state'
+                      className='form-control'
+                      placeholder='Estado/Provincia'
+                      {...register('state', { required: true })}
+                    />
                   </div>
-                </div>
-
-                {/* Imágenes */}
-                <div className='form-group'>
-                  <label htmlFor='images'>Elegir Imagenes</label>
-                  <input
-                    type='file'
-                    id='images'
-                    name='images'
-                    onChange={handleImages}
-                    multiple
-                    style={{ display: 'none' }}
-                    // {...register('images', { required: true })}
-                  />
-                  <div className='selected-images'>
-                    {images.map((image, index) => (
-                      <img src={image} alt='' key={index} />
-                    ))}
+                  {/* Dirección bloque país */}
+                  <div className='form-group-country-city'>
+                    <input
+                      type='text'
+                      id='country'
+                      className='form-control'
+                      placeholder='País'
+                      {...register('country', { required: true })}
+                    />
                   </div>
-                </div>
-
-                {/* Políticas */}
-
-                <div className='form-group'>
-                  <label htmlFor='policies'>
-                    Políticas{' '}
-                    <span onClick={chooseStandardPolicies}>
-                      Elegir política estándar de Digital Booking
-                    </span>
-                  </label>
-                  <textarea
-                    id='rules'
-                    className='form-control'
-                    placeholder='Normas del hotel'
-                    {...register('rules', { required: true })}
-                  />
-                  <textarea
-                    id='security'
-                    className='form-control'
-                    placeholder='Politicás de seguridad'
-                    {...register('security', { required: true })}
-                  />
-                  <textarea
-                    id='cancelation'
-                    className='form-control'
-                    placeholder='Política de cancelación'
-                    {...register('cancellation', { required: true })}
-                  />
-                </div>
-                <div className='form-group-buttons'>
-                  <button className='btn btn-primary'>Crear hotel</button>
-
-                  <Link to={'/admin/hotels'} className='btn btn-tertiary'>
-                    Cancelar
-                  </Link>
                 </div>
               </div>
-            </form>
-          </div>
-        </>
-      )}
+              {/* Coordenadas */}
+              <div className='form-group'>
+                <label htmlFor='latitude'>Coordenadas</label>
+                <div className='form-group-coordinates'>
+                  {/* Latitud */}
+                  <div className='form-group-coordinates-latitude'>
+                    <input
+                      type='text'
+                      id='latitude'
+                      className='form-control'
+                      placeholder='Latitud'
+                      {...register('latitude', { required: true })}
+                    />
+                  </div>
+                  {/* Longitud */}
+                  <div className='form-group-coordinates-longitude'>
+                    <input
+                      type='text'
+                      id='longitude'
+                      className='form-control'
+                      placeholder='Longitud'
+                      {...register('longitude', { required: true })}
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* Descripción */}
+              <div className='form-group'>
+                <label htmlFor='description'>Descripción</label>
+                <textarea
+                  id='description'
+                  className='form-control'
+                  placeholder='Descripción del hotel'
+                  {...register('description', {
+                    required: true,
+                    maxLength: 1000,
+                  })}
+                />
+              </div>
+              {/* Características */}
+              <div className='form-group'>
+                <label htmlFor='features'>Características</label>
+                <MultiSelectChips
+                  name={'features'}
+                  control={control}
+                  options={features}
+                />
+              </div>
+              {/* Precios */}
+              <div className='form-group'>
+                <label htmlFor='adult-price'>Precios ($)</label>
+                <div className='form-group-prices'>
+                  {/* Precio adultos */}
+                  <div className='form-group-prices-adults'>
+                    <input
+                      type='text'
+                      id='adult-price'
+                      className='form-control'
+                      placeholder='Adultos'
+                      {...register('adultPrice', { required: true })}
+                    />
+                  </div>
+                  {/* Precio niños */}
+                  <div className='form-group-prices-children'>
+                    <input
+                      type='text'
+                      id='children-price'
+                      className='form-control'
+                      placeholder='Niños'
+                      {...register('childPrice', { required: true })}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Imágenes */}
+              <div className='form-group'>
+                <label htmlFor='images'>Elegir Imagenes</label>
+                <input
+                  type='file'
+                  id='images'
+                  name='images'
+                  onChange={handleImages}
+                  multiple
+                  style={{ display: 'none' }}
+                  // {...register('images', { required: true })}
+                />
+                <div className='selected-images'>
+                  {images.map((image, index) => (
+                    <img src={image} alt='' key={index} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Políticas */}
+
+              <div className='form-group'>
+                <label htmlFor='policies'>
+                  Políticas{' '}
+                  <span onClick={chooseStandardPolicies}>
+                    Elegir política estándar de Digital Booking
+                  </span>
+                </label>
+                <textarea
+                  id='rules'
+                  className='form-control'
+                  placeholder='Normas del hotel'
+                  {...register('rules', { required: true })}
+                />
+                <textarea
+                  id='security'
+                  className='form-control'
+                  placeholder='Politicás de seguridad'
+                  {...register('security', { required: true })}
+                />
+                <textarea
+                  id='cancelation'
+                  className='form-control'
+                  placeholder='Política de cancelación'
+                  {...register('cancellation', { required: true })}
+                />
+              </div>
+              <div className='form-group-buttons'>
+                <button className='btn btn-primary'>
+                  {' '}
+                  {id ? 'Confirmar' : 'Crear hotel'}
+                </button>
+
+                <Link to={'/admin/hotels'} className='btn btn-tertiary'>
+                  Cancelar
+                </Link>
+              </div>
+            </div>
+          </form>
+        </div>
+      </ErrorBoundary>
     </>
   );
 };
