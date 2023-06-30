@@ -22,9 +22,6 @@ const HotelDetails = () => {
   const hotel = useSelector((state) => state.hotel.currentHotel);
   const loading = useSelector((state) => state.hotel.status === 'loading');
 
-  console.log(hotel);
-  window.scrollTo(0, 0);
-
   const ratingScale = {
     2: 'Muy malo',
     3: 'Malo',
@@ -83,7 +80,7 @@ const HotelDetails = () => {
 
   const scrollToMap = () => {
     window.scrollTo({
-      top: hotelMapRef.current.offsetTop - 100,
+      top: hotelMapRef.current.offsetTop - 10,
       behavior: 'smooth',
     });
   };

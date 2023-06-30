@@ -9,6 +9,7 @@ const HotelMap = () => {
   const hotel = useSelector((state) => state.hotel.currentHotel);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setCoordinates([hotel?.location.longitude, hotel?.location.latitude]);
   }, [hotel]);
 
@@ -19,7 +20,6 @@ const HotelMap = () => {
       style: 'mapbox://styles/mapbox/streets-v12',
       center: coordinates,
       zoom: 10,
-      navigationControl: true,
     });
 
     // Creación del popup. Mostrará el nombre del hotel

@@ -1,8 +1,26 @@
 import FooterBottom from './FooterBottom';
 import logo from '../../assets/images/logo.png';
 import './Footer.scss';
+import Swal from 'sweetalert2';
+import { useForm } from 'react-hook-form';
 
 const Footer = () => {
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = (data) => {
+    console.log('Suscribir');
+    Swal.fire({
+      title: '¡Gracias por suscribirte!',
+      text: 'Te enviaremos las últimas noticias y actualizaciones',
+      icon: 'success',
+      confirmButtonText: '¡CONTINUAR!',
+      confirmButtonColor: 'hsl(197, 66%, 55%)',
+      background: 'hsl(0, 0%, 88%)',
+      backdrop: `
+        rgba(0,0,0,0.5)`,
+    });
+    console.log(data);
+    reset();
+  };
   return (
     <footer className='footer'>
       <div className='footer-top'>
@@ -22,10 +40,6 @@ const Footer = () => {
           <div className='footer-contact'>
             <h4 className='contact-title'>CONTÁCTENOS</h4>
 
-            <p className='contact-text'>
-              ¡No dude en contactarnos y comunicarse con nosotros!
-            </p>
-
             <ul>
               <li className='contact-item'>
                 <ion-icon name='call-outline'></ion-icon>
@@ -38,8 +52,11 @@ const Footer = () => {
               <li className='contact-item'>
                 <ion-icon name='mail-outline'></ion-icon>
 
-                <a href='mailto:info@hospic.com' className='contact-link'>
-                  info@hospic.com
+                <a
+                  href='mailto:digitalbooking@ingenial.co'
+                  className='contact-link'
+                >
+                  digitalbooking@ingenial.co
                 </a>
               </li>
 
@@ -57,13 +74,13 @@ const Footer = () => {
               noticias!
             </p>
 
-            <form action='' className='form-wrapper'>
+            <form onSubmit={handleSubmit(onSubmit)} className='form-wrapper'>
               <input
                 type='email'
-                name='email'
                 className='input-field'
                 placeholder='Introduce tu correo electrónico'
                 required
+                {...register('subscribe', { required: true })}
               />
 
               <button type='submit' className='btn btn-secondary'>

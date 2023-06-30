@@ -1,18 +1,23 @@
 import { Link } from 'react-router-dom';
 import './PackageSection.scss';
 import HotelCard from '../HotelCard/HotelCard';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { getHotels } from '../../store/actions/hotelActions';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { getRandomHotels } from '../../store/actions/hotelActions';
+import Spinner from '../Spinner/Spinner';
 
 const PackageSection = () => {
   const dispatch = useDispatch();
-  const { hotels } = useSelector((state) => state.hotel);
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   console.log(hotels);
 
   useEffect(() => {
-    dispatch(getHotels());
+    dispatch(getRandomHotels(10)).then((res) => {
+      setHotels(res?.payload?.hotels);
+      setLoading(false);
+    });
   }, []);
 
   return (
@@ -27,11 +32,28 @@ const PackageSection = () => {
           increíbles hospedajes. ¡Déjate consentir y disfruta al máximo sin
           preocupaciones adicionales!
         </p>
-        <ul className='package-list'>
-          {hotels.map((hotel, i) => (
-            <HotelCard key={i} hotel={hotel} />
-          ))}
-        </ul>
+        {loading ? (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              alignItems: 'center',
+              minHeight: '400px',
+              width: '100%',
+              flexGrow: 1,
+            }}
+          >
+            <Spinner />
+            <p>Cargando...</p>
+          </div>
+        ) : (
+          <ul className='package-list'>
+            {hotels?.map((hotel, i) => (
+              <HotelCard key={i} hotel={hotel} />
+            ))}
+          </ul>
+        )}
         <Link to={'/search'} className='all'>
           <button className='btn btn-primary'>VER TODOS LOS HOTELES</button>
         </Link>
