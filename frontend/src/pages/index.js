@@ -1,7 +1,10 @@
 export { default as Admin } from './Admin/Admin';
 export { default as AdminLayout } from './Admin/AdminLayout/AdminLayout';
+export { default as Sidebar } from './Admin/AdminLayout/Sidebar';
 export { default as Categories } from './Admin/Categories/Categories';
+export { default as CreateCategory } from './Admin/Categories/CreateCategory/CreateCategory';
 export { default as Dashboard } from './Admin/Dashboard/Dashboard';
+export { default as CreateHotel } from './Admin/Hotels/CreateHotel/CreateHotel';
 export { default as Hotels } from './Admin/Hotels/Hotels';
 export { default as Users } from './Admin/Users/Users';
 export { default as ErrorPage } from './ErrorPage';
@@ -9,5 +12,7 @@ export { default as Home } from './Home';
 export { default as HotelDetails } from './HotelDetails';
 export { default as Login } from './Login';
 export { default as Register } from './Register';
+export { default as Reservation } from './Reservation';
+export { default as SearchResults } from './SearchResults';
 export { default as UserProfile } from './UserProfile';
 export { default as VerifyEmail } from './VerifyEmail';

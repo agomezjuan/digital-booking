@@ -6,11 +6,12 @@ const initialState = {
   error: null,
   message: '',
   hotels: [],
+  cities: [],
   currentHotel: null,
 };
 
 const hotelSlice = createSlice({
-  name: 'places',
+  name: 'hotel',
   initialState,
   reducers: {
     resetPlaceError: (state) => {
@@ -39,6 +40,9 @@ const hotelSlice = createSlice({
       .addCase(getHotels.fulfilled, (state, { payload }) => {
         state.status = 'succeeded';
         state.hotels = payload;
+        state.cities = payload.map(
+          (hotel) => `${hotel?.address.city}, ${hotel?.address.country}`,
+        );
       })
       .addCase(getHotels.rejected, (state, action) => {
         state.status = 'failed';

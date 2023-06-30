@@ -8,8 +8,10 @@ import {
 
 const initialState = {
   reservations: [],
-  status: 'idle',
   currentReservation: null,
+  status: 'idle',
+  people: 0,
+  destination: '',
   dates: [],
   error: null,
 };
@@ -23,6 +25,12 @@ const reservationSlice = createSlice({
     },
     setDates(state, action) {
       state.dates = action.payload;
+    },
+    setDestination(state, action) {
+      state.destination = action.payload;
+    },
+    setPeople(state, action) {
+      state.people = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -74,6 +82,7 @@ const reservationSlice = createSlice({
   },
 });
 
-export const { setCurrentReservation, setDates } = reservationSlice.actions;
+export const { setCurrentReservation, setDates, setDestination, setPeople } =
+  reservationSlice.actions;
 
 export default reservationSlice.reducer;

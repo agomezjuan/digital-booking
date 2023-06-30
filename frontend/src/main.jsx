@@ -9,6 +9,7 @@ import {
   Hotels,
   Login,
   Register,
+  SearchResults,
   Users,
   VerifyEmail,
 } from './pages';
@@ -24,9 +25,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 import './index.css';
 import './sass/main.scss';
 import { CategoryFilter } from './components';
-import CreateHotel from './pages/Admin/Hotels/CreateHotel/CreateHotel';
-import CreateCategory from './pages/Admin/Categories/CreateCategory.jsx/CreateCategory';
-import Reservation from './pages/Reservation';
+import { CreateHotel, CreateCategory, Reservation } from './pages';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -52,10 +51,13 @@ const App = () => {
       element: <CategoryFilter />,
     },
     {
+      path: '/search',
+      element: <SearchResults />,
+    },
+    {
       path: '/hotel/:id',
       element: <HotelDetails />,
     },
-
     {
       path: '/hotel/:id/booking',
       element: <Reservation />,
