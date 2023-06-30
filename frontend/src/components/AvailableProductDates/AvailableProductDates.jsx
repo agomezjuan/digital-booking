@@ -12,7 +12,7 @@ function AvailableProductDates({ id }) {
   const datePickerRef = useRef();
   const [dates, setDates] = useState([]);
   const { dates: selectedDates } = useSelector((state) => state.reservation);
-  const weekDays = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
+  const weekDays = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
   const months = [
     'Enero',
     'Febrero',

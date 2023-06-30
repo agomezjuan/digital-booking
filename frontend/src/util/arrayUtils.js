@@ -39,3 +39,16 @@ export const months = [
  * @constant
  */
 export const days = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
+
+/**
+ * Esta función devuelve un array con los días entre dos fechas
+ * @param {Array} dates Fechas de inicio y fin
+ *
+ */
+export function convertDates(dates) {
+  const newDates =
+    dates.length == 2
+      ? dates.map((date) => date.format())
+      : [dates[0].format()];
+  return newDates;
+}
