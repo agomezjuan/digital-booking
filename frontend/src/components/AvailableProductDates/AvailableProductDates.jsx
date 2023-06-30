@@ -56,10 +56,9 @@ function AvailableProductDates({ id }) {
 
   const endDate = formatDate(dates[dates.length - 1]);
 
-  const totalDays =
-    Math.ceil(
-      Math.abs(dates[dates.length - 1] - dates[0]) / (1000 * 60 * 60 * 24),
-    ) + 1;
+  const totalDays = Math.ceil(
+    Math.abs(dates[dates.length - 1] - dates[0]) / (1000 * 60 * 60 * 24),
+  );
 
   function convertDates(dates) {
     const newDates =

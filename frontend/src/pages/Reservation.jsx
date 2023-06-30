@@ -15,7 +15,11 @@ import useMediaQuery from '../hooks/useMediaQuery';
 import TimePicker from 'react-multi-date-picker/plugins/time_picker';
 import DatePicker, { Calendar, DateObject } from 'react-multi-date-picker';
 import { months, days, convertDates } from '../util/arrayUtils';
-import { setDates as setSelectedDates } from '../store/slices/reservationSlice';
+import {
+  handleLessPeople,
+  handleMorePeople,
+  setDates as setSelectedDates,
+} from '../store/slices/reservationSlice';
 import { getHotel } from '../store/actions/hotelActions';
 import Swal from 'sweetalert2';
 
@@ -27,7 +31,11 @@ const Reservation = () => {
   const [dates, setDates] = useState([]);
   const [time, setTime] = useState('');
   const { currentHotel, status } = useSelector((state) => state.hotel);
-  const { dates: selectedDates } = useSelector((state) => state.reservation);
+  const {
+    dates: selectedDates,
+    people,
+    diffDays,
+  } = useSelector((state) => state.reservation);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
@@ -107,6 +115,14 @@ const Reservation = () => {
     setDates(dates);
     console.log(dates[0].format());
     dispatch(setSelectedDates(convertDates(dates)));
+  };
+
+  const handleIncrement = () => {
+    dispatch(handleMorePeople());
+  };
+
+  const handleDecrement = () => {
+    dispatch(handleLessPeople());
   };
 
   return (
@@ -229,11 +245,13 @@ const Reservation = () => {
               </div>
               <div className='reservation-right'>
                 <div className='reservation-right-card'>
-                  <div className='reservation-right-card-title'>
-                    <h2>Detalle de la reserva</h2>
-                  </div>
-                  <div className='reservation-right-card-image'>
-                    <img src={currentHotel?.images[2]} alt='Hotel' />
+                  <div>
+                    <div className='reservation-right-card-title'>
+                      <h2>Detalle de la reserva</h2>
+                    </div>
+                    <div className='reservation-right-card-image'>
+                      <img src={currentHotel?.images[2]} alt='Hotel' />
+                    </div>
                   </div>
                   <div className='reservation-right-card-info'>
                     <div className='reservation-right-card-info-title'>
@@ -280,12 +298,21 @@ const Reservation = () => {
                     </div>
                     <div className='reservation-right-card-info-people'>
                       <p>
-                        <ion-icon name='person-outline'></ion-icon> 2 personas
+                        <ion-icon name='person-outline'></ion-icon>{' '}
+                        {people || 1} personas{' '}
+                        <div>
+                          <span onClick={handleIncrement}>
+                            <ion-icon name='caret-up-outline'></ion-icon>
+                          </span>
+                          <span onClick={handleDecrement}>
+                            <ion-icon name='caret-down-outline'></ion-icon>
+                          </span>
+                        </div>
                       </p>
                     </div>
                     <div className='reservation-right-card-info-price'>
                       <ion-icon name='cash-outline'></ion-icon>{' '}
-                      <p>{currentHotel?.adultPrice} USD</p>
+                      <p>{currentHotel?.adultPrice * people * diffDays} USD</p>
                     </div>
                     <button
                       onClick={handleSubmit(onSubmit)}

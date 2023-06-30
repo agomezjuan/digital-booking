@@ -46,7 +46,7 @@ const TourSearch = () => {
       setValue('destination', destination);
     }
 
-    if (hotels?.length > 0) {
+    if (hotels?.length == 0) {
       dispatch(getHotels());
     }
   }, [dispatch, selectedDates]);

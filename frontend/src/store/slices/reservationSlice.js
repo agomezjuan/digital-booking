@@ -10,9 +10,10 @@ const initialState = {
   reservations: [],
   currentReservation: null,
   status: 'idle',
-  people: 0,
+  people: 1,
   destination: '',
   dates: [],
+  diffDays: 1,
   error: null,
 };
 
@@ -25,12 +26,30 @@ const reservationSlice = createSlice({
     },
     setDates(state, action) {
       state.dates = action.payload;
+      // Calcular el numero de dias
+      if (action.payload.length < 2) return (state.diffDays = 1);
+      // La fecha esta en formato string, hay que convertirla a Date
+      const date1 = new Date(action.payload[0]);
+      const date2 = new Date(action.payload[1]);
+      // Calcular la diferencia en milisegundos
+      const diffTime = Math.abs(date2 - date1);
+      // Calcular la diferencia en dias
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      state.diffDays = diffDays;
     },
     setDestination(state, action) {
       state.destination = action.payload;
     },
     setPeople(state, action) {
       state.people = action.payload;
+    },
+    handleMorePeople(state) {
+      state.people += 1;
+    },
+    handleLessPeople(state) {
+      if (state.people > 1) {
+        state.people -= 1;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -82,7 +101,13 @@ const reservationSlice = createSlice({
   },
 });
 
-export const { setCurrentReservation, setDates, setDestination, setPeople } =
-  reservationSlice.actions;
+export const {
+  setCurrentReservation,
+  setDates,
+  setDestination,
+  setPeople,
+  handleLessPeople,
+  handleMorePeople,
+} = reservationSlice.actions;
 
 export default reservationSlice.reducer;
