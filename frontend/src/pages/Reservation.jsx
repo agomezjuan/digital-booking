@@ -86,7 +86,7 @@ const Reservation = () => {
     setValue('paymenMethod', 'credit card');
     setValue('startDate', selectedDates[0]);
     setValue('endDate', selectedDates[1]);
-  }, [isLoggedIn, navigate, currentHotel, selectedDates, people, diffDays]);
+  }, [isLoggedIn, navigate, currentHotel]);
 
   const onSubmit = (data) => {
     if (dates.length === 0) {
