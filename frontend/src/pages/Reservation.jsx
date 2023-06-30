@@ -17,7 +17,6 @@ import DatePicker, { Calendar, DateObject } from 'react-multi-date-picker';
 import { months, days, convertDates } from '../util/arrayUtils';
 import { setDates as setSelectedDates } from '../store/slices/reservationSlice';
 import { getHotel } from '../store/actions/hotelActions';
-import es from 'react-multi-date-picker/locale/es';
 import Swal from 'sweetalert2';
 
 const Reservation = () => {
@@ -213,7 +212,6 @@ const Reservation = () => {
                     </p>
                     <DatePicker
                       disableDayPicker
-                      locale={es}
                       format='HH:mm A'
                       onChange={handleSelectTime}
                       value={time}
