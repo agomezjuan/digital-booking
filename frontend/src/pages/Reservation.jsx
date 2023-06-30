@@ -230,7 +230,7 @@ const Reservation = () => {
               <div className='reservation-right'>
                 <div className='reservation-right-card'>
                   <div className='reservation-right-card-title'>
-                    <h2>Datalle de la reserva</h2>
+                    <h2>Detalle de la reserva</h2>
                   </div>
                   <div className='reservation-right-card-image'>
                     <img src={currentHotel?.images[2]} alt='Hotel' />

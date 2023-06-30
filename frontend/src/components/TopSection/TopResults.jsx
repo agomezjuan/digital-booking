@@ -1,10 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import './TopSection.scss';
+import { useNavigate } from 'react-router-dom';
 
-const TopAdmin = () => {
+const TopResults = () => {
   useEffect(() => {
-    document.title = 'Admin';
+    document.title = 'Resultados de búsqueda';
   }, []);
 
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ const TopAdmin = () => {
     <div className='top-admin'>
       <div className='container'>
         <div className='top-section-title'>
-          <span>Admin Dashboard</span>
+          <span>Resultados de búsqueda</span>
         </div>
         <div className='top-section-back' onClick={goBack}>
           <ion-icon name='chevron-back-outline'></ion-icon>
@@ -27,4 +26,4 @@ const TopAdmin = () => {
   );
 };
 
-export default TopAdmin;
+export default TopResults;
