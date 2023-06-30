@@ -18,6 +18,7 @@ import { months, days, convertDates } from '../util/arrayUtils';
 import {
   handleLessPeople,
   handleMorePeople,
+  setCurrentReservation,
   setDates as setSelectedDates,
 } from '../store/slices/reservationSlice';
 import { getHotel } from '../store/actions/hotelActions';
@@ -30,13 +31,14 @@ const Reservation = () => {
   const { id } = useParams();
   const [dates, setDates] = useState([]);
   const [time, setTime] = useState('');
+  const [totalPrice, setTotalPrice] = useState(0);
   const { currentHotel, status } = useSelector((state) => state.hotel);
   const {
     dates: selectedDates,
     people,
     diffDays,
   } = useSelector((state) => state.reservation);
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, userId } = useSelector((state) => state.auth);
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       name: '',
@@ -68,18 +70,23 @@ const Reservation = () => {
     if (selectedDates.length > 0) {
       setDates(selectedDates.map((date) => new DateObject(date)));
     }
+
+    setTotalPrice(currentHotel?.adultPrice * people * diffDays);
+
+    console.log('totalPrice', totalPrice);
+
     setValue('name', user.name);
     setValue('lastname', user.lastname);
     setValue('email', user.email);
     setValue('city', user.city);
     setValue('hotelId', currentHotel?.id);
-    setValue('userId', user.id);
+    setValue('userId', userId);
     setValue('status', 'confirmed');
-    setValue('total', currentHotel?.price);
+    setValue('total', totalPrice);
     setValue('paymenMethod', 'credit card');
     setValue('startDate', selectedDates[0]);
     setValue('endDate', selectedDates[1]);
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, currentHotel, selectedDates, people, diffDays]);
 
   const onSubmit = (data) => {
     if (dates.length === 0) {
@@ -103,6 +110,7 @@ const Reservation = () => {
     data.endDate = dates.length === 2 ? dates[1].format() : dates[0].format();
     data.time = time.format();
 
+    dispatch(setCurrentReservation(data));
     console.log(data);
   };
 
@@ -312,7 +320,7 @@ const Reservation = () => {
                     </div>
                     <div className='reservation-right-card-info-price'>
                       <ion-icon name='cash-outline'></ion-icon>{' '}
-                      <p>{currentHotel?.adultPrice * people * diffDays} USD</p>
+                      <p>{totalPrice} USD</p>
                     </div>
                     <button
                       onClick={handleSubmit(onSubmit)}

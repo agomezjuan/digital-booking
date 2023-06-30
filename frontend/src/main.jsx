@@ -25,7 +25,12 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 import './index.css';
 import './sass/main.scss';
 import { CategoryFilter } from './components';
-import { CreateHotel, CreateCategory, Reservation } from './pages';
+import {
+  CreateHotel,
+  CreateCategory,
+  Reservation,
+  BookingConfirm,
+} from './pages';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -61,6 +66,12 @@ const App = () => {
     {
       path: '/hotel/:id/booking',
       element: <Reservation />,
+      children: [
+        {
+          path: 'confirm',
+          element: <BookingConfirm />,
+        },
+      ],
     },
 
     {

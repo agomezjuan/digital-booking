@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 
 const initialState = {
   user: {},
+  userId: null,
   favorites: [],
   role: null,
   token: null,
@@ -79,6 +80,7 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         state.message = payload.message;
         state.user = payload.data;
+        state.userId = payload.data.id;
       })
       .addCase(register.rejected, (state, { payload }) => {
         state.status = 'failed';

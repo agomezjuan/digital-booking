@@ -7,6 +7,7 @@ export { default as Dashboard } from './Admin/Dashboard/Dashboard';
 export { default as CreateHotel } from './Admin/Hotels/CreateHotel/CreateHotel';
 export { default as Hotels } from './Admin/Hotels/Hotels';
 export { default as Users } from './Admin/Users/Users';
+export { default as BookingConfirm } from './BookingConfirm';
 export { default as ErrorPage } from './ErrorPage';
 export { default as Home } from './Home';
 export { default as HotelDetails } from './HotelDetails';
