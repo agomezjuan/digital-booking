@@ -13,12 +13,14 @@ import './TourSearch.scss';
 import LocationSearch from '../LocationSearch/LocationSearch';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getHotels } from '../../store/actions/hotelActions';
 
 const TourSearch = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [dates, setDates] = useState([]);
+  const { hotels } = useSelector((state) => state.hotel);
   const { dates: selectedDates, destination } = useSelector(
     (state) => state.reservation,
   );
@@ -42,6 +44,10 @@ const TourSearch = () => {
 
     if (destination !== '') {
       setValue('destination', destination);
+    }
+
+    if (hotels?.length > 0) {
+      dispatch(getHotels());
     }
   }, [dispatch, selectedDates]);
 
