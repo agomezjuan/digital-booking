@@ -108,7 +108,7 @@
   background: #ffffff;
   position: relative;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
-  @include tablet() {
+  @include xlarge() {
     margin-top: auto;
   }
 
@@ -149,6 +149,10 @@
   border-radius: 2px;
   border: 1px solid #ccc;
   transition: border-width 0.2s ease;
+  color: $black-coral;
+}
+
+.login input::placeholder {
   color: #ccc;
 }
 

@@ -23,6 +23,7 @@ const HotelDetails = () => {
   const loading = useSelector((state) => state.hotel.status === 'loading');
 
   console.log(hotel);
+  window.scrollTo(0, 0);
 
   const ratingScale = {
     2: 'Muy malo',
@@ -38,15 +39,15 @@ const HotelDetails = () => {
   const ratingText = ratingScale[hotel?.rating - (hotel?.rating % 1)];
 
   useEffect(() => {
-    dispatch(getHotel(id));
     window.scrollTo(0, 0);
+    dispatch(getHotel(id));
 
-    let images = document.querySelectorAll('.skeleton');
-    images.forEach((image) => {
-      image.addEventListener('load', () => {
-        image.classList.remove('skeleton');
-      });
-    });
+    // let images = document.querySelectorAll('.skeleton');
+    // images.forEach((image) => {
+    //   image.addEventListener('load', () => {
+    //     image.classList.remove('skeleton');
+    //   });
+    // });
   }, [id, dispatch]);
 
   const openLightbox = (index) => {
@@ -78,11 +79,11 @@ const HotelDetails = () => {
     }
   };
 
-  const mapRef = useRef(null);
+  const hotelMapRef = useRef(null);
 
   const scrollToMap = () => {
     window.scrollTo({
-      top: mapRef.current.offsetTop - 100,
+      top: hotelMapRef.current.offsetTop - 100,
       behavior: 'smooth',
     });
   };
@@ -272,7 +273,7 @@ const HotelDetails = () => {
           <AvailableProductDates id={hotel?.id} />
 
           {/* Mapa */}
-          <div ref={mapRef} className='map-section'>
+          <div ref={hotelMapRef} className='map-section'>
             <div className='map-section-title'>
               <div className='container'>
                 <h2 className='titulo'>¿Donde vas a estar?</h2>
