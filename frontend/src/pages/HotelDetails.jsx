@@ -123,7 +123,7 @@ const HotelDetails = () => {
                       {hotel?.address.country}
                     </span>
                   </p>
-                  <p>Distancia desde el centro</p>
+                  <p>A 3 km desde el centro</p>
                 </div>
                 <div>
                   {/* <Rating rating={4} />
