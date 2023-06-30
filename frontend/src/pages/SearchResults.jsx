@@ -27,8 +27,8 @@ function SearchResults() {
 
     const availableHotels = hotels?.filter(
       (hotel) =>
-        hotel?.address.city.includes(destination.split(', ')[0]) ||
-        hotel?.address.country.includes(destination.split(', ')[1]),
+        hotel?.address.city.includes(destination?.split(', ')[0]) ||
+        hotel?.address.country.includes(destination?.split(', ')[1]),
     );
 
     setAvailableHotels(availableHotels);
