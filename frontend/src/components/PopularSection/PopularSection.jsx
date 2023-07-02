@@ -1,12 +1,7 @@
 import CategoryCard from '../CategoryCard/CategoryCard';
-import popular1 from '../../assets/images/popular-1.jpg';
-import popular2 from '../../assets/images/popular-2.jpg';
-import popular3 from '../../assets/images/popular-3.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getCategories } from '../../store/actions/categoryActions';
-
-const catgImg = [popular1, popular2, popular3, popular1, popular2];
 
 const PopularSection = () => {
   const dispatch = useDispatch();
@@ -14,7 +9,6 @@ const PopularSection = () => {
   const [apiError, setApiError] = useState(false);
 
   useEffect(() => {
-    console.log(categories);
     if (categories.length === 0 && status === 'idle') dispatch(getCategories());
     if (status === 'failed') setApiError(true);
   }, [categories, status, dispatch]);
@@ -39,8 +33,8 @@ const PopularSection = () => {
         ) : (
           <ul className='popular-list'>
             {categories.map((category, index) => (
-              <li key={category.id}>
-                <CategoryCard img={catgImg[index]} category={category} />
+              <li key={index}>
+                <CategoryCard img={category.imageUrl} category={category} />
               </li>
             ))}
           </ul>

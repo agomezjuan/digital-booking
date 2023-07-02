@@ -1,0 +1,315 @@
+@use '../sass/base/variables.scss' as *;
+@use '../sass/base/mixins.scss' as *;
+
+.reservation {
+  padding: 50px 0px;
+  .container {
+    padding: 0px 15px;
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+    width: 100%;
+
+    @include tablet() {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 20px;
+    }
+  }
+
+  &-left {
+    grid-column: span 1;
+    width: 100%;
+    @include tablet() {
+      grid-column: span 21;
+    }
+    @include desktop() {
+      grid-column: span 1;
+    }
+    &-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: $gunmetal;
+    }
+
+    &-form {
+      form {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        background-color: $white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+          rgba(17, 17, 26, 0.1) 0px 0px 8px;
+        margin-bottom: 20px;
+
+        @include tablet() {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .ContainerAvailableDates {
+        h2 {
+          width: 100% !important;
+          max-width: 1640px;
+          margin-bottom: -10px;
+        }
+        background-color: $white !important;
+        .ContainerCalendarButton {
+          width: 100%;
+          max-width: 1640px;
+          flex-direction: column;
+          .rmdp-wrapper {
+            width: 100%;
+          }
+        }
+      }
+      .form-fields {
+        background-color: $white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+          rgba(17, 17, 26, 0.1) 0px 0px 8px;
+        margin-bottom: 20px;
+        p {
+          margin-bottom: 10px;
+          font-size: 14px;
+          color: $onyx;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          ion-icon {
+            font-size: 20px;
+            color: $gunmetal;
+          }
+        }
+        .rmdp-input {
+          display: block;
+          padding: 15px 10px;
+          margin-bottom: 10px;
+          width: 100%;
+          border-radius: 2px;
+          border: 1px solid #ccc;
+          transition: border-width 0.2s ease;
+          color: hsl(225, 8%, 42%);
+          background-color: hsl(0, 0%, 98%);
+
+          &:focus {
+            outline: none;
+            color: #444;
+            border-color: #41b6e6;
+            border-left-width: 35px;
+          }
+        }
+      }
+
+      &-input {
+        label {
+          display: block;
+          margin-bottom: 5px;
+          font-size: 14px;
+          font-weight: 600;
+          color: $bright-navy-blue;
+        }
+        input {
+          display: block;
+          padding: 15px 10px;
+          margin-bottom: 10px;
+          width: 100%;
+          border-radius: 2px;
+          border: 1px solid #ccc;
+          transition: border-width 0.2s ease;
+          color: $black-coral;
+          background-color: $cultured;
+        }
+
+        input:focus {
+          outline: none;
+          color: #444;
+          border-color: #41b6e6;
+          border-left-width: 35px;
+        }
+
+        input::placeholder {
+          color: $gainsboro;
+        }
+      }
+    }
+  }
+
+  &-right {
+    grid-column: span 1;
+    padding-top: 50px;
+    width: 100%;
+    column-span: 1;
+
+    @include tablet() {
+      column-span: 2;
+    }
+
+    @include desktop() {
+      column-span: 1;
+    }
+
+    &-card {
+      background-color: $white;
+      border-radius: 5px;
+      box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 0px 8px;
+      margin-bottom: 10px;
+      width: 100%;
+
+      @include desktop() {
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      &-title {
+        font-weight: 600;
+        padding: 20px;
+        color: $gunmetal;
+      }
+
+      &-image {
+        width: 100%;
+        height: 300px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      &-info {
+        padding: 20px;
+        margin-bottom: 10px;
+        span {
+          font-size: 14px;
+          font-weight: 900;
+          color: $black-coral;
+        }
+
+        &-location p {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          margin-top: 20px;
+        }
+
+        &-date {
+          margin-top: 20px;
+          p {
+            font-size: 14px;
+            padding: 10px 0;
+            border-top: 1px solid $gainsboro;
+            border-bottom: 1px solid $gainsboro;
+            color: $onyx;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            @include desktop() {
+              padding: 20px 0;
+            }
+            ion-icon {
+              font-size: 20px;
+              color: $gunmetal;
+            }
+            &:last-child {
+              border-top: none;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              tr {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                td {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  &:last-child {
+                    text-align: right;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        &-people {
+          p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+
+            span {
+              font-size: 20px;
+              color: $gunmetal;
+
+              &:hover {
+                cursor: pointer;
+                color: $bright-navy-blue;
+              }
+            }
+          }
+        }
+
+        &-price {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 30px 0;
+          p {
+            font-size: 30px;
+            font-family: $ff-montserrat;
+            font-weight: 900;
+            color: $yale-blue;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+          ion-icon {
+            font-size: 24px;
+            color: $yale-blue;
+          }
+        }
+
+        &-button {
+          width: 100%;
+          height: 40px;
+          border: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+          background-color: $bright-navy-blue;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          text-transform: uppercase;
+          transition: all 0.3s ease-in-out;
+
+          span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: $white;
+          }
+
+          &:hover {
+            background-color: $yale-blue;
+          }
+        }
+      }
+    }
+  }
+}

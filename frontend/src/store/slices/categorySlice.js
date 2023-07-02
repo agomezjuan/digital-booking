@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getCategories } from '../actions/categoryActions';
+import {
+  createCategory,
+  getCategories,
+  updateCategory,
+} from '../actions/categoryActions';
 
 const initialState = {
   categories: [],
@@ -25,7 +29,33 @@ const categorySlice = createSlice({
       .addCase(getCategories.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      // Create category
+      .addCase(createCategory.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(createCategory.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded';
+        state.message = payload.message;
+      })
+      .addCase(createCategory.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      // Update category
+      .addCase(updateCategory.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateCategory.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded';
+        state.message = payload;
+      })
+      .addCase(updateCategory.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
+    // Delete category
+    // Get category by id
   },
 });
 

@@ -22,7 +22,7 @@ const Header = () => {
           <div className='logo-wrapper'>
             <Link to='/' className='logo'>
               <img src={logo} alt='Digital Booking logo' />
-              <p className='slogan'>Explora. Vive. Hospedate.</p>
+              <p className='slogan'>Explora. Vive. Aventúrate.</p>
             </Link>
           </div>
           {isLoggedIn ? (
@@ -37,12 +37,14 @@ const Header = () => {
             <div className='header-btn-group'>
               {isRegisterPage ? null : (
                 <Link to='/register' className='btn btn-secondary'>
-                  Crear cuenta
+                  <ion-icon name='person-add'></ion-icon>
+                  <span>Crear cuenta</span>
                 </Link>
               )}
               {isLoginPage ? null : (
                 <Link to='/login' className='btn btn-primary'>
-                  Iniciar sesión
+                  <ion-icon name='log-in'></ion-icon>
+                  <span>Iniciar sesión</span>
                 </Link>
               )}
               {/* <button className='search-btn' aria-label='Search'>

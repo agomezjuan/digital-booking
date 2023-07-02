@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 
 const initialState = {
   user: {},
+  userId: null,
+  favorites: [],
   role: null,
   token: null,
   status: 'idle', // idle | loading | succeeded | failed
@@ -45,6 +47,16 @@ const authSlice = createSlice({
     restoreSession: (state) => {
       state.token = sessionStorage.getItem('dhb_token');
     },
+
+    handleFavorite: (state, { payload }) => {
+      if (typeof payload === 'number' && state.favorites.includes(payload)) {
+        state.favorites = state.favorites.filter((fav) => fav !== payload);
+        localStorage.setItem('dhb_favorites', JSON.stringify(state.favorites));
+        return;
+      }
+      typeof payload === 'number' && state.favorites.push(payload);
+      localStorage.setItem('dhb_favorites', JSON.stringify(state.favorites));
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -68,6 +80,7 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         state.message = payload.message;
         state.user = payload.data;
+        state.userId = payload.data.id;
       })
       .addCase(register.rejected, (state, { payload }) => {
         state.status = 'failed';
@@ -102,6 +115,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, resetUserError, restoreSession } = authSlice.actions;
+export const { logout, resetUserError, restoreSession, handleFavorite } =
+  authSlice.actions;
 
 export default authSlice.reducer;

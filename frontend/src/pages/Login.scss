@@ -6,11 +6,70 @@
   font-family: 'Open Sans', sans-serif;
   display: flex;
   flex-grow: 1;
-  background: url('https://e00-telva.uecdn.es/assets/multimedia/imagenes/2020/04/08/15863625342920.jpg')
+  background: url('https://bucket-grupo4-assets.s3.amazonaws.com/login-bg.png')
     50% fixed;
   background-size: cover;
+  background-position: top center;
   display: flex;
-  padding-top: 122px;
+  // padding-top: 122px;
+  position: relative;
+  .bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: brightness(0.6);
+    z-index: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 5;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation: pulse 2.5s infinite;
+    background-color: var(--text-color);
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  &.loaded::before {
+    animation: none;
+    content: none;
+  }
+
+  .bg {
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
+  }
+
+  &.loaded .bg {
+    opacity: 1;
+  }
 
   .wrapper {
     display: flex;
@@ -20,6 +79,7 @@
     width: 100%;
     flex-grow: 1;
     background: rgba(1, 16, 27, 0.404);
+    padding-top: 0.1px;
   }
 
   .input-wrapper {
@@ -41,12 +101,32 @@
 .login {
   border-radius: 5px;
   padding: $section-padding-sm;
-  margin-top: auto;
+  margin-top: 150px;
+  margin-bottom: 10px;
   width: 90%;
   max-width: 500px;
   background: #ffffff;
   position: relative;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+  @include xlarge() {
+    margin-top: auto;
+  }
+
+  .toast {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    max-width: 500px;
+    z-index: 10;
+    background-color: #ff000044;
+    border-radius: 5px;
+    padding: 12px;
+    text-align: center;
+    color: red;
+  }
 
   .error {
     color: #ff0000;
@@ -69,6 +149,10 @@
   border-radius: 2px;
   border: 1px solid #ccc;
   transition: border-width 0.2s ease;
+  color: $black-coral;
+}
+
+.login input::placeholder {
   color: #ccc;
 }
 
@@ -179,6 +263,7 @@
   text-align: center;
   color: #fff;
   justify-self: end;
+  z-index: 1;
 }
 
 .social-icons {

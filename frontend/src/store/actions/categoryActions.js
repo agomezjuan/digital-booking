@@ -39,10 +39,15 @@ export const getCategory = createAsyncThunk(
  */
 export const createCategory = createAsyncThunk(
   'category/createCategory',
-  async (category, { rejectWithValue }) => {
+  async (category, { dispatch, rejectWithValue }) => {
     try {
-      const { data } = await http.post('/categories', category);
-      console.log(data);
+      console.log('Ejecutando createCategory');
+      const { data } = await http.post('/categories', category, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      dispatch(getCategories());
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -55,12 +60,18 @@ export const createCategory = createAsyncThunk(
  */
 export const updateCategory = createAsyncThunk(
   'category/updateCategory',
-  async (category, { rejectWithValue }) => {
+  async ({ category, id }, { dispatch, rejectWithValue }) => {
     try {
-      const { data } = await http.put(`/categories/${category.id}`, category);
-      console.log(data);
+      console.log('Ejecutando updateCategory');
+      const { data } = await http.put(`/categories/${id}`, category, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      dispatch(getCategories());
       return data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error.response.data);
     }
   },
@@ -71,10 +82,10 @@ export const updateCategory = createAsyncThunk(
  */
 export const deleteCategory = createAsyncThunk(
   'category/deleteCategory',
-  async (id, { rejectWithValue }) => {
+  async (id, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await http.delete(`/categories/${id}`);
-      console.log(data);
+      dispatch(getCategories());
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);

@@ -1,0 +1,308 @@
+@use '../../sass/base/variables.scss' as *;
+@use '../../sass/base/mixins.scss' as *;
+
+.ContainerAvailableDates {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #ececef91;
+  align-items: center;
+  padding: 35px 0px;
+  gap: 20px;
+
+  h2 {
+    width: 100%;
+    margin-bottom: 20px;
+    color: $gunmetal;
+  }
+
+  .ContainerCalendarButton {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    .rmdp-wrapper {
+      border-radius: 5px;
+      box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 0px 8px;
+      height: 309px;
+    }
+  }
+
+  .ContainerStartBooking {
+    width: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+    border-radius: 8px;
+    padding: 10px 22px;
+    @include large {
+      background-color: #ffff;
+      box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 0px 8px;
+      min-height: 150px;
+    }
+
+    p {
+      color: #4f4f50;
+      font-weight: 700 !important;
+      text-align: center;
+      @include tablet {
+        font-size: 16px;
+        text-align: left;
+      }
+    }
+
+    .ContainerStartBookingButton {
+      width: 100%;
+      min-width: 200px;
+      @include tablet {
+        min-width: 250px;
+      }
+      height: 40px;
+      border: none;
+      border-radius: 5px;
+      background-color: #41b6e6;
+      font-size: 16px;
+      color: #ffff;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease-out;
+
+      &:hover {
+        transform: scale(1.02);
+        background-color: #41b6e6;
+      }
+    }
+  }
+
+  .ContainerCalendarButton {
+    .rmdp-day-picker {
+      justify-content: space-around;
+    }
+
+    .rmdp-left {
+      position: absolute;
+      top: 130px;
+      left: 10px;
+      background-color: $bright-navy-blue;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      z-index: 99;
+    }
+
+    .rmdp-right {
+      position: absolute;
+      top: 130px;
+      right: 10px;
+      background-color: $bright-navy-blue;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      z-index: 99;
+    }
+
+    .rmdp-arrow {
+      margin-top: 0px;
+      height: 9px;
+      width: 9px;
+      color: $white;
+      border-color: $white;
+    }
+
+    .rmdp-arrow-container:hover {
+      background-color: $bright-navy-blue;
+    }
+
+    .rmdp-calendar {
+      width: 790px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rmdp-header-values {
+      color: $bright-navy-blue;
+      display: flex;
+    }
+
+    .rmdp-header-values span {
+      font-weight: 700 !important;
+    }
+
+    .rmdp-week-day {
+      color: $oxford-blue;
+      font-weight: 700 !important;
+    }
+
+    .rmdp-range {
+      background-color: $bright-navy-blue;
+      color: $white;
+      border-radius: 5px;
+      box-shadow: 0 0 3px #8798ad;
+    }
+
+    .rmdp-range-hover {
+      background-color: $gainsboro;
+      border-radius: 5px;
+      color: $oxford-blue;
+    }
+
+    .rmdp-range-hover.start,
+    .rmdp-range.start {
+      border-bottom-left-radius: 50%;
+      border-top-left-radius: 50%;
+    }
+
+    .rmdp-range-hover.end,
+    .rmdp-range.end {
+      border-bottom-right-radius: 50%;
+      border-top-right-radius: 50%;
+    }
+
+    .rmdp-week,
+    .rmdp-ym {
+      width: 263px;
+      padding-bottom: 1px;
+    }
+
+    .rmdp-day.rmdp-today span {
+      background: none;
+      color: $jet;
+    }
+
+    .rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+      background: none;
+      color: $jet;
+      box-shadow: none;
+    }
+
+    .rmdp-day.rmdp-selected span:not(.highlight) {
+      background: none;
+      box-shadow: none;
+      color: $jet;
+    }
+
+    .rmdp-day span {
+      font-weight: 500 !important;
+    }
+
+    .rmdp-day-picker::after {
+      content: '';
+      width: 1px;
+      height: 265px;
+      position: absolute;
+      right: 50%;
+      margin-top: -30px;
+      background: #a8a8a8;
+      display: none;
+      @include tablet {
+        display: block;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1278px) {
+    h2 {
+      max-width: 708px;
+    }
+
+    .ContainerCalendarButton {
+      max-width: 708px;
+      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 30px;
+
+      .rmdp-wrapper {
+        width: 708px;
+      }
+    }
+
+    .ContainerStartBooking {
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    p,
+    .ContainerStartBookingButton {
+      width: 100%;
+    }
+
+    .ContainerCalendarButton .rmdp-left {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      background: none;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .ContainerCalendarButton .rmdp-right {
+      top: 0;
+      right: 10px;
+      background: none;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .ContainerCalendarButton .rmdp-arrow {
+      margin-top: 0 px;
+      height: 9 px;
+      width: 9 px;
+      color: #545776;
+      border-color: #545776;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .ContainerStartBooking {
+      flex-direction: column;
+      padding: 20px;
+    }
+    .ContainerCalendarButton .rmdp-day-picker::after {
+      content: '';
+      width: 0px;
+      height: 0px;
+    }
+
+    h2 {
+      max-width: 320px;
+    }
+
+    .ContainerCalendarButton .rmdp-wrapper {
+      width: 100%;
+      max-width: 350px;
+      height: 328px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ContainerCalendarButton .rmdp-header {
+      margin-bottom: 25px;
+    }
+
+    .ContainerCalendarButton .rmdp-day-picker div {
+      width: 300px;
+    }
+
+    .ContainerCalendarButton,
+    .ContainerStartBooking {
+      max-width: 320px;
+    }
+
+    .ContainerStartBookingButton {
+      width: 390px;
+    }
+  }
+}

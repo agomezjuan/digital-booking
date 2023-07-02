@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/actions/authActions';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import Swal from 'sweetalert2';
 import { resetUserError } from '../store/slices/authSlice';
 import SubmitButton from '../components/SubmitButton/SubmitButton';
 import SocialIcons from '../components/SocialIcons/SocialIcons';
+import backgroundImg from '../assets/images/login-bg.jpg';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,9 @@ const Login = () => {
     (state) => state.auth,
   );
   const loading = status === 'loading';
+  const [params] = useSearchParams();
+  const redirect = params.get('redirect') ?? '';
+
   const {
     register,
     handleSubmit,
@@ -29,8 +33,21 @@ const Login = () => {
   });
 
   useEffect(() => {
+    const loginDiv = document.querySelector('.login-body');
+    const background = loginDiv.querySelector('.bg');
+
+    function loaded() {
+      loginDiv.classList.add('loaded');
+    }
+
+    if (background.complete) {
+      loaded();
+    } else {
+      background.addEventListener('load', loaded);
+    }
+
     if (isLoggedIn) {
-      navigate('/');
+      redirect ? navigate(-1) : navigate('/');
     }
 
     if (error?.code === 403) {
@@ -49,11 +66,24 @@ const Login = () => {
           navigate('/login');
         }
       });
+    } else if (error?.code === 401) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Credenciales inválidas',
+        icon: 'error',
+        confirmButtonColor: '#0084b8',
+      });
     }
   }, [user, isLoggedIn, status, error]);
 
   const onSubmit = (data) => {
+    dispatch(resetUserError());
     dispatch(login(data));
+  };
+
+  const validateEmail = (value) => {
+    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return regex.test(value) || 'Ingrese un correo electrónico válido';
   };
 
   return (
@@ -70,15 +100,24 @@ const Login = () => {
         <Header />
       </div>
       <div className='login-body'>
+        <img src={backgroundImg} className='bg' loading='lazy' />
         <div className='wrapper'>
           <form className={`login`} onSubmit={handleSubmit(onSubmit)}>
             <p className='title'>Iniciar Sesión</p>
+            {redirect && (
+              <p className='toast'>
+                Se requiere iniciar sesión para hacer reservas.
+              </p>
+            )}
             <div className='input-wrapper'>
               <input
                 type='text'
                 placeholder='Username'
                 autoFocus
-                {...register('email', { required: true })}
+                {...register('email', {
+                  required: true,
+                  validate: validateEmail,
+                })}
                 style={
                   errors.email && {
                     border: '2px solid red',
@@ -105,6 +144,11 @@ const Login = () => {
               />
               {errors.password && (
                 <span className='error'>Este campo es requerido</span>
+              )}
+              {error?.code == 401 && (
+                <span className='error'>
+                  Credenciales inválidas. Intenta nuevamente.
+                </span>
               )}
               {/* <i className='fa fa-key'></i> */}
             </div>

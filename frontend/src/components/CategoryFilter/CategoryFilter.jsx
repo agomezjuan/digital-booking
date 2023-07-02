@@ -1,36 +1,32 @@
 import { useSearchParams } from 'react-router-dom';
 import { Header, TopSection, Footer, HotelCard, LinkButton } from '..';
-import { hotels } from '../../mocks/hotels';
-import './CategoryFilter.scss';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import './CategoryFilter.scss';
 
 const CategoryFilter = () => {
   const [availableHotels, setAvailableHotels] = useState([]);
   const [params] = useSearchParams();
   const name = params.get('name') ?? '';
 
-  const categoryExists = categoryNames().includes(name);
+  const { categories } = useSelector((state) => state.category);
+  const { hotels } = useSelector((state) => state.hotel);
+
+  const categoryExists = categories.some((category) => category.name === name);
+  const category = categories.find((category) => category.name === name);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setAvailableHotels(hotels.filter((hotel) => hotel.category === name));
-  }, [name]);
-
-  function categoryNames() {
-    const categories = [];
-    hotels.forEach((hotel) => {
-      if (!categories.includes(hotel.category)) {
-        categories.push(hotel.category);
-      }
-    });
-    return categories;
-  }
+    setAvailableHotels(
+      hotels.filter((hotel) => hotel?.category === category.name),
+    );
+  }, [name, category, hotels]);
 
   return (
     <>
       <Header />
       <TopSection />
-      {!categoryExists ? (
+      {!categoryExists || availableHotels?.length === 0 ? (
         <div className='no-category'>
           <ion-icon name='alert-circle-outline'></ion-icon>
           <span>
@@ -44,11 +40,9 @@ const CategoryFilter = () => {
         <section className='package'>
           <div className='container'>
             <ul className='package-list'>
-              {availableHotels
-                .filter((hotel) => hotel.category === name)
-                .map((hotel) => (
-                  <HotelCard key={hotel.id} hotel={hotel} />
-                ))}
+              {availableHotels.map((hotel) => (
+                <HotelCard key={hotel.id} hotel={hotel} />
+              ))}
             </ul>
           </div>
         </section>

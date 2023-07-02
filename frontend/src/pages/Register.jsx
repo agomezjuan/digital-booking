@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import Header from '../components/Header/Header';
 import { resetUserError } from '../store/slices/authSlice';
 import SubmitButton from '../components/SubmitButton/SubmitButton';
+import backgroundImg from '../assets/images/login-bg.jpg';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,18 @@ const Register = () => {
   });
 
   useEffect(() => {
+    const loginDiv = document.querySelector('.register-body');
+    const background = loginDiv.querySelector('.bg');
+
+    function loaded() {
+      loginDiv.classList.add('loaded');
+    }
+
+    if (background.complete) {
+      loaded();
+    } else {
+      background.addEventListener('load', loaded);
+    }
     if (isLoggedIn) {
       navigate('/');
     } else if (status === 'succeeded') {
@@ -92,6 +105,7 @@ const Register = () => {
         <Header />
       </div>
       <div className='register-body'>
+        <img src={backgroundImg} className='bg' loading='lazy' />
         <div className='wrapper'>
           <form
             className={`register`} // className={`register ${isRegistered ? 'ok' : ''}`}

@@ -166,6 +166,10 @@ body {
   background-color: var(--onyx);
 }
 
+.btn-tertiary:is(:hover, :focus) {
+  background-color: var(--jet);
+}
+
 .h1,
 .h2,
 .h3 {
@@ -232,17 +236,6 @@ body {
   /* padding-top: 61px; */
   z-index: 4;
   border-bottom: 1px solid hsla(0, 0%, 100%, 0.1); /* revisar para que no se superponga*/
-}
-
-.header-top {
-  /* position: absolute;
-  top: 0;
-  left: 0; */
-  width: 100%;
-  transition: var(--transition);
-  border-bottom: 1px solid hsla(0, 0%, 100%, 0); /* revisar para que no se superponga*/
-  padding-block: 15px;
-  z-index: 1;
 }
 
 .header.active .header-top {
@@ -459,49 +452,6 @@ body {
   justify-content: center;
   align-items: center;
   gap: 10px;
-}
-
-/*-----------------------------------*\
-   * Busqueda de Hospedajes
-  \*-----------------------------------*/
-
-.tour-search {
-  background: var(--bright-navy-blue);
-  padding-block: var(--section-padding);
-}
-
-.tour-search-form .input-label {
-  color: var(--white);
-  font-size: var(--fs-4);
-  margin-left: 20px;
-  margin-bottom: 10px;
-}
-
-.tour-search-form .input-field {
-  background: var(--white);
-  padding: 10px 15px;
-  font-size: var(--fs-5);
-  border-radius: 50px;
-}
-
-.tour-search-form .input-field::placeholder {
-  color: var(--spanish-gray);
-}
-
-.tour-search-form .input-field::-webkit-datetime-edit {
-  color: var(--spanish-gray);
-  text-transform: uppercase;
-}
-
-.tour-search-form .input-wrapper {
-  margin-bottom: 15px;
-}
-
-.tour-search .btn {
-  width: 100%;
-  --border-width: 1px;
-  font-weight: var(--fw-600);
-  margin-top: 35px;
 }
 
 /*-----------------------------------*\
@@ -736,30 +686,6 @@ body {
 
   .btn-group {
     gap: 20px;
-  }
-
-  /**
-     * SEARCH
-     */
-
-  .tour-search-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: flex-end;
-    gap: 15px;
-  }
-
-  .tour-search-form .input-wrapper {
-    margin-bottom: 0;
-  }
-
-  .tour-search-form .input-field {
-    padding: 16px 20px;
-  }
-
-  .tour-search .btn {
-    grid-column: span 2;
-    margin-top: 20px;
   }
 
   /**
@@ -1034,20 +960,6 @@ body {
 
   .hero .container {
     max-width: 740px;
-  }
-
-  /**
-     * SEARCH
-     */
-
-  .tour-search-form {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .tour-search .btn {
-    --padding: 15px;
-    grid-column: unset;
-    margin-top: 0;
   }
 
   /**

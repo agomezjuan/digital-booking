@@ -1,0 +1,92 @@
+@use '../../sass/base/mixins.scss' as *;
+@use '../../sass/base/variables.scss' as *;
+
+.ContainerProductFeatures {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffff;
+}
+
+.ContainerTitleFeatures {
+  padding-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-bottom: solid 2px $bright-navy-blue;
+}
+
+.ContainerTitleFeatures {
+  h2 {
+    width: 100%;
+    padding-bottom: 10px;
+    text-align: left;
+    color: $gunmetal;
+  }
+  .container {
+    width: 100%;
+  }
+}
+
+.ContainerFeaturesAndIcons {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  padding: 50px 0;
+  gap: 50px 20px;
+  @include tablet() {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include desktop() {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .hotel-feature {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+
+    div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    ion-icon {
+      font-size: 1.4rem;
+      color: #41b6e6;
+    }
+    span {
+      font-size: 1rem;
+    }
+    p {
+      font-size: 0.7rem;
+      color: $black-coral;
+      margin-top: 5px;
+    }
+  }
+}
+
+// @media screen and (max-width: 1278px) {
+//   .ContainerTitleFeatures h2,
+//   .ContainerFeaturesAndIcons {
+//     width: 708px;
+//   }
+
+//   .ContainerFeaturesAndIcons div {
+//     width: 354px;
+//   }
+// }
+
+// @media screen and (max-width: 706px) {
+//   .ContainerTitleFeatures h2 {
+//     width: 390px;
+//   }
+
+//   .ContainerFeaturesAndIcons {
+//     width: 380px;
+//   }
+
+//   .ContainerFeaturesAndIcons div {
+//     width: 188px;
+//     margin-bottom: 25px;
+//   }
+// }

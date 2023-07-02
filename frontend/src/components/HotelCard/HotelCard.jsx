@@ -5,55 +5,52 @@ import LinkButton from '../LinkButton/LinkButton';
 import MetaList from './MetaList/MetaList';
 import './HotelCard.scss';
 import Favorite from './Favorite/Favorite';
+import { useEffect } from 'react';
 
 const HotelCard = ({ hotel }) => {
-  const { name, description, image, rating, location } = hotel;
+  useEffect(() => {
+    var images = document.querySelectorAll('.skeleton');
+    images.forEach((image) => {
+      image.addEventListener('load', () => {
+        image.classList.remove('skeleton');
+      });
+    });
+  }, []);
+
   return (
     <li>
       <div className='package-card'>
         <figure className='card-banner'>
-          <img src={image} alt={name} loading='lazy' />
-          <Favorite />
+          <img
+            src={hotel?.images[0]}
+            alt={hotel?.name}
+            loading='lazy'
+            className='skeleton'
+          />
+          <Favorite id={hotel?.id} />
         </figure>
         <div className='card-content'>
           <div className='card-content-header'>
             <div>
-              <Stars rating={rating} />
-              <h3 className='h3 card-title'>{name}</h3>
+              <Stars rating={hotel?.rating} />
+              <h3 className='h3 card-title'>{hotel?.name}</h3>
             </div>
             <div className='rating'>
-              <Rating rating={rating} />
+              <Rating rating={hotel?.rating} />
             </div>
           </div>
-          <MetaList location={location} time={'3N/2D'} />
-          <p className='card-text'>{description}</p>
+          <MetaList location={hotel?.address} />
+          <p className='card-text'>{hotel?.description}</p>
 
-          <LinkButton link='/hotel' text='Ver más' primary />
+          <LinkButton link={`/hotel/${hotel?.id}`} text='Ver más' primary />
         </div>
-        {/* <div className='card-price'>
-                <div className='wrapper'>
-                  <p className='reviews'>(40 reseñas)</p>
-                  <div className='card-rating'>
-                    <ion-icon name='star'></ion-icon>
-                    <ion-icon name='star'></ion-icon>
-                    <ion-icon name='star'></ion-icon>
-                    <ion-icon name='star'></ion-icon>
-                    <ion-icon name='star'></ion-icon>
-                  </div>
-                </div>
-                <p className='price'>
-                  COP 1.649.344
-                  <span>/ por persona</span>
-                </p>
-                <button className='btn btn-secondary'>RESERVA AHORA</button>
-              </div> */}
       </div>
     </li>
   );
 };
 
 HotelCard.propTypes = {
-  hotel: PropTypes.object.isRequired,
+  hotel: PropTypes.object,
 };
 
 export default HotelCard;

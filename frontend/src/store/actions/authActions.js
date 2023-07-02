@@ -35,7 +35,7 @@ export const login = createAsyncThunk(
     try {
       const { data } = await http.post('/auth/login', credentials);
 
-      const { roles, token } = data;
+      const { roles, token, id } = data;
 
       sessionStorage.setItem('dhb_token', token);
 
@@ -43,7 +43,7 @@ export const login = createAsyncThunk(
 
       const role = roles[0].authority;
 
-      return { role, token };
+      return { role, token, id };
     } catch (error) {
       console.log('Error Login', error.response);
       return rejectWithValue({
@@ -94,3 +94,7 @@ export const verifyUserEmail = createAsyncThunk(
     }
   },
 );
+
+/**
+ * Resend verification email
+ */

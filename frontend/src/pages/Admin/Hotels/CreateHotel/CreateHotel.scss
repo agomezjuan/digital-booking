@@ -1,0 +1,271 @@
+@use '../../../../sass/base/variables.scss' as *;
+@use '../../../../sass/base/mixins.scss' as *;
+
+.create-hotel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  @include desktop() {
+    padding: 0 20px;
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    @include desktop() {
+      flex-direction: row;
+    }
+    @include large() {
+      flex-direction: row;
+      gap: 40px;
+    }
+
+    .hotel-form-container {
+      background-color: $gainsboro;
+      border-radius: 15px;
+      padding: 10px;
+      border: none;
+      outline: none;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      transition: all 0.3s ease-in-out;
+      flex: 1;
+      order: 2;
+      @include tablet() {
+        order: 2;
+      }
+      @include desktop() {
+        order: 1;
+      }
+    }
+
+    .form-group {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      gap: 10px;
+      label {
+        font-weight: 600;
+        color: $bright-navy-blue;
+      }
+
+      &-address {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        #street {
+          flex: 2;
+        }
+
+        #number {
+          flex: 1;
+        }
+
+        @include desktop() {
+          flex-direction: row;
+          &-street {
+            flex: 1;
+          }
+        }
+      }
+
+      &-country {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-city {
+          flex: 1;
+        }
+
+        @include desktop() {
+          flex-direction: row;
+          &-city {
+            flex: 1;
+          }
+        }
+      }
+
+      &-coordinates,
+      &-prices {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+
+        &-latitude,
+        &-adults {
+          flex: 1;
+        }
+
+        &-longitude,
+        &-children {
+          flex: 1;
+        }
+      }
+
+      label[for='images'] {
+        font-weight: 600;
+        color: white;
+        padding: 0.5rem;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        margin-bottom: 1rem;
+        text-align: center;
+        background-color: $bright-navy-blue;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background-color: $yale-blue;
+          transition: all 0.3s ease-in-out;
+        }
+      }
+
+      .selected-images {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        width: 100%;
+        margin-bottom: 10px;
+        img {
+          width: 100%;
+          height: 120px;
+          object-fit: cover;
+          border-radius: 10px;
+          box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+          @include tablet() {
+            height: 150px;
+          }
+          @include desktop() {
+            height: 200px;
+          }
+        }
+      }
+
+      &-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        @include desktop() {
+          gap: 20px;
+        }
+      }
+    }
+
+    .form-control {
+      display: block;
+      padding: 8px 10px;
+      font-size: 14px;
+      width: 100%;
+      border-radius: 2px;
+      border: 1px solid #ccc;
+      transition: border-width 0.2s ease;
+      color: $black-coral;
+      background-color: $cultured;
+
+      &:focus {
+        outline: none;
+        color: #444;
+        border-color: $bright-navy-blue;
+        border-left-width: 35px;
+      }
+    }
+  }
+
+  textarea.form-control {
+    height: 100px;
+    resize: vertical;
+  }
+}
+
+.create-hotel-map {
+  display: flex;
+  width: 100%;
+  min-height: 250px;
+  flex: 1;
+  align-items: stretch;
+  position: relative;
+  order: 1;
+  @include desktop() {
+    order: 2;
+  }
+}
+
+a.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-bottom-right {
+  display: none !important;
+}
+
+.mapboxgl-map {
+  width: 100%;
+  min-height: 250px;
+  height: 100%;
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  transition: all 0.3s ease-in-out;
+  @include tablet() {
+    height: 350px;
+  }
+  @include desktop() {
+    position: sticky;
+    top: 30px;
+    height: 100%;
+    max-height: 500px;
+  }
+}
+
+label[for='policies'] {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: space-between;
+  span {
+    font-size: 10px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    color: $oxford-blue;
+  }
+}
+
+// .css-1hmgytg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+//   border-radius: 10px;
+//   &-:hover {
+//     border-color: $bright-navy-blue;
+//   }
+// }
+
+// .MuiSelect-select {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiSelect-outlined {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiSelect-multiple {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiInputBase-input {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiOutlinedInput-input {
+//   border-color: $bright-navy-blue;
+// }
+// .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+//   border-color: $bright-navy-blue;
+// }
+
+// .MuiFormControl-root.css-1t9nedf-MuiFormControl-root {
+//   border-color: $bright-navy-blue !important;
+// }
