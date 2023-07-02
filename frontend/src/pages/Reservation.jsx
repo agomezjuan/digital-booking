@@ -320,7 +320,7 @@ const Reservation = () => {
                     </div>
                     <div className='reservation-right-card-info-price'>
                       <ion-icon name='cash-outline'></ion-icon>{' '}
-                      <p>{totalPrice} USD</p>
+                      <p>{currentHotel?.adultPrice * people * diffDays} USD</p>
                     </div>
                     <button
                       onClick={handleSubmit(onSubmit)}
